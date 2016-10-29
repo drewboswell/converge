@@ -9,12 +9,14 @@ class BaseFunctions:
     this class holds the basic file manipulation, resolving and miscellaneous functions used by converge
     """
 
-    def __init__(self, repository_path, node_path, node_group_path, package_path, application_path, logger):
+    def __init__(self, repository_path, node_path, node_group_path, package_path, application_path,
+                 package_recursion_depth_max, logger):
         self.repository_path = repository_path
         self.node_path = node_path
         self.node_group_path = node_group_path
         self.package_path = package_path
         self.application_path = application_path
+        self.package_recursion_depth_max = package_recursion_depth_max
 
         self.logging = logger
 
@@ -32,7 +34,7 @@ class BaseFunctions:
             with open(filename_path, 'r') as f:
                 filename_exploded = filename_path.split("/")
                 filename = filename_exploded[-1][:-5]
-                result[filename] = yaml.safe_load(f)
+                result[filename] = yaml.load(f)
                 self.logging.info("Loaded YAML file: %s.yaml" % filename)
         return result
 
@@ -98,6 +100,64 @@ class BaseFunctions:
         for node_group_name, node_group in self.non_resolved_configuration["node_groups"].items():
             self.logging.info("Starting Node Group file processing for %s" % node_group_name)
             self.node_groups[node_group_name]=self.resolve_node_group(node_group=node_group)
+
+    def resolve_key_extension(self, key_map, depth):
+
+        key = key_map.split("::", 1)
+        if key[0] in self.packages and key[1] in self.packages[key[0]]:
+            result = self.packages[key[0]]
+        else:
+            package = self.non_resolved_configuration["packages"][key[0]]
+            result = self.resolve_package(package=package, package_name=key[0], depth=depth+1)
+            if key[1] not in result:
+                self.logging.error("KEY MAP %s/%s not resolvable, reference package or key does not exist" % (key[0],key[1]))
+                sys.exit(1)
+        return result[key[1]]
+
+    def verify_value_references(self, values):
+        result = True
+
+        for hierarchy, value in values.items():
+            if hierarchy != "default":
+                node_group = hierarchy.split("::", 1)
+                if not (node_group[0] == "nodes" and node_group[1] in self.nodes) \
+                        and not (node_group[0] in self.node_groups and node_group[1] in self.node_groups[node_group[0]]):
+                    self.logging.error("Did not find node_group or node by coordinates: %s/%s" % (node_group[0], node_group[1]))
+                    result = False
+
+        return result
+
+    def resolve_package(self, package, package_name, depth=1):
+        result = dict()
+        keys_encountered = []
+
+        if depth < self.package_recursion_depth_max:
+            for key, values in package.items():
+                if key not in keys_encountered:
+                    self.logging.debug("Processing KEY %s" % key)
+                    keys_encountered.append(key)
+                    resolved_values = {}
+                    if "extend" in values:
+                        resolved_values.update(self.resolve_key_extension(values['extend'], depth=depth))
+                        values.pop("extend")
+
+                    resolved_values.update(values)
+                    if self.verify_value_references(values):
+                        result[key] = resolved_values
+                    else:
+                        self.logging.error("node_group check on key overrides failed, exiting")
+                        sys.exit(1)
+            self.packages[package_name] = result
+        else:
+            self.logging.error("MAX Depth has been exeeded")
+        return result
+
+    def resolve_packages(self):
+        # Resolve package in packages
+        for package_name, package in self.non_resolved_configuration["packages"].items():
+            self.logging.info("PACKAGE '%s' processing started" % package_name)
+            if package:
+                self.resolve_package(package=package, package_name=package_name)
 
     # get class variables functions
     def get_non_resolved_configuration(self):

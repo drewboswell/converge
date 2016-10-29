@@ -39,20 +39,31 @@ if "application_path" in config['DEFAULT']:
 else:
     application_path = os.path.join(repository_path, "applications")
 
+# set recursion depth on package resolution
+if "package_recursion_depth_max" in config['DEFAULT']:
+    package_recursion_depth_max = config["DEFAULT"]["package_recursion_depth_max"]
+else:
+    package_recursion_depth_max = 7
+
 cv = BaseFunctions(repository_path=repository_path,
                    node_path=node_path,
                    node_group_path=node_group_path,
                    package_path=package_path,
                    application_path=application_path,
+                   package_recursion_depth_max=package_recursion_depth_max,
                    logger=logging)
 
 cv.resolve_node_groups()
-#cv.resolve_packages()
+cv.resolve_packages()
 
-pprint(cv.get_non_resolved_configuration()['packages'])
-
+#pprint(cv.get_non_resolved_configuration()['packages'])
+pprint(cv.get_packages())
 # statistics calculations
 statistics["end_time"] = time.time()
 statistics["total_time"] = statistics["end_time"] - statistics['start_time']
 
 print(statistics["total_time"])
+
+# Todo: add the ability to do XOR operations on node_group overrides?
+# Todo: add the ability to extend a pre-existing package (import keys etc)
+# Todo: allow inception in package values (if you write take value from another key ${::}?)
