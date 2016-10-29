@@ -20,4 +20,3 @@ production:
  - "host2"
  - "host3a"
  - "host3b"
- - "pre-host1"

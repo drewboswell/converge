@@ -28,7 +28,8 @@ def resolve_node_group(node_group, nodes, non_resolved_configuration):
 
     all_nodes_encountered = []
 
-    base_type = node_group["node_group::config"]["base_type"] == True
+    # Todo: maybe add the possibility to add a base type (other than nodes? or on the fly types?)
+    # base_type = node_group["node_group::config"]["base_type"] == True
     allow_duplicates = node_group["node_group::config"]["allow_duplicates"] == True
     allow_inception = node_group["node_group::config"]["allow_inception"] == True
 
@@ -45,7 +46,7 @@ def resolve_node_group(node_group, nodes, non_resolved_configuration):
                         else:
                             nodules.extend(non_resolved_configuration["node_groups"][components[0]][components[1]])
                     else:
-                        print("ERROR: inception not activated, exiting")
+                        print("ERROR: inception not activated, you are not allowed to use references. exiting")
                         sys.exit(1)
                 elif nodule in nodes:
                     nodules.append(nodule)
@@ -58,6 +59,7 @@ def resolve_node_group(node_group, nodes, non_resolved_configuration):
                 for node in nodules:
                     if any(node == x for x in all_nodes_encountered):
                         print("ERROR: Node reuse is not allowed for node_group '%s' [host: '%s']" % (group_name, node))
+                        sys.exit(1)
                     else:
                         all_nodes_encountered.append(node)
 
