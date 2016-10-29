@@ -19,7 +19,8 @@ class BaseFunctions:
         self.logging = logger
 
         self.non_resolved_configuration = self.load_non_resolved_configuration()
-        self.nodes = self.load_yaml_files_in_directory(directory=self.node_path)
+
+        self.nodes = self.load_yaml_files_in_directory(directory=self.node_path)['nodes']
         self.node_groups = dict()
         self.packages = dict()
         self.applications = dict()
@@ -44,7 +45,7 @@ class BaseFunctions:
 
         return non_resolved_configuration
 
-    def resolve_node_group(self, node_group, nodes):
+    def resolve_node_group(self, node_group):
         result = dict()
         nodes_encountered = []
 
@@ -63,7 +64,7 @@ class BaseFunctions:
                             self.logging.debug("node_group '%s' RESOLVING: %s" % (group_name, nodule))
                             components = nodule.split("::")
                             if "nodes::nodes" in nodule:
-                                nodules.extend(nodes)
+                                nodules.extend(self.nodes)
                             else:
                                 nodules.extend(self.non_resolved_configuration
                                                ["node_groups"]
@@ -73,7 +74,7 @@ class BaseFunctions:
                             self.logging.error("node_group '%s' inception not activated, you are "
                                                "not allowed to use references. Exiting" % node_group)
                             sys.exit(1)
-                    elif nodule in nodes:
+                    elif nodule in self.nodes:
                         nodules.append(nodule)
                     else:
                         self.logging.error("node_group '%s' Node %s not found. Exiting" % (node_group, nodule))
@@ -96,8 +97,7 @@ class BaseFunctions:
         # Resolve nodes in node_groups
         for node_group_name, node_group in self.non_resolved_configuration["node_groups"].items():
             self.logging.info("Starting Node Group file processing for %s" % node_group_name)
-            nodes = self.non_resolved_configuration["nodes"]["nodes"]
-            self.resolve_node_group(node_group=node_group, nodes=nodes)
+            self.node_groups[node_group_name]=self.resolve_node_group(node_group=node_group)
 
     # get class variables functions
     def get_non_resolved_configuration(self):
@@ -116,7 +116,7 @@ class BaseFunctions:
         return self.application_path
 
     def get_nodes(self):
-        return self.application_path
+        return self.nodes
 
     def get_node_groups(self):
         return self.node_groups

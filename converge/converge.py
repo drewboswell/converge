@@ -47,6 +47,9 @@ cv = BaseFunctions(repository_path=repository_path,
                    logger=logging)
 
 cv.resolve_node_groups()
+#cv.resolve_packages()
+
+pprint(cv.get_non_resolved_configuration()['packages'])
 
 # statistics calculations
 statistics["end_time"] = time.time()

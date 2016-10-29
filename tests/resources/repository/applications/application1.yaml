@@ -2,3 +2,7 @@ package::dependencies:
  - "datasource.info"
  - "some-soa-v1"
  - "datasource.test1"
+
+application::overrides:
+ - "datasource.info::username" :
+    "default" : "overriden_username"
