@@ -45,6 +45,12 @@ if "application_path" in config['DEFAULT']:
     application_path = config["DEFAULT"]["application_path"]
 else:
     application_path = os.path.join(repository_path, "applications")
+    
+# set path for hierarchy
+if "hierarchy_path" in config['DEFAULT']:
+    hierarchy_path = config["DEFAULT"]["hierarchy_path"]
+else:
+    hierarchy_path = os.path.join(repository_path, "hierarchy")
 
 # set recursion depth on package resolution
 if "package_recursion_depth_max" in config['DEFAULT']:
@@ -58,6 +64,7 @@ cv = BaseFunctions(repository_path=repository_path,
                    node_group_path=node_group_path,
                    package_path=package_path,
                    application_path=application_path,
+                   hierarchy_path=hierarchy_path,
                    package_recursion_depth_max=package_recursion_depth_max,
                    logger=logging)
 
@@ -65,6 +72,7 @@ cv.resolve_nodes()
 cv.resolve_node_groups()
 cv.resolve_packages()
 cv.resolve_applications()
+#cv.resolve_hierarchy()
 
 #pprint(cv.get_non_resolved_configuration()['packages'])
 # statistics calculations
@@ -72,8 +80,6 @@ statistics["end_time"] = time.time()
 statistics["total_time"] = statistics["end_time"] - statistics['start_time']
 
 statistics.update(cv.get_statistics())
-
-pprint(cv.get_applications())
 
 logging.info(statistics)
 logging.info("Finished Run in total of '%s' seconds" % statistics["total_time"])

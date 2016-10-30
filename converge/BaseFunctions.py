@@ -10,13 +10,14 @@ class BaseFunctions:
     this class holds the basic file manipulation, resolving and miscellaneous functions used by converge
     """
 
-    def __init__(self, repository_path, node_path, node_group_path, package_path, application_path,
+    def __init__(self, repository_path, node_path, node_group_path, package_path, application_path, hierarchy_path,
                  package_recursion_depth_max, logger):
         self.repository_path = repository_path
         self.node_path = node_path
         self.node_group_path = node_group_path
         self.package_path = package_path
         self.application_path = application_path
+        self.hierarchy_path = hierarchy_path
         self.package_recursion_depth_max = package_recursion_depth_max
 
         self.logging = logger
@@ -28,6 +29,7 @@ class BaseFunctions:
         self.node_groups = dict()
         self.packages = dict()
         self.applications = dict()
+        self.hierarchy = dict()
         # self.node_applications allows connection between nodes -> application, also limits useless host lookups
         # (avoids full iteration where not necessary)
         self.node_applications = dict()
@@ -53,6 +55,7 @@ class BaseFunctions:
         non_resolved_configuration['node_groups'] = self.load_yaml_files_in_directory(directory=self.node_group_path)
         non_resolved_configuration['packages'] = self.load_yaml_files_in_directory(directory=self.package_path)
         non_resolved_configuration['applications'] = self.load_yaml_files_in_directory(directory=self.application_path)
+        non_resolved_configuration['hierarchy'] = self.load_yaml_files_in_directory(directory=self.hierarchy_path)
         self.statistics['load_yaml_all'] = time.time() - time_marker
         return non_resolved_configuration
 
@@ -141,12 +144,11 @@ class BaseFunctions:
             if hierarchy != "default":
                 node_group = hierarchy.split("::", 1)
                 if not (node_group[0] == "nodes" and node_group[1] in self.nodes) \
-                        and not (
-                                        node_group[0] in self.node_groups and node_group[1] in self.node_groups[
-                                    node_group[0]]):
-                    self.logging.error(
-                        "Did not find node_group or node by coordinates: %s/%s" % (node_group[0], node_group[1]))
-                    result = False
+                        and not (node_group[0] in self.node_groups
+                                 and node_group[1] in self.node_groups[node_group[0]]):
+                    self.logging.fatal("Did not find node_group or node by "
+                                       "coordinates: %s/%s" % (node_group[0], node_group[1]))
+                    sys.exit(1)
         return result
 
     def resolve_package(self, package, package_name, depth=1):
@@ -189,6 +191,9 @@ class BaseFunctions:
         result = False
         if package_name in self.packages:
             result = True
+        else:
+            self.logging.error("Package does not exist '%s' or has no keys defined" % package_name)
+            sys.exit(1)
         return result
 
     def verify_application_node_group(self, node_group_name, application_name):
@@ -202,6 +207,10 @@ class BaseFunctions:
                     self.logging.warning("key-value collision possible! "
                                          "Application '%s' already referenced on node %s, " % (application_name, node))
                 self.node_applications[node].add(application_name)
+        else:
+            self.logging.error("Node Group does not exist '%s' "
+                               "referenced by application '%s'" % (node_group_name, application_name))
+            sys.exit(1)
 
     def verify_application_package_key_override(self, key_coordinates, values):
         result = False
@@ -211,7 +220,8 @@ class BaseFunctions:
             if self.verify_value_references(values=values):
                 result = True
         else:
-            self.logging.warning("Override Coordinates don't exist for %s/%s" % (key[0], key[1]))
+            self.logging.error("Override Coordinates don't exist for %s/%s" % (key[0], key[1]))
+            sys.exit(1)
 
         return result
 
@@ -268,6 +278,9 @@ class BaseFunctions:
     def get_application_path(self):
         return self.application_path
 
+    def get_hierarchy_path(self):
+        return self.hierarchy_path
+
     def get_nodes(self):
         return self.nodes
 
@@ -279,6 +292,9 @@ class BaseFunctions:
 
     def get_applications(self):
         return self.applications
+
+    def get_hierarchy(self):
+        return self.hierarchy
 
     def get_node_applications(self):
         return self.node_applications
