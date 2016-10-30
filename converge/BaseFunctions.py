@@ -2,6 +2,7 @@ import glob
 import yaml
 import sys
 import os
+import time
 
 
 class BaseFunctions:
@@ -19,15 +20,17 @@ class BaseFunctions:
         self.package_recursion_depth_max = package_recursion_depth_max
 
         self.logging = logger
+        self.statistics = {}
 
         self.non_resolved_configuration = self.load_non_resolved_configuration()
 
-        self.nodes = self.load_yaml_files_in_directory(directory=self.node_path)['nodes']
+        self.nodes = dict()
         self.node_groups = dict()
         self.packages = dict()
         self.applications = dict()
 
     def load_yaml_files_in_directory(self, directory):
+        time_marker = time.time()
         result = dict()
         self.logging.info("Loading YAML Folder: %s" % directory)
         for filename_path in glob.iglob(os.path.join(directory, "*.yaml"), recursive=False):
@@ -36,16 +39,24 @@ class BaseFunctions:
                 filename = filename_exploded[-1][:-5]
                 result[filename] = yaml.load(f)
                 self.logging.info("Loaded YAML file: %s.yaml" % filename)
+
+        self.statistics['load_yaml_files_%s' % directory.split("/")[-1]] = time.time() - time_marker
         return result
 
     def load_non_resolved_configuration(self):
+        time_marker = time.time()
         non_resolved_configuration = dict()
         non_resolved_configuration['nodes'] = self.load_yaml_files_in_directory(directory=self.node_path)
         non_resolved_configuration['node_groups'] = self.load_yaml_files_in_directory(directory=self.node_group_path)
         non_resolved_configuration['packages'] = self.load_yaml_files_in_directory(directory=self.package_path)
         non_resolved_configuration['applications'] = self.load_yaml_files_in_directory(directory=self.application_path)
-
+        self.statistics['load_yaml_all'] = time.time() - time_marker
         return non_resolved_configuration
+
+    def resolve_nodes(self):
+        time_marker = time.time()
+        self.nodes = self.non_resolved_configuration['nodes']['nodes']
+        self.statistics['resolve_nodes'] = time.time() - time_marker
 
     def resolve_node_group(self, node_group):
         result = dict()
@@ -96,22 +107,28 @@ class BaseFunctions:
         return result
 
     def resolve_node_groups(self):
+        time_marker = time.time()
         # Resolve nodes in node_groups
         for node_group_name, node_group in self.non_resolved_configuration["node_groups"].items():
             self.logging.info("Starting Node Group file processing for %s" % node_group_name)
-            self.node_groups[node_group_name]=self.resolve_node_group(node_group=node_group)
+            time_marker2 = time.time()
+            self.node_groups[node_group_name] = self.resolve_node_group(node_group=node_group)
+            self.statistics['resolve_node_group_%s' % node_group_name] = time.time() - time_marker2
+        self.statistics['resolve_node_groups'] = time.time() - time_marker
 
     def resolve_key_extension(self, key_map, depth):
-
+        time_marker = time.time()
         key = key_map.split("::", 1)
         if key[0] in self.packages and key[1] in self.packages[key[0]]:
             result = self.packages[key[0]]
         else:
             package = self.non_resolved_configuration["packages"][key[0]]
-            result = self.resolve_package(package=package, package_name=key[0], depth=depth+1)
+            result = self.resolve_package(package=package, package_name=key[0], depth=depth + 1)
             if key[1] not in result:
-                self.logging.error("KEY MAP %s/%s not resolvable, reference package or key does not exist" % (key[0],key[1]))
+                self.logging.error(
+                    "KEY MAP %s/%s not resolvable, reference package or key does not exist" % (key[0], key[1]))
                 sys.exit(1)
+        self.statistics['resolve_key_extension_%s_%s' % (key_map[0], key_map[1])] = time.time() - time_marker
         return result[key[1]]
 
     def verify_value_references(self, values):
@@ -121,13 +138,15 @@ class BaseFunctions:
             if hierarchy != "default":
                 node_group = hierarchy.split("::", 1)
                 if not (node_group[0] == "nodes" and node_group[1] in self.nodes) \
-                        and not (node_group[0] in self.node_groups and node_group[1] in self.node_groups[node_group[0]]):
-                    self.logging.error("Did not find node_group or node by coordinates: %s/%s" % (node_group[0], node_group[1]))
+                        and not (
+                                node_group[0] in self.node_groups and node_group[1] in self.node_groups[node_group[0]]):
+                    self.logging.error(
+                        "Did not find node_group or node by coordinates: %s/%s" % (node_group[0], node_group[1]))
                     result = False
-
         return result
 
     def resolve_package(self, package, package_name, depth=1):
+        time_marker = time.time()
         result = dict()
         keys_encountered = []
 
@@ -149,15 +168,18 @@ class BaseFunctions:
                         sys.exit(1)
             self.packages[package_name] = result
         else:
-            self.logging.error("MAX Depth has been exeeded")
+            self.logging.error("MAX Depth has been exceeded")
+        self.statistics['resolve_package_%s' % package_name] = time.time() - time_marker
         return result
 
     def resolve_packages(self):
+        time_marker = time.time()
         # Resolve package in packages
         for package_name, package in self.non_resolved_configuration["packages"].items():
             self.logging.info("PACKAGE '%s' processing started" % package_name)
             if package:
                 self.resolve_package(package=package, package_name=package_name)
+        self.statistics['resolve_packages'] = time.time() - time_marker
 
     # get class variables functions
     def get_non_resolved_configuration(self):
@@ -186,3 +208,6 @@ class BaseFunctions:
 
     def get_applications(self):
         return self.applications
+
+    def get_statistics(self):
+        return self.statistics

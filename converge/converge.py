@@ -2,16 +2,22 @@ import configparser
 import os
 import time
 import logging
-from pprint import pprint
 from BaseFunctions import BaseFunctions
 
-logging.basicConfig(level=logging.DEBUG)
 statistics = dict()
 statistics['start_time'] = time.time()
 
 config_path = "../tests/resources/etc/converge.ini"
 config = configparser.ConfigParser()
 config.read(config_path)
+
+# set path for nodes
+if "logging_level" in config['DEFAULT']:
+    logging_level = config["DEFAULT"]["logging_level"]
+else:
+    logging_level = "INFO"
+
+logging.basicConfig(level=logging_level)
 
 repository_path = config['DEFAULT']['repository_path']
 
@@ -45,6 +51,7 @@ if "package_recursion_depth_max" in config['DEFAULT']:
 else:
     package_recursion_depth_max = 7
 
+
 cv = BaseFunctions(repository_path=repository_path,
                    node_path=node_path,
                    node_group_path=node_group_path,
@@ -53,17 +60,22 @@ cv = BaseFunctions(repository_path=repository_path,
                    package_recursion_depth_max=package_recursion_depth_max,
                    logger=logging)
 
+cv.resolve_nodes()
 cv.resolve_node_groups()
 cv.resolve_packages()
 
+
 #pprint(cv.get_non_resolved_configuration()['packages'])
-pprint(cv.get_packages())
+#pprint(cv.get_packages())
 # statistics calculations
 statistics["end_time"] = time.time()
 statistics["total_time"] = statistics["end_time"] - statistics['start_time']
 
-print(statistics["total_time"])
+statistics.update(cv.get_statistics())
 
-# Todo: add the ability to do XOR operations on node_group overrides?
+logging.info(statistics)
+logging.info("Finished Run in total of '%s' seconds" % statistics["total_time"])
+
+# Todo: add the ability to do AND(/OR?) operations on node_group overrides?
 # Todo: add the ability to extend a pre-existing package (import keys etc)
 # Todo: allow inception in package values (if you write take value from another key ${::}?)
