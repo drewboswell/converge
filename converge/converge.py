@@ -2,6 +2,7 @@ import configparser
 import os
 import time
 import logging
+from pprint import pprint
 from BaseFunctions import BaseFunctions
 
 statistics = dict()
@@ -63,15 +64,16 @@ cv = BaseFunctions(repository_path=repository_path,
 cv.resolve_nodes()
 cv.resolve_node_groups()
 cv.resolve_packages()
-
+cv.resolve_applications()
 
 #pprint(cv.get_non_resolved_configuration()['packages'])
-#pprint(cv.get_packages())
 # statistics calculations
 statistics["end_time"] = time.time()
 statistics["total_time"] = statistics["end_time"] - statistics['start_time']
 
 statistics.update(cv.get_statistics())
+
+#pprint(cv.get_node_applications())
 
 logging.info(statistics)
 logging.info("Finished Run in total of '%s' seconds" % statistics["total_time"])

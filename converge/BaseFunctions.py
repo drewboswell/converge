@@ -28,6 +28,9 @@ class BaseFunctions:
         self.node_groups = dict()
         self.packages = dict()
         self.applications = dict()
+        # self.node_applications allows connection between nodes -> application, also limits useless host lookups
+        # (avoids full iteration where not necessary)
+        self.node_applications = dict()
 
     def load_yaml_files_in_directory(self, directory):
         time_marker = time.time()
@@ -139,7 +142,8 @@ class BaseFunctions:
                 node_group = hierarchy.split("::", 1)
                 if not (node_group[0] == "nodes" and node_group[1] in self.nodes) \
                         and not (
-                                node_group[0] in self.node_groups and node_group[1] in self.node_groups[node_group[0]]):
+                                        node_group[0] in self.node_groups and node_group[1] in self.node_groups[
+                                    node_group[0]]):
                     self.logging.error(
                         "Did not find node_group or node by coordinates: %s/%s" % (node_group[0], node_group[1]))
                     result = False
@@ -181,6 +185,53 @@ class BaseFunctions:
                 self.resolve_package(package=package, package_name=package_name)
         self.statistics['resolve_packages'] = time.time() - time_marker
 
+    def verify_application_package(self, package_name):
+        result = False
+        if package_name in self.packages:
+            result = True
+        return result
+
+    def verify_application_node_group(self, node_group_name, application_name):
+        node_group_coordinates = node_group_name.split("::")
+        if node_group_coordinates[0] in self.node_groups \
+                and node_group_coordinates[1] in self.node_groups[node_group_coordinates[0]]:
+            for node in self.node_groups[node_group_coordinates[0]][node_group_coordinates[1]]:
+                if node not in self.node_applications:
+                    self.node_applications[node] = set()
+                if application_name in self.node_applications[node]:
+                    self.logging.warning("application '%s' already referenced on node %s, "
+                                        "key-value collision possible!" % (application_name, node))
+                self.node_applications[node].add(application_name)
+
+    def resolve_application(self, application_name, application):
+        time_marker = time.time()
+        result = dict()
+        result["packages"] = []
+        result["package_overrides"] = dict()
+
+        for package_name in application["package::dependencies"]:
+            if self.verify_application_package(package_name=package_name):
+                result["packages"].append(package_name)
+
+        for node_group_name in application["node_group::dependencies"]:
+            self.verify_application_node_group(node_group_name=node_group_name, application_name=application_name)
+
+        for package_override in application["package::key::overrides"]:
+            print(package_override)
+
+        self.applications[application_name] = result
+        self.statistics["resolve_application_%s" % application_name] = time.time() - time_marker
+        return result
+
+    def resolve_applications(self):
+        time_marker = time.time()
+
+        for application_name, application in self.non_resolved_configuration["applications"].items():
+            self.logging.debug("Application '%s' processing started" % application_name)
+            self.resolve_application(application_name=application_name, application=application)
+
+        self.statistics['resolve_applications'] = time.time() - time_marker
+
     # get class variables functions
     def get_non_resolved_configuration(self):
         return self.non_resolved_configuration
@@ -210,4 +261,13 @@ class BaseFunctions:
         return self.applications
 
     def get_statistics(self):
+        # update totals
+        self.statistics["nodes_total"]=len(self.get_nodes())
+        self.statistics["node_groups_total"]=len(self.get_node_groups())
+        self.statistics["applications_total"]=len(self.get_applications())
+        self.statistics["packages_total"]=len(self.get_packages())
+        self.statistics["node_applications_total"]=len(self.get_node_applications())
         return self.statistics
+
+    def get_node_applications(self):
+        return self.node_applications
