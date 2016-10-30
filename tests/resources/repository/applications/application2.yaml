@@ -1,7 +1,12 @@
+node_group::dependencies:
+ - "pools::host1"
+ - "pools::host2"
+ - "pools::all"
+
 package::dependencies:
  - "some-soa-v2"
  - "datasource.test1"
 
-application::overrides:
- - "datasource.test::username" :
+package::key::overrides:
+  "datasource.test::username" :
     "default" : "overriden_username"

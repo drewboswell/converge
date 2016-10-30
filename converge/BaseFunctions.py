@@ -200,7 +200,7 @@ class BaseFunctions:
                     self.node_applications[node] = set()
                 if application_name in self.node_applications[node]:
                     self.logging.warning("application '%s' already referenced on node %s, "
-                                        "key-value collision possible!" % (application_name, node))
+                                         "key-value collision possible!" % (application_name, node))
                 self.node_applications[node].add(application_name)
 
     def resolve_application(self, application_name, application):
@@ -260,14 +260,14 @@ class BaseFunctions:
     def get_applications(self):
         return self.applications
 
-    def get_statistics(self):
-        # update totals
-        self.statistics["nodes_total"]=len(self.get_nodes())
-        self.statistics["node_groups_total"]=len(self.get_node_groups())
-        self.statistics["applications_total"]=len(self.get_applications())
-        self.statistics["packages_total"]=len(self.get_packages())
-        self.statistics["node_applications_total"]=len(self.get_node_applications())
-        return self.statistics
-
     def get_node_applications(self):
         return self.node_applications
+
+    def get_statistics(self):
+        # update totals
+        self.statistics["nodes_total"] = len(self.get_nodes())
+        self.statistics["node_groups_total"] = len(self.get_node_groups())
+        self.statistics["applications_total"] = len(self.get_applications())
+        self.statistics["packages_total"] = len(self.get_packages())
+        self.statistics["node_applications_total"] = len(self.get_node_applications())
+        return self.statistics
