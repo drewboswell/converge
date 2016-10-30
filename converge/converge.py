@@ -73,7 +73,7 @@ statistics["total_time"] = statistics["end_time"] - statistics['start_time']
 
 statistics.update(cv.get_statistics())
 
-#pprint(cv.get_node_applications())
+pprint(cv.get_applications())
 
 logging.info(statistics)
 logging.info("Finished Run in total of '%s' seconds" % statistics["total_time"])

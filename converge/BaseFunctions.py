@@ -199,9 +199,21 @@ class BaseFunctions:
                 if node not in self.node_applications:
                     self.node_applications[node] = set()
                 if application_name in self.node_applications[node]:
-                    self.logging.warning("application '%s' already referenced on node %s, "
-                                         "key-value collision possible!" % (application_name, node))
+                    self.logging.warning("key-value collision possible! "
+                                         "Application '%s' already referenced on node %s, " % (application_name, node))
                 self.node_applications[node].add(application_name)
+
+    def verify_application_package_key_override(self, key_coordinates, values):
+        result = False
+
+        key = key_coordinates.split("::", 1)
+        if key[0] in self.packages and key[1] in self.packages[key[0]]:
+            if self.verify_value_references(values=values):
+                result = True
+        else:
+            self.logging.warning("Override Coordinates don't exist for %s/%s" % (key[0], key[1]))
+
+        return result
 
     def resolve_application(self, application_name, application):
         time_marker = time.time()
@@ -209,15 +221,23 @@ class BaseFunctions:
         result["packages"] = []
         result["package_overrides"] = dict()
 
+        time_market2 = time.time()
         for package_name in application["package::dependencies"]:
             if self.verify_application_package(package_name=package_name):
                 result["packages"].append(package_name)
+        self.statistics["resolve_application_%s_packages" % application_name] = time.time() - time_market2
 
+        time_market2 = time.time()
         for node_group_name in application["node_group::dependencies"]:
             self.verify_application_node_group(node_group_name=node_group_name, application_name=application_name)
+        self.statistics["resolve_application_%s_node_groups" % application_name] = time.time() - time_market2
 
-        for package_override in application["package::key::overrides"]:
-            print(package_override)
+        time_market2 = time.time()
+        for key_coordinates, values in application["package::key::overrides"].items():
+            if self.verify_application_package_key_override(key_coordinates=key_coordinates, values=values):
+                result["package_overrides"][key_coordinates] = values
+
+        self.statistics["resolve_application_%s_package_overrides" % application_name] = time.time() - time_market2
 
         self.applications[application_name] = result
         self.statistics["resolve_application_%s" % application_name] = time.time() - time_marker
