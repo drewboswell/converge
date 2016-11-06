@@ -5,12 +5,6 @@
 
 import re
 from setuptools import setup, find_packages
-import io
-import codecs
-import os
-import sys
-
-# here = os.path.abspath(os.path.dirname(__file__))
 
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
@@ -53,5 +47,9 @@ setup(
         'Topic :: Software Development Configuration Management',
         'License :: OSI Approved :: Apache License 2.0',
     ],
-    keywords='configuration management development operations system sysadmin config converge'
+    keywords='configuration management development operations system sysadmin config converge',
+    include_package_data=True,
+    package_data={
+        ''
+    }
 )
