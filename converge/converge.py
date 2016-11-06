@@ -10,10 +10,16 @@ from .BaseFunctions import BaseFunctions
 
 # add main entry point
 def main():
+
+    # Figure out where we're installed
+    bin_dir = os.path.dirname(os.path.abspath(__file__))
+    root_dir = os.path.dirname(bin_dir)
+    conf_dir = os.path.join(root_dir, 'conf')
+
     statistics = dict()
     statistics['start_time'] = time.time()
 
-    config_path = "../tests/resources/etc/converge.ini"
+    config_path = os.path.join(conf_dir,"converge.ini")
     config = configparser.ConfigParser()
     config.read(config_path)
 
@@ -25,7 +31,11 @@ def main():
 
     logging.basicConfig(level=logging_level)
 
-    repository_path = config['DEFAULT']['repository_path']
+    # set path for repository
+    if "repository_path" in config['DEFAULT']:
+        repository_path = config["DEFAULT"]["repository"]
+    else:
+        repository_path = os.path.join(root_dir, "repository")
 
     # set path for nodes
     if "node_path" in config['DEFAULT']:

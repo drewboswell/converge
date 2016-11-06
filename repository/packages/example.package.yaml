@@ -1,0 +1,5 @@
+# reserved words: default, extends
+# key objects go here, example:
+#example.key:
+#  default : "default value"
+#  environments::development : "value for dev"

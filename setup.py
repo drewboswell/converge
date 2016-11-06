@@ -23,7 +23,7 @@ setup(
     },
     license='Apache License 2.0',
     version=version,
-    install_requires=['yaml'],
+    install_requires=['pyyaml'],
     description="Python command line application bare bones template.",
     long_description=long_descr,
     author="Andrew Boswell",
@@ -50,6 +50,14 @@ setup(
     keywords='configuration management development operations system sysadmin config converge',
     include_package_data=True,
     package_data={
-        ''
+        'conf': ['converge.ini'],
+        'repository': [
+            'repository/applications/',
+            'repository/hierarchy/',
+            'repository/node_groups/',
+            'repository/nodes/',
+            'repository/packages/',
+            'repository/templates/',
+        ]
     }
 )
