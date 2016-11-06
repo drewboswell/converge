@@ -18,7 +18,7 @@ version = re.search(
     re.M
 ).group(1)
 
-with open("README.md", "rb") as f:
+with open("README.rst", "rb") as f:
     long_descr = f.read().decode("utf-8")
 
 setup(
@@ -51,7 +51,7 @@ setup(
         'Topic :: Utilities :: Configuration Management',
         'Topic :: System :: Configuration Management',
         'Topic :: Software Development Configuration Management',
-        'License :: OSI Approved :: Apache License 2.0'
+        'License :: OSI Approved :: Apache License 2.0',
     ],
     keywords='configuration management development operations system sysadmin config converge'
 )
