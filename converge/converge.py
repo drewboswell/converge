@@ -16,10 +16,12 @@ def main():
     root_dir = os.path.dirname(bin_dir)
     conf_dir = os.path.join(root_dir, 'conf')
 
+    print(root_dir)
+
     statistics = dict()
     statistics['start_time'] = time.time()
 
-    config_path = os.path.join(conf_dir,"converge.ini")
+    config_path = os.path.join(conf_dir, "converge.ini")
     config = configparser.ConfigParser()
     config.read(config_path)
 
@@ -35,6 +37,7 @@ def main():
     if "repository_path" in config['DEFAULT']:
         repository_path = config["DEFAULT"]["repository"]
     else:
+        print(root_dir)
         repository_path = os.path.join(root_dir, "repository")
 
     # set path for nodes

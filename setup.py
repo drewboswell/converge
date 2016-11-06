@@ -4,7 +4,18 @@
 """setup.py: setuptools control."""
 
 import re
+from glob import glob
 from setuptools import setup, find_packages
+import os
+
+
+def package_files(directory):
+    paths = ()
+    for (path, directories, filenames) in os.walk(directory):
+        for filename in filenames:
+            paths.append(os.path.join('..', path, filename))
+    return paths
+
 
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
@@ -49,15 +60,7 @@ setup(
     ],
     keywords='configuration management development operations system sysadmin config converge',
     include_package_data=True,
-    package_data={
-        'conf': ['converge.ini'],
-        'repository': [
-            'repository/applications/',
-            'repository/hierarchy/',
-            'repository/node_groups/',
-            'repository/nodes/',
-            'repository/packages/',
-            'repository/templates/',
-        ]
-    }
+    data_files=[
+        ('conf', glob('conf/*.ini')),
+    ]
 )
