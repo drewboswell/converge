@@ -1,0 +1,13 @@
+# reserved words: default, extends
+username:
+  default : "username_default-value"
+  environments::production : "username_environments::production-value"
+
+password:
+  environments::production : "password_environments::production-value"
+  environments::preproduction : "password_environments::production-value"
+
+url:
+  default : "url_default-value"
+  environments::production : "url_environments::production-value"
+  pools::host3: "url_pools::host3-value"
