@@ -1,3 +1,0 @@
-# default is a reserved word
-test_key:
-  default: "hello_default_value"
