@@ -61,6 +61,6 @@ setup(
     keywords='configuration management development operations system sysadmin config converge',
     include_package_data=True,
     data_files=[
-        ('converge/resources', glob('converge/resources/*.ini')),
+        ('resources', glob('resources/*.ini')),
     ]
 )
