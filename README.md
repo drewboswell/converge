@@ -13,7 +13,7 @@ Wouldn't it be great to define conf in a hierarchical fashion and then have a lo
 
 # Examples
 
-# A History of Pain
+# A Brief History of Pain
 You may have hit some (or all, like me) of these stages in the persuit of configurability:
 
 *In short: from the file, to the GUI, back to the file you idiot.*
