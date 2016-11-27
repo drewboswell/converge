@@ -27,7 +27,7 @@ with open("README.md", "rb") as f:
     long_descr = f.read().decode("utf-8")
 
 setup(
-    name="converge",
+    name="pyconverge",
     packages=["converge", "resources"],
     entry_points={
         "console_scripts": ['converge = converge.converge:main']
@@ -48,15 +48,9 @@ setup(
         'Development Status :: 1 - Planning',
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
-        'Intended Audience :: DevOps Engineers',
         'Intended Audience :: Financial and Insurance Industry',
-        'Intended Audience :: IT Operations',
         'Operating System :: OS Independent',
-        'Topic :: Office/Business',
-        'Topic :: Utilities :: Configuration Management',
-        'Topic :: System :: Configuration Management',
-        'Topic :: Software Development Configuration Management',
-        'License :: OSI Approved :: Apache License 2.0',
+        'Topic :: Office/Business'
     ],
     keywords='configuration management development operations system sysadmin config converge',
     include_package_data=True,
