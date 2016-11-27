@@ -28,7 +28,7 @@ with open("README.md", "rb") as f:
 
 setup(
     name="converge",
-    packages=["converge"],
+    packages=["converge", "resources"],
     entry_points={
         "console_scripts": ['converge = converge.converge:main']
     },
@@ -60,7 +60,4 @@ setup(
     ],
     keywords='configuration management development operations system sysadmin config converge',
     include_package_data=True,
-    data_files=[
-        ('resources', glob('resources/*.ini')),
-    ]
 )
