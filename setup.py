@@ -34,7 +34,7 @@ setup(
     },
     license='Apache License 2.0',
     version=version,
-    install_requires=['pyyaml'],
+    install_requires=['pyyaml','pytest','pytest-cov'],
     description="Resolve configurations from abstract hierarchies and templates",
     long_description=long_descr,
     author="Andrew Boswell",
@@ -54,4 +54,6 @@ setup(
     ],
     keywords='configuration management development operations system sysadmin config converge',
     include_package_data=True,
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest'],
 )
