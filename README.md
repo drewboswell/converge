@@ -1,8 +1,8 @@
+[![Build Status](https://travis-ci.org/drewboswell/converge.svg?branch=master)](https://travis-ci.org/drewboswell/converge)
+[![Coverage Status](https://coveralls.io/repos/github/drewboswell/converge/badge.svg?branch=master)](https://coveralls.io/github/drewboswell/converge?branch=master)
 [![GitHub tag](https://img.shields.io/github/tag/drewboswell/converge.svg)]()
 [![GitHub release](https://img.shields.io/github/release/drewboswell/converge.svg)]()
 [![PyPI](https://img.shields.io/pypi/v/pyconverge.svg)]()
-[![Build Status](https://travis-ci.org/drewboswell/converge.svg?branch=master)](https://travis-ci.org/drewboswell/converge)
-[![Coverage Status](https://coveralls.io/repos/github/drewboswell/converge/badge.svg?branch=master)](https://coveralls.io/github/drewboswell/converge?branch=master)
 [![Py Versions](https://img.shields.io/pypi/pyversions/pyconverge.svg)](https://pypi.python.org/pypi/pyconverge/)
 
 # converge
