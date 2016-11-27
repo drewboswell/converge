@@ -8,6 +8,13 @@ from glob import glob
 from setuptools import setup, find_packages
 import os
 
+try:
+    from pypandoc import convert
+    read_md = lambda f: convert(f, 'rst')
+except ImportError:
+    print("warning: pypandoc module not found, could not convert Markdown to RST")
+    read_md = lambda f: open(f, 'r').read()
+
 
 def package_files(directory):
     paths = ()
@@ -16,15 +23,14 @@ def package_files(directory):
             paths.append(os.path.join('..', path, filename))
     return paths
 
-
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
     open('converge/__init__.py').read(),
     re.M
 ).group(1)
 
-with open("README.md", "rb") as f:
-    long_descr = f.read().decode("utf-8")
+# with open("README.md", "rb") as f:
+#     long_descr = f.read().decode("utf-8")
 
 setup(
     name="pyconverge",
@@ -36,7 +42,7 @@ setup(
     version=version,
     install_requires=['pyyaml','pytest','pytest-cov'],
     description="Resolve configurations from abstract hierarchies and templates",
-    long_description=long_descr,
+    long_description=read_md("README.md"),
     author="Andrew Boswell",
     author_email="drewboswell@gmail.com",
     url="https://github.com/drewboswell/converge",
