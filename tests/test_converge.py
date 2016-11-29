@@ -1,6 +1,11 @@
 import pytest
+import sys, os
+
+sys.path.append(os.path.abspath(os.path.join('..', 'converge')))
+import converge.converge
 
 
-class TestConvergeAPI:
-    def test_one(self):
-        assert True
+class TestConverge:
+    def test_main_arg_parser(self):
+        result = converge.converge.main()
+        assert result is True
