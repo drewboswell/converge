@@ -4,7 +4,7 @@ sudo: required
 addons:
   sonarqube:
     token:
-      secure: "f+qySGa/KtMtRpqu4+oZoGFzU/Fvjfa6/Cooh8ljGWUTrVMPCQF2mcvYly7KuodoZrP5nm/bx3Wzp1rx7yS+Wz37SEAMSlIeY0N/x3MIwfhnlDy+cBSgMoqjCr3HFJPFj/f02rLCpm4vEQCsETgh+6edEARjGIAfcRUSgeKNSI3W/j+LGOH20sYDYY9jLkGTYJn07wE/lGK8RWmBO0KdjpLkGQlI0XwElnA+fRwSEFGn9y+k8eRqsAou3DCvWrjLnDrfriYBScgjZBXbNl0WjTqTqwcAoBnUIzVchmnZNfPSTipESARmT9LFbDWWmCDcZzYEiVNAzogWIILqkgZbYGJvsbJ7GdUQLcJRmuzMAMuTegR2RnHj4Ll9bClQMpVcfor1wsdD1tUwvRAWcmNsWb+sl5M/ETdxyvda+27VbATMc7YEBCHOZSs2O6FiBvbikaHylaQv18VcvFAGNw5BHgpxxVDvuFZ3/nxz4lKhOMZu7n7z5jB7w1lhfPK67JWAyndrYuInnWgrFer682vTdex7xj1bVAsBQucAirII1UY9/Ccslf9KfKvu5icYzQ2bQ99F++iG6UxjoGcBvMEjgJaOes6X4a1PRvjiD7arXfddSHTo3NpuhZZ+bim/2V/KdJhsbsq4j3W7Ge5f6hwVIYuRs2UBIJqw2qrDlNyYr6Y="
+      secure: "23adb805621bc47d08295f58b1364b1509d6814d"
 jdk:
   - oraclejdk8
 python:
