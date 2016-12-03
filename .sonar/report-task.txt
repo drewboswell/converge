@@ -1,5 +1,5 @@
-projectKey=your_project_key_that_must_be_unique
+projectKey=drewboswell_converge
 serverUrl=https://sonarqube.com
-dashboardUrl=https://sonarqube.com/dashboard/index/your_project_key_that_must_be_unique
-ceTaskId=AVjD8CEzIidNYr2d5MHi
-ceTaskUrl=https://sonarqube.com/api/ce/task?id=AVjD8CEzIidNYr2d5MHi
+dashboardUrl=https://sonarqube.com/dashboard/index/drewboswell_converge
+ceTaskId=AVjEC4czIidNYr2d5MHm
+ceTaskUrl=https://sonarqube.com/api/ce/task?id=AVjEC4czIidNYr2d5MHm
