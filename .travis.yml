@@ -18,12 +18,14 @@ install:
  - "pip install -r requirements.txt"
  - "pip install coverage"
  - "pip install coveralls"
+ - "pip install nose"
 # command to run tests
 script:
  - coverage run --source converge setup.py test
+ - nosetests --with-coverage --cover-package=converge --cover-branches --cover-xml
  - sonar-scanner
 after_success:
- coveralls
+ - coveralls
 cache:
   directories:
     - '$HOME/.sonar/cache'
