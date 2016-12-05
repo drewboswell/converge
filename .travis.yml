@@ -21,6 +21,7 @@ install:
 # command to run tests
 script:
  - coverage run --source converge setup.py test
+ - coverage xml -i
  - sonar-scanner
 after_success:
  - coveralls
