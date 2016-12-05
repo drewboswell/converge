@@ -34,7 +34,7 @@ version = re.search(
 
 setup(
     name="pyconverge",
-    packages=["converge", "resources"],
+    packages=["converge", "converge/resources"],
     entry_points={
         "console_scripts": ['converge = converge.converge:main']
     },
