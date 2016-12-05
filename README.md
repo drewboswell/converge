@@ -6,10 +6,12 @@
 [![Build Status](https://travis-ci.org/drewboswell/converge.svg?branch=master)](https://travis-ci.org/drewboswell/converge)
 [![Coverage Status](https://coveralls.io/repos/github/drewboswell/converge/badge.svg?branch=master)](https://coveralls.io/github/drewboswell/converge?branch=master)
 [![Quality Gate](https://sonarqube.com/api/badges/gate?key=drewboswell_converge)](https://sonarqube.com/dashboard/index/drewboswell_converge)
+[![Code Smells](https://sonarqube.com/api/badges/measure?key=drewboswell_converge&metric=code_smells)](https://sonarqube.com/dashboard/index/drewboswell_converge)
 [![Function Complexity](https://sonarqube.com/api/badges/measure?key=drewboswell_converge&metric=function_complexity)](https://sonarqube.com/dashboard/index/drewboswell_converge)
 [![Vulnerabilities](https://sonarqube.com/api/badges/measure?key=drewboswell_converge&metric=vulnerabilities)](https://sonarqube.com/dashboard/index/drewboswell_converge)
 [![Technical Dept](https://sonarqube.com/api/badges/measure?key=drewboswell_converge&metric=sqale_debt_ratio)](https://sonarqube.com/dashboard/index/drewboswell_converge)
 [![Lines of code](https://sonarqube.com/api/badges/measure?key=drewboswell_converge&metric=ncloc)](https://sonarqube.com/dashboard/index/drewboswell_converge)
+
 
 
 # converge
