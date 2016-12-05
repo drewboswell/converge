@@ -18,10 +18,12 @@ install:
  - "pip install -r requirements.txt"
  - "pip install coverage"
  - "pip install coveralls"
+ - "pip install nose"
 # command to run tests
 script:
  - coverage run --source converge setup.py test
  - coverage xml -i
+ - nosetests --with-xunit
  - sonar-scanner
 after_success:
  - coveralls
