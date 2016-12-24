@@ -1,7 +1,7 @@
 [DEFAULT]
 # you may override the following values if needed
 # repository_path = repository/
-# application_path = applications/
+# package_group_path = package_groups/
 # node_group_path = node_groups/
 # node_path = nodes/
 # package_path = packages/
