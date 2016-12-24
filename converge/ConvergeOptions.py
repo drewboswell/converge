@@ -25,7 +25,7 @@ class ConvergeOptions:
         self.package_group_path = str()
         self.package_path = str()
         self.hierarchy_path = str()
-        self.package_recursion_depth_max = int()
+        self.package_inheritance_depth_max = int()
         self.logging_level = str()
 
     @staticmethod
@@ -84,13 +84,25 @@ class ConvergeOptions:
         if path_exists:
             print("Checking configuration at locationL: '%s'" % config_path)
             result = self.load_configuration(config_path=config_path)
+            if result:
+                print("\t## Configuration to be used:\n")
+                print("\tRepository Path: '%s'" % self.repository_path)
+                print("\tNode Path: '%s'" % self.node_path)
+                print("\tNode Group Path: '%s'" % self.node_group_path)
+                print("\tPackage Path: '%s'" % self.package_path)
+                print("\tPackage Group Path: '%s'" % self.package_group_path)
+                print("\tLogging Level: '%s'" % self.logging_level)
+                print("\tMax Inheritance Depth: '%s'" % self.package_inheritance_depth_max)
+                print("")
         else:
             print("File %s does not exist" % config_path)
+
+        print("\tConfiguration %s\n" % str(result).upper())
 
         return result
 
     def load_configuration(self, config_path):
-        result = False
+        result = True
 
         # Figure out where we're installed and set defaults
         self.bin_dir = os.path.dirname(os.path.abspath(__file__))
@@ -111,7 +123,7 @@ class ConvergeOptions:
 
         # set path for repository
         if "repository_path" in config['DEFAULT']:
-            self.repository_path = config["DEFAULT"]["repository"]
+            self.repository_path = config["DEFAULT"]["repository_path"]
         else:
             self.repository_path = os.path.join(self.root_dir, "repository")
 
@@ -134,10 +146,10 @@ class ConvergeOptions:
             self.package_path = os.path.join(self.repository_path, "packages")
 
         # set path for applications
-        if "application_path" in config['DEFAULT']:
-            self.package_group_path = config["DEFAULT"]["application_path"]
+        if "package_group_path" in config['DEFAULT']:
+            self.package_group_path = config["DEFAULT"]["package_group_path"]
         else:
-            self.package_group_path = os.path.join(self.repository_path, "applications")
+            self.package_group_path = os.path.join(self.repository_path, "package_groups")
 
         # set path for hierarchy
         if "hierarchy_path" in config['DEFAULT']:
@@ -147,8 +159,15 @@ class ConvergeOptions:
 
         # set recursion depth on package resolution
         if "package_recursion_depth_max" in config['DEFAULT']:
-            self.package_recursion_depth_max = config["DEFAULT"]["package_recursion_depth_max"]
+            self.package_inheritance_depth_max = config["DEFAULT"]["package_recursion_depth_max"]
         else:
-            self.package_recursion_depth_max = 7
+            self.package_inheritance_depth_max = 7
+
+        config_paths = [self.node_path, self.node_group_path, self.package_path, self.package_group_path, self.repository_path]
+
+        for config_path in config_paths:
+            if not os.path.exists(config_path):
+                print("ERROR Path: '%s' Does not exist" % config_path)
+                result = False
 
         return result
