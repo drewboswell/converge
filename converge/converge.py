@@ -2,10 +2,13 @@
 
 from converge.ArgumentParser import ArgumentParser
 from converge.ConvergeOptions import ConvergeOptions
+import time
 
 
 # add main entry point
 def main():
+    statistics = dict()
+    statistics['start_time'] = time.time()
 
     try:
         parser = ArgumentParser().create_parser()

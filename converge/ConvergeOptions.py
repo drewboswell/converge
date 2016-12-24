@@ -5,12 +5,28 @@ from shutil import copyfile, copytree
 import pkg_resources
 from .__init__ import __version__, __source_repository__, __release_repository__
 from converge.Helpers import Helpers
+import configparser
+import logging
 
 
 class ConvergeOptions:
 
     def __init__(self):
         self.helpers = Helpers()
+        self.logging = logging
+
+        self.bin_dir = str()
+        self.root_dir = str()
+        self.conf_dir = str()
+        self.config_path = str()
+        self.repository_path = str()
+        self.node_group_path = str()
+        self.node_path = str()
+        self.package_group_path = str()
+        self.package_path = str()
+        self.hierarchy_path = str()
+        self.package_recursion_depth_max = int()
+        self.logging_level = str()
 
     @staticmethod
     def get_version_information():
@@ -67,8 +83,72 @@ class ConvergeOptions:
         path_exists = os.path.isfile(config_path)
         if path_exists:
             print("Checking configuration at locationL: '%s'" % config_path)
-
+            result = self.load_configuration(config_path=config_path)
         else:
             print("File %s does not exist" % config_path)
+
+        return result
+
+    def load_configuration(self, config_path):
+        result = False
+
+        # Figure out where we're installed and set defaults
+        self.bin_dir = os.path.dirname(os.path.abspath(__file__))
+        self.root_dir = os.path.dirname(self.bin_dir)
+        self.conf_dir = os.path.join(self.root_dir, 'etc')
+        self.config_path = os.path.join(self.conf_dir, "converge.ini")
+
+        config = configparser.ConfigParser()
+        config.read(config_path)
+
+        # set path for nodes
+        if "logging_level" in config['DEFAULT']:
+            self.logging_level = config["DEFAULT"]["logging_level"]
+        else:
+            self.logging_level = "INFO"
+
+        self.logging.basicConfig(level=self.logging_level)
+
+        # set path for repository
+        if "repository_path" in config['DEFAULT']:
+            self.repository_path = config["DEFAULT"]["repository"]
+        else:
+            self.repository_path = os.path.join(self.root_dir, "repository")
+
+        # set path for nodes
+        if "node_path" in config['DEFAULT']:
+            self.node_path = config["DEFAULT"]["node_path"]
+        else:
+            self.node_path = os.path.join(self.repository_path, "nodes")
+
+        # set path for node_groups
+        if "node_group_path" in config['DEFAULT']:
+            self.node_group_path = config["DEFAULT"]["node_group_path"]
+        else:
+            self.node_group_path = os.path.join(self.repository_path, "node_groups")
+
+        # set path for packages
+        if "package_path" in config['DEFAULT']:
+            self.package_path = config["DEFAULT"]["package_path"]
+        else:
+            self.package_path = os.path.join(self.repository_path, "packages")
+
+        # set path for applications
+        if "application_path" in config['DEFAULT']:
+            self.package_group_path = config["DEFAULT"]["application_path"]
+        else:
+            self.package_group_path = os.path.join(self.repository_path, "applications")
+
+        # set path for hierarchy
+        if "hierarchy_path" in config['DEFAULT']:
+            self.hierarchy_path = config["DEFAULT"]["hierarchy_path"]
+        else:
+            self.hierarchy_path = os.path.join(self.repository_path, "hierarchy")
+
+        # set recursion depth on package resolution
+        if "package_recursion_depth_max" in config['DEFAULT']:
+            self.package_recursion_depth_max = config["DEFAULT"]["package_recursion_depth_max"]
+        else:
+            self.package_recursion_depth_max = 7
 
         return result
