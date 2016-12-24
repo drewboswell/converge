@@ -1,8 +1,8 @@
 node_group::config:
-# allow the use of a value in another node_group
-allow_duplicates: True
-# allow referencing other node_groups, will expand and merge values to base type
-allow_inception: True
+  # allow the use of a value in another node_group
+  allow_duplicates: True
+  # allow referencing other node_groups, will expand and merge values to base type
+  allow_inception: True
 
 # list objects here, example:
 #host1:

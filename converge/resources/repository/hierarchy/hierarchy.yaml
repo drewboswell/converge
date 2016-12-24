@@ -6,7 +6,7 @@ node::hierarchy:
 
 # options are applications (specific), package (shared by applications)
 package::hierarchy:
-  - "applications"
+  - "package_groups"
   - "packages"
 
 # decide what wins between package/node comparisons
@@ -14,4 +14,3 @@ package::hierarchy:
 # - True : package wins, because node1 is more specific than default
 # - False: application1 wins, because any applicable value set for application will always win
 allow_node_hierarchy_to_override_package_hierarchy_on_collision: True
-

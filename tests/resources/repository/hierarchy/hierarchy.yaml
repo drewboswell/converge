@@ -6,7 +6,7 @@ node::hierarchy:
 
 # options are applications (specific), package (shared by applications)
 package::hierarchy:
-  - "applications"
+  - "package_groups"
   - "packages"
 
 # decide what wins between package/node comparisons
