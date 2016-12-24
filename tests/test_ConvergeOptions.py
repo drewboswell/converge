@@ -37,6 +37,22 @@ class TestConvergeOptions(unittest.TestCase):
             result = True
         self.assertTrue(result)
 
+    def test_check_config_exists(self):
+        result = False
+        target_directory = os.path.join("tests","resources","etc", "converge.ini")
+        returns = self.convergeoptions.check_config(config_path=target_directory)
+        if returns is True:
+            result = True
+        self.assertTrue(result)
+
+    def test_check_config_not_exist(self):
+        result = False
+        target_directory = os.path.join("tests","resources","etc", "converge.ini.shouldnt.exist")
+        returns = self.convergeoptions.check_config(config_path=target_directory)
+        if returns is False:
+            result = True
+        self.assertTrue(result)
+
     def tearDown(self):
         temp_test_resources_path = os.path.join("tests","resources","generated_by_tests")
         if os.path.isdir(os.path.join("tests","resources","generated_by_tests")):
