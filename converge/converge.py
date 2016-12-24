@@ -16,15 +16,19 @@ def main():
     converge_options = ConvergeOptions()
     try:
         # version option
-        if hasattr(args, "version"):
+        if args.which == "version" and hasattr(args, "version"):
             result = converge_options.get_version_information()
             print(result)
 
         # init options
-        elif hasattr(args, "init_type") and args.init_type == "conf":
-            converge_options.init_conf(args.path)
-        elif hasattr(args, "init_type") and args.init_type == 'repository':
-            converge_options.init_repository(args.path)
+        elif args.which == "init" and hasattr(args, "init_type") and args.init_type == "conf":
+            converge_options.init_conf(target_directory=args.path)
+        elif args.which == "init" and hasattr(args, "init_type") and args.init_type == 'repository':
+            converge_options.init_repository(target_directory=args.path)
+
+        # sanity check / check config
+        elif args.which == "checkconfig" and hasattr(args, "config"):
+            converge_options.check_config(config_path=args.config)
 
         return True
     except:

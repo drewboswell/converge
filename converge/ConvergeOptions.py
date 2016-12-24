@@ -62,3 +62,13 @@ class ConvergeOptions:
             print("Folder already exists: %s" % target_directory)
         return result
 
+    def check_config(self, config_path):
+        result = False
+        path_exists = os.path.isfile(config_path)
+        if path_exists:
+            print("Checking configuration at locationL: '%s'" % config_path)
+
+        else:
+            print("File %s does not exist" % config_path)
+
+        return result
