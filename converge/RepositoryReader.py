@@ -71,7 +71,7 @@ class RepositoryReader:
     def validate_yaml_schema(self, target_path, schema_path):
         result = True
         self.logging.info("SCANNING: %s/**.yaml" % target_path)
-        for filename_path in glob.iglob(os.path.join(target_path, "*.yaml"), recursive=False):
+        for filename_path in glob.iglob(os.path.join(target_path, "*.yaml")):
             self.logging.debug("Validating: %s" % filename_path)
             c = Core(source_file=filename_path, schema_files=[schema_path])
             try:
