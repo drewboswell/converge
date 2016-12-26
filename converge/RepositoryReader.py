@@ -7,6 +7,7 @@ import yaml
 import sys
 import os
 import time
+import logging
 
 
 class RepositoryReader:
@@ -15,7 +16,7 @@ class RepositoryReader:
     """
 
     def __init__(self, repository_path, node_path, node_group_path, package_path, package_group_path, hierarchy_path,
-                 package_inheritance_depth_max, logging):
+                 package_inheritance_depth_max, logging=logging):
         self.repository_path = repository_path
         self.node_path = node_path
         self.node_group_path = node_group_path
@@ -61,7 +62,7 @@ class RepositoryReader:
         non_resolved_configuration['nodes'] = self.load_yaml_files_in_directory(directory=self.node_path)
         non_resolved_configuration['node_groups'] = self.load_yaml_files_in_directory(directory=self.node_group_path)
         non_resolved_configuration['packages'] = self.load_yaml_files_in_directory(directory=self.package_path)
-        non_resolved_configuration['applications'] = self.load_yaml_files_in_directory(
+        non_resolved_configuration['package_groups'] = self.load_yaml_files_in_directory(
             directory=self.package_group_path)
         non_resolved_configuration['hierarchy'] = self.load_yaml_files_in_directory(directory=self.hierarchy_path)
         self.statistics['load_yaml_all'] = time.time() - time_marker

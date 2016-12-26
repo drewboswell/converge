@@ -174,7 +174,7 @@ class ConvergeOptions:
         return result
 
     def check_repository(self):
-        result = False
+        result = True
 
         self.reader = RepositoryReader(repository_path=self.repository_path,
                                        node_path=self.node_path,
@@ -185,10 +185,15 @@ class ConvergeOptions:
                                        logging=self.logging,
                                        package_inheritance_depth_max=self.package_inheritance_depth_max)
 
-        #self.reader.validate_node_yaml()
-        self.reader.validate_node_group_yaml()
-        self.reader.validate_package_yaml()
-        self.reader.validate_package_group_yaml()
-        self.reader.validate_hierarchy_yaml()
+        if not self.reader.validate_node_yaml():
+            result = False
+        if not self.reader.validate_node_group_yaml():
+            result = False
+        if not self.reader.validate_package_yaml():
+            result = False
+        if not self.reader.validate_package_group_yaml():
+            result = False
+        if not self.reader.validate_hierarchy_yaml():
+            result = False
 
         return result

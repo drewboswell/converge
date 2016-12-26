@@ -53,6 +53,13 @@ class TestConvergeOptions(unittest.TestCase):
             result = True
         self.assertTrue(result)
 
+    def test_check_repository(self):
+        result = False
+        returns = self.convergeoptions.check_repository()
+        if returns is True:
+            result = True
+        self.assertTrue(result)
+
     def tearDown(self):
         temp_test_resources_path = os.path.join("tests","resources","generated_by_tests")
         if os.path.isdir(os.path.join("tests","resources","generated_by_tests")):
