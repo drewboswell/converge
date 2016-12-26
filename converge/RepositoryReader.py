@@ -46,7 +46,7 @@ class RepositoryReader:
         time_marker = time.time()
         result = dict()
         self.logging.info("Loading YAML Folder: %s" % directory)
-        for filename_path in glob.iglob(os.path.join(directory, "*.yaml"), recursive=False):
+        for filename_path in glob.iglob(os.path.join(directory, "*.yaml")):
             with open(filename_path, 'r') as f:
                 filename_exploded = filename_path.split("/")
                 filename = filename_exploded[-1][:-5]
