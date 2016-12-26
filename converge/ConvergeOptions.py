@@ -187,5 +187,7 @@ class ConvergeOptions:
 
         self.reader.validate_node_yaml()
         self.reader.validate_node_group_yaml()
+        self.reader.validate_package_yaml()
+        self.reader.validate_package_group_yaml()
 
         return result

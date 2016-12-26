@@ -27,6 +27,7 @@ class RepositoryReader:
         self.root_dir = os.path.dirname(os.path.abspath(__file__))
 
         self.logging = logging
+        self.logging.getLogger("pykwalify").setLevel(logging.WARNING)
         self.statistics = {}
 
         self.non_resolved_configuration = self.load_non_resolved_configuration()
@@ -68,15 +69,19 @@ class RepositoryReader:
 
     def validate_yaml_schema(self, target_path, schema_path):
         result = True
+        self.logging.info("SCANNING: %s/**.yaml" % target_path)
         for filename_path in glob.iglob(os.path.join(target_path, "*.yaml"), recursive=False):
-            self.logging.info("Validating yaml file: %s" % target_path)
+            self.logging.debug("Validating: %s" % filename_path)
             c = Core(source_file=filename_path, schema_files=[schema_path])
             try:
                 c.validate(raise_exception=True)
             except pykwalify.errors.SchemaError:
                 result = False
                 pass
-
+        if result:
+            self.logging.info("VALIDATED: %s/**.yaml" % target_path)
+        else:
+            self.logging.error("Corrupt files!")
         return result
 
     def validate_node_yaml(self):
@@ -91,3 +96,14 @@ class RepositoryReader:
         result = self.validate_yaml_schema(target_path=target_path, schema_path=schema_path)
         return result
 
+    def validate_package_yaml(self):
+        target_path = self.package_path
+        schema_path = os.path.join(self.root_dir, "schemas", "package_schema.yaml")
+        result = self.validate_yaml_schema(target_path=target_path, schema_path=schema_path)
+        return result
+
+    def validate_package_group_yaml(self):
+        target_path = self.package_group_path
+        schema_path = os.path.join(self.root_dir, "schemas", "package_group_schema.yaml")
+        result = self.validate_yaml_schema(target_path=target_path, schema_path=schema_path)
+        return result
