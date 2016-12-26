@@ -1,5 +1,5 @@
-# reserved words: default, extends
-extends: "datasource.template"
+# reserved words: default, ::extends
+::extends: "datasource.template"
 
 username:
   default : "username_default-value"

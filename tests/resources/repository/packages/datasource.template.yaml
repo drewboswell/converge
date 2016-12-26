@@ -1,4 +1,4 @@
-# reserved words: default, extends
+# reserved words: default, ::extends
 url:
   default : "test_extended_value"
 

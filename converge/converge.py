@@ -32,7 +32,10 @@ def main():
 
             # sanity check / check config
             elif args.which == "checkconfig" and hasattr(args, "config"):
-                converge_options.check_config(config_path=args.config)
+                result = converge_options.check_config(config_path=args.config)
+                if result:
+                    print("OK: Configuration file %s" % args.config)
+                    converge_options.check_repository()
 
         return True
     except:

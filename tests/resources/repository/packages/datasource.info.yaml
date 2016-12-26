@@ -1,4 +1,4 @@
-# reserved words: default, extends
+# reserved words: default, ::extends
 username:
   default : "username_default-value"
   environments::production : "username_environments::production-value"
@@ -8,7 +8,7 @@ password:
   environments::preproduction : "password_environments::production-value"
 
 url:
-  extend: "datasource.template::url"
+  ::extends: "datasource.template::url"
   default : "url_default-value"
   environments::production : "url_environments::production-value"
   pools::host1: "url_pools::host3-value"

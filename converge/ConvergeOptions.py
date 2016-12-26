@@ -5,8 +5,10 @@ from shutil import copyfile, copytree
 import pkg_resources
 from .__init__ import __version__, __source_repository__, __release_repository__
 from converge.Helpers import Helpers
+from converge.RepositoryReader import RepositoryReader
 import configparser
 import logging
+from pprint import pprint
 
 
 class ConvergeOptions:
@@ -27,6 +29,7 @@ class ConvergeOptions:
         self.hierarchy_path = str()
         self.package_inheritance_depth_max = int()
         self.logging_level = str()
+        self.reader = None
 
     @staticmethod
     def get_version_information():
@@ -82,7 +85,7 @@ class ConvergeOptions:
         result = False
         path_exists = os.path.isfile(config_path)
         if path_exists:
-            print("Checking configuration at locationL: '%s'" % config_path)
+            print("Checking configuration at location: '%s'" % config_path)
             result = self.load_configuration(config_path=config_path)
             if result:
                 print("\t## Configuration to be used:\n")
@@ -96,8 +99,6 @@ class ConvergeOptions:
                 print("")
         else:
             print("File %s does not exist" % config_path)
-
-        print("\tConfiguration %s\n" % str(result).upper())
 
         return result
 
@@ -169,5 +170,22 @@ class ConvergeOptions:
             if not os.path.exists(config_path):
                 print("ERROR Path: '%s' Does not exist" % config_path)
                 result = False
+
+        return result
+
+    def check_repository(self):
+        result = False
+
+        self.reader = RepositoryReader(repository_path=self.repository_path,
+                                       node_path=self.node_path,
+                                       node_group_path=self.node_group_path,
+                                       package_path=self.package_path,
+                                       package_group_path=self.package_group_path,
+                                       hierarchy_path=self.hierarchy_path,
+                                       logging=self.logging,
+                                       package_inheritance_depth_max=self.package_inheritance_depth_max)
+
+        self.reader.validate_node_yaml()
+        self.reader.validate_node_group_yaml()
 
         return result
