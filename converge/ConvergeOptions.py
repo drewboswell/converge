@@ -185,15 +185,24 @@ class ConvergeOptions:
                                        logging=self.logging,
                                        package_inheritance_depth_max=self.package_inheritance_depth_max)
 
-        if not self.reader.validate_node_yaml():
+        returns = self.reader.validate_node_yaml()
+        if returns is not True:
             result = False
-        if not self.reader.validate_node_group_yaml():
+
+        returns = self.reader.validate_node_group_yaml()
+        if returns is not True:
+                result = False
+
+        returns = self.reader.validate_package_yaml()
+        if returns is not True:
+                result = False
+
+        returns = self.reader.validate_package_group_yaml()
+        if returns is not True:
             result = False
-        if not self.reader.validate_package_yaml():
-            result = False
-        if not self.reader.validate_package_group_yaml():
-            result = False
-        if not self.reader.validate_hierarchy_yaml():
+
+        returns = self.reader.validate_hierarchy_yaml()
+        if returns is not True:
             result = False
 
         return result
