@@ -13,6 +13,7 @@ class TestConvergeOptions(unittest.TestCase):
 
     def setUp(self):
         self.convergeoptions = ConvergeOptions()
+        self.convergeoptions.load_configuration(config_path="tests/resources/etc/converge.ini")
 
     def test_opt_version(self):
         result = False
