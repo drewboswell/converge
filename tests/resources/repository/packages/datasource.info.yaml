@@ -8,7 +8,7 @@ password:
   environments::preproduction : "password_environments::production-value"
 
 url:
-  ::extends: "datasource.template::url"
+  ::extends: 1
   default : "url_default-value"
   environments::production : "url_environments::production-value"
   pools::host1: "url_pools::host3-value"

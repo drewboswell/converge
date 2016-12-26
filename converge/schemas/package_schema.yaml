@@ -1,0 +1,16 @@
+# Package yaml schema for validation
+type: map
+mapping:
+  ::extends:
+    type: str
+    required: False
+  regex;(^((?!::extends).)*$):
+    type: map
+    mapping:
+      ::extends:
+        type: str
+        required: False
+      regex;(^((?!::extends).)*$):
+        type: str
+        required: False
+        allowempty: True

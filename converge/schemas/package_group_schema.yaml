@@ -1,0 +1,28 @@
+# Package yaml schema for validation
+type: map
+mapping:
+  ::extends:
+    type: str
+    required: False
+
+  node_group::dependencies:
+    type: seq
+    sequence:
+      - type: str
+        unique: True
+
+  package::dependencies:
+    type: seq
+    sequence:
+      - type: str
+        unique: True
+
+  package::key::overrides:
+    type: map
+    mapping:
+      regex;(^((?!::extends).)*$):
+        type: map
+        mapping:
+          regex;(^((?!::extends).)*$):
+            type: str
+            unique: True

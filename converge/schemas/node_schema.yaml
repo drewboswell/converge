@@ -2,3 +2,4 @@
 type: seq
 sequence:
   - type: str
+    unique: True
