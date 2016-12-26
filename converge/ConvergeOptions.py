@@ -185,9 +185,10 @@ class ConvergeOptions:
                                        logging=self.logging,
                                        package_inheritance_depth_max=self.package_inheritance_depth_max)
 
-        self.reader.validate_node_yaml()
+        #self.reader.validate_node_yaml()
         self.reader.validate_node_group_yaml()
         self.reader.validate_package_yaml()
         self.reader.validate_package_group_yaml()
+        self.reader.validate_hierarchy_yaml()
 
         return result

@@ -107,3 +107,9 @@ class RepositoryReader:
         schema_path = os.path.join(self.root_dir, "schemas", "package_group_schema.yaml")
         result = self.validate_yaml_schema(target_path=target_path, schema_path=schema_path)
         return result
+
+    def validate_hierarchy_yaml(self):
+        target_path = self.hierarchy_path
+        schema_path = os.path.join(self.root_dir, "schemas", "hierarchy_schema.yaml")
+        result = self.validate_yaml_schema(target_path=target_path, schema_path=schema_path)
+        return result
