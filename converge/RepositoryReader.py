@@ -78,7 +78,6 @@ class RepositoryReader:
                 c.validate(raise_exception=True)
             except pykwalify.errors.SchemaError:
                 result = False
-                pass
         if result:
             self.logging.info("VALIDATED: %s/**.yaml" % target_path)
         else:
