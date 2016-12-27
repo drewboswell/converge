@@ -26,7 +26,7 @@ def package_files(directory):
 
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
-    open('converge/__init__.py').read(),
+    open('pyconverge/__init__.py').read(),
     re.M
 ).group(1)
 

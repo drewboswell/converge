@@ -1,5 +1,5 @@
-recursive-include converge/resources *
-recursive-include converge/schemas *
+recursive-include pyconverge/resources *
+recursive-include pyconverge/schemas *
 recursive-include tests/resources *
 include README.md
 include LICENSE.md
