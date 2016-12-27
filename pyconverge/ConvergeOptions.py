@@ -58,6 +58,7 @@ class ConvergeOptions:
             print("Copying template from %s to %s" % (template, target_directory))
             copytree(template, target_directory)
             print("New configuration can be found in: %s" % target_directory)
+            print("Make you modifications and rename it to converge.ini")
             result = os.path.isfile(os.path.join(target_directory, "converge.ini.template"))
         else:
             print("File already exists: %s/converge.ini.template" % target_directory)

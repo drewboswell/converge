@@ -41,7 +41,7 @@ setup(
     },
     license='Apache License 2.0',
     version=version,
-    install_requires=['pyyaml', 'pytest', 'pytest-cov', 'pykwalify', 'pypandoc'],
+    install_requires=['pyyaml', 'pytest', 'pytest-cov', 'pykwalify'],
     description="Resolve configurations from abstract hierarchies and templates",
     long_description=read_md("README.md"),
     author="Andrew Boswell",
