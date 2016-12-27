@@ -4,8 +4,8 @@ import os
 from shutil import copyfile, copytree
 import pkg_resources
 from .__init__ import __version__, __source_repository__, __release_repository__
-from converge.Helpers import Helpers
-from converge.RepositoryReader import RepositoryReader
+from pyconverge.Helpers import Helpers
+from pyconverge.RepositoryReader import RepositoryReader
 import configparser
 import logging
 from pprint import pprint

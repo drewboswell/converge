@@ -6,7 +6,7 @@ import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.join('..', 'converge')))
-from converge.RepositoryReader import RepositoryReader
+from pyconverge.RepositoryReader import RepositoryReader
 
 
 class TestRepositoryReader(unittest.TestCase):
@@ -53,7 +53,7 @@ class TestRepositoryReader(unittest.TestCase):
         result = False
         args = {
             "target_path": self.hierarchy_path,
-            "schema_path": os.path.join("converge", "schemas", "hierarchy_schema.yaml")
+            "schema_path": os.path.join("pyconverge", "schemas", "hierarchy_schema.yaml")
         }
         returns = self.repositoryreader.validate_yaml_schema(**args)
         if returns is True:

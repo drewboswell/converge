@@ -3,5 +3,7 @@
 
 """converge.__main__: executed when converge directory is called as script."""
 
-from .converge import main
-main()
+from pyconverge.converge import main
+
+if __name__ == '__main__':
+    main()

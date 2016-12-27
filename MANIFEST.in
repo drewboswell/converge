@@ -1,1 +1,6 @@
 recursive-include converge/resources *
+recursive-include converge/schemas *
+recursive-include tests/resources *
+include README.md
+include LICENSE.md
+include requirements.txt

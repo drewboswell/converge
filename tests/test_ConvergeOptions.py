@@ -6,7 +6,7 @@ import sys
 import os
 import shutil
 sys.path.append(os.path.abspath(os.path.join('..', 'converge')))
-from converge.ConvergeOptions import ConvergeOptions
+from pyconverge.ConvergeOptions import ConvergeOptions
 
 
 class TestConvergeOptions(unittest.TestCase):

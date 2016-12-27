@@ -6,7 +6,7 @@ import sys
 import os
 import argparse
 sys.path.append(os.path.abspath(os.path.join('..', 'converge')))
-from converge.ArgumentParser import ArgumentParser as ArgumentParser
+from pyconverge.ArgumentParser import ArgumentParser as ArgumentParser
 
 
 class TestArgumentParser(unittest.TestCase):

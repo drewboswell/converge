@@ -7,8 +7,8 @@ import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.join('..', 'converge')))
-from converge import converge as converge
-import converge.__main__ as mainexec
+from pyconverge import converge as converge
+import pyconverge.__main__ as mainexec
 
 
 class TestConverge(unittest.TestCase):

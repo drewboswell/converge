@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from converge.ArgumentParser import ArgumentParser
-from converge.ConvergeOptions import ConvergeOptions
+from pyconverge.ArgumentParser import ArgumentParser
+from pyconverge.ConvergeOptions import ConvergeOptions
 import time
 
 

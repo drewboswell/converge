@@ -4,7 +4,7 @@
 
 """Convenience wrapper for running converge directly from source tree."""
 
-from converge.converge import main
+from pyconverge.converge import main
 
 if __name__ == '__main__':
     main()

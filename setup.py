@@ -4,16 +4,16 @@
 """setup.py: setuptools control."""
 
 import re
-from glob import glob
 from setuptools import setup, find_packages
 import os
 
-try:
-    from pypandoc import convert
-    read_md = lambda f: convert(f, 'rst')
-except ImportError:
-    print("warning: pypandoc module not found, could not convert Markdown to RST")
-    read_md = lambda f: open(f, 'r').read()
+# try:
+#     from pypandoc import convert
+#
+#     read_md = lambda f: convert(f, 'rst')
+# except ImportError:
+#    print("warning: pypandoc module not found, could not convert Markdown to RST")
+read_md = lambda f: open(f, 'r').read()
 
 
 def package_files(directory):
@@ -22,6 +22,7 @@ def package_files(directory):
         for filename in filenames:
             paths.append(os.path.join('..', path, filename))
     return paths
+
 
 version = re.search(
     '^__version__\s*=\s*"(.*)"',
@@ -34,13 +35,13 @@ version = re.search(
 
 setup(
     name="pyconverge",
-    packages=["converge", "converge/resources"],
+    packages=["pyconverge", "tests", "pyconverge/resources", "pyconverge/schemas"],
     entry_points={
-        "console_scripts": ['converge = converge.converge:main']
+        "console_scripts": ['converge = pyconverge.converge:main']
     },
     license='Apache License 2.0',
     version=version,
-    install_requires=['pyyaml','pytest','pytest-cov','pykwalify'],
+    install_requires=['pyyaml', 'pytest', 'pytest-cov', 'pykwalify', 'pypandoc'],
     description="Resolve configurations from abstract hierarchies and templates",
     long_description=read_md("README.md"),
     author="Andrew Boswell",
