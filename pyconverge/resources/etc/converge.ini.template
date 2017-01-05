@@ -8,3 +8,8 @@
 # hierarchy_path = hierarchy/
 # package_recursion_depth_max = 7
 # logging_level = INFO
+
+[CLASSES]
+# readers = converge.readers.properties.PropertiesReader
+# resolvers = converge.resolvers.default.DefaultResolver
+# writers = converge.writers.properties.PropertiesWriter
