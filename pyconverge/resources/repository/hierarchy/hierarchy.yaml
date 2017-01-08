@@ -1,16 +1,9 @@
-# top down, first hit wins (more specific towards the top and less specific to the bottom
-node::hierarchy:
-  - "nodes::nodes"
-  - "node_group::pools"
-  - "node_group::environments"
-
-# options are applications (specific), package (shared by applications)
-package::hierarchy:
-  - "package_groups"
-  - "packages"
-
-# decide what wins between package/node comparisons
-# example: (package1 node1 value1) vs (application1 package1 default value2)
-# - True : package wins, because node1 is more specific than default
-# - False: application1 wins, because any applicable value set for application will always win
-allow_node_hierarchy_to_override_package_hierarchy_on_collision: True
+# last hit wins
+- default/default
+- default/app/${app}
+- default/environment/${environment}
+- default/environment/${environment}/${app}
+- default/pool/${pool}
+- default/pool/${pool}/${app}
+- default/host/${host}
+- default/host/${host}/${app}
