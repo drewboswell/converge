@@ -6,9 +6,10 @@ import os
 
 
 class LoadProperties(LoadDataFromDisk):
-    def __init__(self, hierarchy, host_tags):
+    def __init__(self, hierarchy, host_tags, repository_path):
         self.host_tags = host_tags
         self.hierarchy = hierarchy
+        self.repository_path = repository_path
         self.regex_hierarchy = self.get_regex_hierarchy(hierarchy=hierarchy)
 
     def merge_contents_of_files(self, file_list):
@@ -24,13 +25,12 @@ class LoadProperties(LoadDataFromDisk):
     def load_contents_of_files(self):
         pass
 
-    @staticmethod
-    def get_regex_hierarchy(hierarchy):
+    def get_regex_hierarchy(self, hierarchy):
         regex_hierarchy = []
         for hiera in hierarchy:
             regex_hiera = dict()
             regex_hiera['hiera'] = hiera
-            regex_hiera['regex'] = "data/" + re.sub("\${.+?}", "([^/]+)", hiera)
+            regex_hiera['regex'] = os.path.join(self.repository_path, re.sub("\${.+?}", "([^/]+)", hiera))
             regex_hiera['tags'] = re.findall("\$\{([^/]+)\}", hiera)
             regex_hierarchy.append(regex_hiera)
         return regex_hierarchy
@@ -49,7 +49,6 @@ class LoadProperties(LoadDataFromDisk):
         for file_path in file_list:
             for hiera in filtered_hierarchy:
                 regex = re.findall(hiera["regex"], os.path.dirname(file_path))
-
                 if regex:
                     result = True
                     for i, tag in enumerate(regex):
@@ -85,7 +84,7 @@ class LoadProperties(LoadDataFromDisk):
 
     def load_contents_of_property_by_pattern(self, file_name, application_name, application_tags):
         content = list()
-        glob_pattern = os.path.join("data", "**", file_name + ".properties")
+        glob_pattern = os.path.join(self.repository_path, "**", file_name + ".properties")
         file_list = self.get_list_of_files(glob_pattern=glob_pattern, recursive=True)
         file_list_order_by_hierarchy = self.get_file_list_ordered_by_hierarchy(file_list=file_list,
                                                                                application_name=application_name,
@@ -100,7 +99,6 @@ class LoadProperties(LoadDataFromDisk):
             result = self.load_contents_of_property_by_pattern(file_name=file_path,
                                                                application_name=application_name,
                                                                application_tags=application_tags)
-
             if result:
                 content[file_path] = result
         return content

@@ -31,9 +31,5 @@ class BasePlugin(ABC):
         pass
 
     @abstractmethod
-    def write_all_data(self, resolved_data):
-        pass
-
-    @abstractmethod
-    def write_target_data(self, resolved_data):
+    def write_data(self, resolved_data):
         pass

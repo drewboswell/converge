@@ -2,6 +2,7 @@ from pyconverge.plugins.BasePlugin import BasePlugin
 from .LoadTargets import LoadHierarchy, LoadHosts, LoadApplications
 from .Filters import FilterApplicationsByHost
 from .LoadProperties import LoadProperties
+from .OutputProperties import OutputProperties
 
 
 class PropertiesPlugin(BasePlugin):
@@ -11,6 +12,7 @@ class PropertiesPlugin(BasePlugin):
         self.repository_path = kwargs.get("repository_path")
         self.hierarchy = list()
         self.targets = dict()
+        self.output = OutputProperties(output_path=kwargs.get("output_path"))
 
     def read_hierarchy(self):
         hiera_loader = LoadHierarchy()
@@ -34,57 +36,45 @@ class PropertiesPlugin(BasePlugin):
         resolved_data = dict()
 
         for host in self.targets["hosts"]:
-            self.resolve_target_data(target=host, periodic_write=periodic_write)
+            resolved_data[host] = self.resolve_target_data(target_name=host, periodic_write=periodic_write)
 
-        if not periodic_write:
-            self.write_all_data(resolved_data=resolved_data)
         return resolved_data
 
-    def resolve_target_data(self, target, periodic_write=False):
+    def resolve_target_data(self, target_name, periodic_write=False):
         resolved_data = dict()
         filters = FilterApplicationsByHost()
-        host_tags = target[1]
-        properties = dict()
+        host_tags = self.targets["hosts"][target_name]
         filtered_applications = filters.get_applications_matching_host(applications=self.targets["applications"],
                                                                        host_tags=host_tags)
         for application in filtered_applications:
             application_tags = self.targets["applications"][application]
-            property_loader = LoadProperties(hierarchy=self.hierarchy, host_tags=host_tags)
+            property_loader = LoadProperties(hierarchy=self.hierarchy,
+                                             host_tags=host_tags,
+                                             repository_path=self.repository_path)
             result = property_loader.load_contents_of_property_list(application_name=application,
                                                                     application_tags=application_tags)
-
-            print(result)
             if result:
                 resolved_data[application] = result
-        print(resolved_data)
         if periodic_write:
-            self.write_target_data(resolved_data=resolved_data)
+            self.write_data(resolved_data=resolved_data)
 
         return resolved_data
 
-    def write_all_data(self, resolved_data):
-        return False
-
-    def write_target_data(self, resolved_data):
-        return False
+    def write_data(self, resolved_data):
+        return self.output.generate_files_by_target(configuration=resolved_data)
 
 
 def main():
     args = {"hierarchy_path": "/home/drew/workspace/converge/tests/resources/repository/hierarchy",
             "target_path": "/home/drew/workspace/converge/tests/resources/repository/targets",
-            "repository_path": "/home/drew/workspace/converge/tests/resources/repository/data"}
+            "repository_path": "/home/drew/workspace/converge/tests/resources/repository/data",
+            "output_path": "/home/drew/workspace/converge/tests/resources/repository/output"
+            }
     lol = PropertiesPlugin(**args)
     lol.read_hierarchy()
     lol.read_targets()
-    hosts = lol.targets['hosts']
-    applications = lol.targets['applications']
-    # print(lol.hierarchy)
-    # print(hosts)
-    # print(applications)
-    for host in hosts.items():
-        fa = lol.resolve_target_data(target=host)
-        break
-        # print(applications)
+    resolved_data = lol.resolve_all_data(periodic_write=False)
+    lol.write_data(resolved_data=resolved_data)
 
 
 if __name__ == '__main__':
