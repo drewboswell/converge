@@ -92,3 +92,4 @@ ENV/
 
 # idea
 .idea
+/tests/resources/repository/output/*

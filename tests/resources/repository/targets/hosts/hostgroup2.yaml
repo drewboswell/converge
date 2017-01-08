@@ -1,0 +1,56 @@
+###
+dev-host2 :
+ environment: "dev"
+ pool:
+  - "hostgroup2"
+ network: "DEV"
+ datacenter: "ONE"
+###
+pre-host2 :
+ environment: "pre"
+ pool:
+  - "hostgroup2"
+ network: "PRE"
+ datacenter: "ONE"
+###
+uat-host2 :
+ environment: "uat"
+ pool:
+  - "hostgroup2"
+ network: "UAT"
+ datacenter: "ONE"
+###
+staging-host2 :
+ environment: "staging"
+ pool:
+  - "hostgroup2"
+ network: "DMZ"
+ datacenter: "ONE"
+###
+prod-host5 :
+ environment: "prod"
+ pool:
+  - "hostgroup2"
+ network: "DMZ"
+ datacenter: "ONE"
+###
+prod-host6 :
+ environment: "prod"
+ pool:
+  - "hostgroup2"
+ network: "DMZ"
+ datacenter: "TWO"
+###
+prod-host7 :
+ environment: "prod"
+ pool:
+  - "hostgroup2"
+ network: "DMZ"
+ datacenter: "ONE"
+###
+prod-host8 :
+ environment: "prod"
+ pool:
+  - "hostgroup2"
+ network: "DMZ"
+ datacenter: "TWO"

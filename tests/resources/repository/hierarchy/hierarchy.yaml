@@ -1,17 +1,35 @@
-# top down, first hit wins (more specific towards the top and less specific to the bottom
-node::hierarchy:
-  - "nodes::nodes"
-  - "node_group::pools"
-  - "node_group::environments"
-
-# options are applications (specific), package (shared by applications)
-package::hierarchy:
-  - "package_groups"
-  - "packages"
-
-# decide what wins between package/node comparisons
-# example: (package1 node1 value1) vs (application1 package1 default value2)
-# - True : package wins, because node1 is more specific than default
-# - False: application1 wins, because any applicable value set for application will always win
-allow_node_hierarchy_to_override_package_hierarchy_on_collision: True
-
+# last hit wins
+# ops and default (read default as: dev modifyable values)
+- default/default
+- ops/default
+- default/app/${app}
+- ops/app/${app}
+- default/environment/${environment}
+- ops/environment/${environment}
+- default/environment/${environment}/${app}
+- ops/environment/${environment}/${app}
+- default/pool/${pool}
+- ops/pool/${pool}
+- default/pool/${pool}/${app}
+- ops/pool/${pool}/${app}
+- default/pool_environment/${pool}/${environment}
+- ops/pool_environment/${pool}/${environment}
+- default/pool_environment/${pool}/${environment}/${app}
+- ops/pool_environment/${pool}/${environment}/${app}
+- default/host/${host}
+- ops/host/${host}
+- default/host/${host}/${app}
+- ops/host/${host}/${app}
+# secure full override (default will override anything from other above directories)
+- sec/default
+- sec/app/${app}
+- sec/network/${network}
+- sec/datacenter/${datacenter}
+- sec/environment/${environment}
+- sec/environment/${environment}/${app}
+- sec/pool/${pool}
+- sec/pool/${pool}/${app}
+- sec/pool_environment/${pool}/${environment}
+- sec/pool_environment/${pool}/${environment}/${app}
+- sec/host/${host}
+- sec/host/${host}/${app}

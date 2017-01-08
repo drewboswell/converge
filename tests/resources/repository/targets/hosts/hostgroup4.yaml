@@ -1,0 +1,63 @@
+###
+local-host2 :
+ environment: "local"
+ pool:
+  - "hostgroup4"
+ network: "local"
+ datacenter: null
+###
+dev-host4 :
+ environment: "dev"
+ pool:
+  - "hostgroup4"
+ network: "DEV"
+ datacenter: "ONE"
+###
+pre-host4 :
+ environment: "pre"
+ pool:
+  - "hostgroup4"
+ network: "PRE"
+ datacenter: "ONE"
+###
+uat-host4 :
+ environment: "uat"
+ pool:
+  - "hostgroup4"
+ network: "UAT"
+ datacenter: "ONE"
+###
+staging-host4 :
+ environment: "staging"
+ pool:
+  - "hostgroup4"
+ network: "SEC"
+ datacenter: "ONE"
+###
+prod-host9 :
+ environment: "prod"
+ pool:
+  - "hostgroup4"
+ network: "SEC"
+ datacenter: "ONE"
+###
+prod-host10 :
+ environment: "prod"
+ pool:
+  - "hostgroup4"
+ network: "SEC"
+ datacenter: "TWO"
+###
+prod-host11 :
+ environment: "prod"
+ pool:
+  - "hostgroup4"
+ network: "SEC"
+ datacenter: "ONE"
+###
+prod-host12 :
+ environment: "prod"
+ pool:
+  - "hostgroup4"
+ network: "SEC"
+ datacenter: "TWO"
