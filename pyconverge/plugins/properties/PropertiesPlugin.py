@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from pyconverge.plugins.BasePlugin import BasePlugin
 from .LoadTargets import LoadHierarchy, LoadHosts, LoadApplications
 from .Filters import FilterApplicationsByHost

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from .LoadDataFromDisk import LoadDataFromDisk
 import yaml
 import os
