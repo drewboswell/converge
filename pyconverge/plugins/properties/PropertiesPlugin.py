@@ -3,16 +3,17 @@ from .LoadTargets import LoadHierarchy, LoadHosts, LoadApplications
 from .Filters import FilterApplicationsByHost
 from .LoadProperties import LoadProperties
 from .OutputProperties import OutputProperties
+import logging
 
 
 class PropertiesPlugin(BasePlugin):
     def __init__(self, **kwargs):
-        self.hierarchy_path = kwargs.get("hierarchy_path")
-        self.target_path = kwargs.get("target_path")
-        self.repository_path = kwargs.get("repository_path")
+        self.hierarchy_path = kwargs.get("hierarchy")
+        self.target_path = kwargs.get("target")
+        self.repository_path = kwargs.get("data")
         self.hierarchy = list()
         self.targets = dict()
-        self.output = OutputProperties(output_path=kwargs.get("output_path"))
+        self.output = OutputProperties(output_path=kwargs.get("output"))
 
     def read_hierarchy(self):
         hiera_loader = LoadHierarchy()
@@ -46,6 +47,7 @@ class PropertiesPlugin(BasePlugin):
         host_tags = self.targets["hosts"][target_name]
         filtered_applications = filters.get_applications_matching_host(applications=self.targets["applications"],
                                                                        host_tags=host_tags)
+        lines = 0
         for application in filtered_applications:
             application_tags = self.targets["applications"][application]
             property_loader = LoadProperties(hierarchy=self.hierarchy,
@@ -54,7 +56,12 @@ class PropertiesPlugin(BasePlugin):
             result = property_loader.load_contents_of_property_list(application_name=application,
                                                                     application_tags=application_tags)
             if result:
+                lines += len(result)
                 resolved_data[application] = result
+
+        logging.info("Generating data for target: %-15s (files: %-3i, lines: %3i)" % (target_name,
+                                                                                len(resolved_data),
+                                                                                lines))
         if periodic_write:
             self.write_data(resolved_data=resolved_data)
 
@@ -62,20 +69,3 @@ class PropertiesPlugin(BasePlugin):
 
     def write_data(self, resolved_data):
         return self.output.generate_files_by_target(configuration=resolved_data)
-
-
-def main():
-    args = {"hierarchy_path": "/home/drew/workspace/converge/tests/resources/repository/hierarchy",
-            "target_path": "/home/drew/workspace/converge/tests/resources/repository/targets",
-            "repository_path": "/home/drew/workspace/converge/tests/resources/repository/data",
-            "output_path": "/home/drew/workspace/converge/tests/resources/repository/output"
-            }
-    lol = PropertiesPlugin(**args)
-    lol.read_hierarchy()
-    lol.read_targets()
-    resolved_data = lol.resolve_all_data(periodic_write=False)
-    lol.write_data(resolved_data=resolved_data)
-
-
-if __name__ == '__main__':
-    main()

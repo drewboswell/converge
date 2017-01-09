@@ -1,0 +1,8 @@
+# Package yaml schema for validation
+type: map
+mapping:
+  regex;(^((?!::extends).)*$):
+    type: map
+    mapping:
+      regex;(^((?!::extends).)*$):
+        type: any

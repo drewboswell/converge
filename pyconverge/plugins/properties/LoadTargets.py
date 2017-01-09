@@ -14,7 +14,6 @@ class LoadHierarchy(LoadDataFromDisk):
 
     def load_contents_of_files(self, base_directory="."):
         glob_pattern = os.path.join(base_directory, "hierarchy.yaml")
-        print(glob_pattern)
         file_list = self.get_list_of_files(glob_pattern=glob_pattern, recursive=False)
         content = self.merge_contents_of_files(file_list=file_list)
         return content

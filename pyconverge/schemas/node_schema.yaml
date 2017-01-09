@@ -1,5 +1,0 @@
-# Node yaml schema for validation
-type: seq
-sequence:
-  - type: str
-    unique: True

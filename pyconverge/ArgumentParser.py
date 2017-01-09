@@ -33,8 +33,9 @@ class ArgumentParser:
         group_diff.add_argument("--diff", action="store_true", default=True, required=False)
 
         group_run = argparse.ArgumentParser(add_help=False)
-        group_run.add_argument("--run", action="store_true", default=True, required=False)
-
+        group_run.add_argument("--config", action="store", required=True,
+                                       type=str, default=None,
+                                       help="path to the configuration file")
         group_version = argparse.ArgumentParser(add_help=False)
         group_version.add_argument("--version", action="store_true", default=True, required=False)
 
@@ -44,9 +45,9 @@ class ArgumentParser:
         sp_init = sp.add_parser("init", parents=[group_init], help="initialize configuration or repository")
         sp_init.set_defaults(which="init")
 
-        sp_checkconfig = sp.add_parser("checkconfig", parents=[group_checkconfig],
+        sp_checkconfig = sp.add_parser("check", parents=[group_checkconfig],
                                        help="run sanity check on configuration")
-        sp_checkconfig.set_defaults(which="checkconfig")
+        sp_checkconfig.set_defaults(which="check")
 
         sp_diff = sp.add_parser("diff", parents=[group_diff],
                                 help="run converge and compare to previous version without committing changes to output")

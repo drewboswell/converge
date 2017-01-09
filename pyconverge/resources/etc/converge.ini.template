@@ -15,4 +15,4 @@
 # logging_level = INFO
 
 [CLASSES]
-# plugins = converge.plugins.properties.PropertiesPlugin
+# plugins = pyconverge.plugins.properties.PropertiesPlugin.PropertiesPlugin

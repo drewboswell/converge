@@ -1,21 +1,5 @@
 # Package yaml schema for validation
-type: map
-mapping:
-
-  node::hierarchy:
-    type: seq
-    sequence:
-      - type: str
-        unique: True
-        pattern: .*node.+
-
-  package::hierarchy:
-    type: seq
-    sequence:
-      - type: str
-        unique: True
-        pattern: .*package.+
-
-  allow_node_hierarchy_to_override_package_hierarchy_on_collision:
-    type: bool
-    required: True
+type: seq
+sequence:
+  - type: str
+    unique: True

@@ -1,6 +1,7 @@
 from .LoadDataFromDisk import LoadDataFromDisk
 import configparser
 from itertools import chain
+import logging
 import re
 import os
 
@@ -16,7 +17,7 @@ class LoadProperties(LoadDataFromDisk):
         parser = configparser.ConfigParser(allow_no_value=True)
         for file_path in file_list:
             with open(file_path) as lines:
-                lines = chain(("[default]",), lines)  # This line does the trick.
+                lines = chain(("[default]",), lines)  # This line does the trick...
                 parser.read_file(lines)
 
         contents = parser.items("default")
@@ -37,7 +38,6 @@ class LoadProperties(LoadDataFromDisk):
 
     def filter_hierarchy(self, file_list):
         filtered_hierarchy = list()
-
         for file_path in file_list:
             for hiera in self.regex_hierarchy:
                 if re.match(hiera['regex'], os.path.dirname(file_path)):
