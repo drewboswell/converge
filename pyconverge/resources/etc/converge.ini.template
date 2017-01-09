@@ -16,7 +16,8 @@
 
 [CLASSES]
 # plugins = pyconverge.plugins.properties.PropertiesPlugin.PropertiesPlugin
-# readers = pyconverge.plugins.yaml.YAMLHierarchy,pyconverge.plugins.yaml.YAMLTargets,pyconverge.plugins.properties.PropertiesFinder
+# validators = pyconverge.plugins.yaml.YAMLHierarchy.Validator,pyconverge.plugins.yaml.YAMLTargets.Validator
+# readers = pyconverge.plugins.yaml.YAMLHierarchy.YAMLHierarchy,pyconverge.plugins.yaml.YAMLTargets.YAMLTargets,pyconverge.plugins.properties.PropertiesFinder.PropertiesFinder
 # pre_filters = pyconverge.plugins.properties.PropertiesFilters.PreFilter
 # resolvers = pyconverge.plugins.properties.PropertiesResolver.PropertiesResolver
 # post_filters = pyconverge.plugins.properties.PropertiesFilters.PostFilter,pyconverge.plugins.security.SecurityFilters.PostFilter
