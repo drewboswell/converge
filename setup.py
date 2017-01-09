@@ -6,6 +6,7 @@
 import re
 from setuptools import setup, find_packages
 import os
+import glob
 
 # try:
 #     from pypandoc import convert
@@ -35,7 +36,7 @@ version = re.search(
 
 setup(
     name="pyconverge",
-    packages=["pyconverge", "tests", "pyconverge/resources", "pyconverge/schemas"],
+    packages=["pyconverge", "tests", "pyconverge/resources", "pyconverge/schemas", *[x[0] for x in os.walk("pyconverge/plugins")]],
     entry_points={
         "console_scripts": ['converge = pyconverge.converge:main']
     },
