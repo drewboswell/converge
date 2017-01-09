@@ -7,22 +7,14 @@ import re
 from setuptools import setup, find_packages
 import os
 
-# try:
-#     from pypandoc import convert
-#
-#     read_md = lambda f: convert(f, 'rst')
-# except ImportError:
-#    print("warning: pypandoc module not found, could not convert Markdown to RST")
-try:
-    from pypandoc import convert
-    long_description = convert('README.md', 'rst')
-    long_description = long_description.replace("\r","") # EVIL
-except OSError:
-    print("Pandoc not found. Long_description conversion failure.")
-    import io
-    # pandoc is not installed, fallback to using raw contents
-    with io.open('README.md', encoding="utf-8") as f:
-        long_description = f.read()
+
+def read_md(f):
+    try:
+        from pypandoc import convert
+        return convert(f, 'rst')
+    except ImportError:
+        print("warning: pypandoc module not found, could not convert Markdown to RST")
+        return open(f, 'r').read()
 
 
 def package_files(directory):
@@ -50,7 +42,7 @@ setup(
     version=version,
     install_requires=['pyyaml', 'pytest', 'pytest-cov', 'pykwalify'],
     description="Resolve configurations from abstract hierarchies and templates",
-    long_description=long_description,
+    long_description=read_md("README.md"),
     author="Andrew Boswell",
     author_email="drewboswell@gmail.com",
     url="https://github.com/drewboswell/converge",
