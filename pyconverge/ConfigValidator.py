@@ -52,6 +52,16 @@ class ConfigValidator:
             print("File already exists: %s/converge.ini.template" % target_directory)
         return result
 
+    @staticmethod
+    def get_directory_tree(directory_path):
+        tree = []
+        for dirname, dirnames, filenames in os.walk(directory_path):
+            for subdirname in dirnames:
+                tree.append(os.path.join(dirname, subdirname))
+            for filename in filenames:
+                tree.append(os.path.join(dirname, filename))
+        return tree
+
     def init_repository(self, target_directory):
         result = False
         init_path = os.path.isdir(target_directory)
@@ -63,7 +73,7 @@ class ConfigValidator:
             print("Copying contents of repository template from %s to %s" % (template, target_directory))
             copytree(template, target_directory)
             print("Newly initialized repository can be found in: %s" % target_directory)
-            dir_tree = self.helpers.get_directory_tree(target_directory)
+            dir_tree = self.get_directory_tree(target_directory)
             if isinstance(dir_tree, list) and len(dir_tree) > 0:
                 result = True
         else:
