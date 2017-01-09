@@ -1,6 +1,6 @@
 [![GitHub tag](https://img.shields.io/github/tag/drewboswell/converge.svg)]()
 [![GitHub release](https://img.shields.io/github/release/drewboswell/converge.svg)]()
-[![PyPI](https://img.shields.io/pypi/v/pyconverge.svg)]()
+[![PyPI](https://img.shields.io/pypi/v/pyconverge.svg)](https://pypi.python.org/pypi/pyconverge/)
 [![Py Versions](https://img.shields.io/pypi/pyversions/pyconverge.svg)](https://pypi.python.org/pypi/pyconverge/)
 
 [![Build Status](https://travis-ci.org/drewboswell/converge.svg?branch=master)](https://travis-ci.org/drewboswell/converge)
