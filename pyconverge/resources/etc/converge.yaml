@@ -1,18 +1,17 @@
 default:
-  data_path: data/
-  hierarchy_path : hierarchy/
-  data_path : data/
-  output_path : output/
-  target_path : targets/
-  application_path : applications/
-  host_path : hosts/
+  logging_level: "INFO"
 programs:
   properties:
     conf:
-      hierarchy_path: hierarchy.yaml
-      properties_path: data/
-      target_path: targets/
-      mapping_path: mapping/.properties
+      yaml:
+        schema_path: "schemas"
+      properties:
+        hierarchy_path: "hierarchy.yaml"
+        host_glob: "targets/hosts/**/*.yaml"
+        mapping_glob: "targets/mapping/**/*.yaml"
+        dependency_glob: "data/**/dependencies.properties"
+        properties_glob: "data/**/*.properties"
+        output_path: "output"
     instructions:
       - validate:
         - "pyconverge.plugins.yaml.YAMLHierarchy.Validator"
