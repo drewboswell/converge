@@ -6,12 +6,13 @@ programs:
       yaml:
         schema_path: "schemas"
       properties:
+        base_dir: "repository"
         hierarchy_path: "hierarchy.yaml"
         host_glob: "targets/hosts/**/*.yaml"
         mapping_glob: "targets/mapping/**/*.yaml"
         dependency_glob: "data/**/dependencies.properties"
         properties_glob: "data/**/*.properties"
-        output_path: "output"
+        output_dir: "output"
     instructions:
       - validate:
         - "pyconverge.plugins.yaml.YAMLHierarchy.Validator"
