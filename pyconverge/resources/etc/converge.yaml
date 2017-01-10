@@ -1,0 +1,31 @@
+default:
+  data_path: data/
+  hierarchy_path : hierarchy/
+  data_path : data/
+  output_path : output/
+  target_path : targets/
+  application_path : applications/
+  host_path : hosts/
+programs:
+  properties:
+    conf:
+      hierarchy_path: hierarchy.yaml
+      properties_path: data/
+      target_path: targets/
+      mapping_path: mapping/.properties
+    instructions:
+      - validate:
+        - "pyconverge.plugins.yaml.YAMLHierarchy.Validator"
+        - "pyconverge.plugins.yaml.YAMLTargets.Validator"
+      - read_hierarchy:
+        - "pyconverge.plugins.yaml.YAMLHierarchy.YAMLHierarchy"
+      - read_data:
+        - "pyconverge.plugins.properties.PropertiesFinder.PropertiesFinder":
+          filter:
+            - "pyconverge.plugins.properties.PropertiesFilters.ReadFilter"
+      - resolve:
+        - "pyconverge.plugins.properties.PropertiesResolver.PropertiesResolver"
+      - write:
+        - "pyconverge.plugins.properties.PropertiesWriter.PropertiesWriter":
+          filter:
+            - "pyconverge.plugins.placeholder.PlaceholderFilters.PlaceholderFilter"
