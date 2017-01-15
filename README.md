@@ -20,12 +20,12 @@
 Managing configuration is hard. Sometimes you need simplicity, like a few key-value properties. Sometimes you realize that a lot of your data is similar and you wish you could apply abstraction to share and reuse them. 
 
 This is where **converge** comes in. Choose your logic engines: 
-* Readers: read data from your backends
-* Pre-Filters: filter the read data before resolution
+* Readers: get data from your backends
+* Pre-Filters: filter data before resolution
 * Resolvers: convert abstract data to resolved data
 * Post-Filters: filter resolved data (*example: search & replace values, inject data post resolution*)
 * Writers: output your data to the format and backend of your choice
- 
+
 Abstract hierarchies of data chewed up and spit out to your liking.
 
 # How it works
