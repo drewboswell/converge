@@ -23,6 +23,8 @@ Wouldn't it be great to define conf in a hierarchical fashion and then have a lo
 
 # How it works
 
+![Alt text](docs/converge-diagram.png "Converge Overview")
+
 # Getting started
 
 # Examples
