@@ -86,6 +86,7 @@ class LoadProperties(LoadDataFromDisk):
 
     def load_contents_of_property_by_pattern(self, file_name, application_name, application_tags):
         content = list()
+        logging.info("Loading Contents for %s" % application_name)
         glob_pattern = os.path.join(self.repository_path, "**", file_name + ".properties")
         file_list = self.get_list_of_files(glob_pattern=glob_pattern, recursive=True)
         file_list_order_by_hierarchy = self.get_file_list_ordered_by_hierarchy(file_list=file_list,
@@ -97,10 +98,13 @@ class LoadProperties(LoadDataFromDisk):
 
     def load_contents_of_property_list(self, application_name, application_tags):
         content = dict()
+        import time
+        start = time.time()
         for file_path in application_tags['properties']:
             result = self.load_contents_of_property_by_pattern(file_name=file_path,
                                                                application_name=application_name,
                                                                application_tags=application_tags)
             if result:
                 content[file_path] = result
+        logging.info("TIMING load_contents_of_property_list %s %f" % (application_name, time.time() - start))
         return content

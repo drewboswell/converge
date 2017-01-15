@@ -14,5 +14,5 @@ class LoadDataFromDisk(ABC):
         pass
 
     @abstractmethod
-    def load_contents_of_files(self):
+    def read_data(self):
         pass

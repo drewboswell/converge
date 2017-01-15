@@ -51,10 +51,52 @@ def main():
             # run converge fully
             elif args.which == "run" and hasattr(args, "config"):
                 statistics['opt_run'] = time.time()
-                result = configuration.check_config(config_path=args.config)
-                if result:
-                    class_loader = BaseClassLoader(settings=configuration.paths)
-                    class_loader.run_plugins(**configuration.paths)
+                # result = configuration.check_config(config_path=args.config)
+                # if result:
+                #     class_loader = BaseClassLoader(settings=configuration.paths)
+                #     class_loader.run_plugins(**configuration.paths)
+                settings_yaml = """
+default:
+  logging_level: "INFO"
+programs:
+  properties:
+    conf:
+      yaml:
+        base_dir: "pyconverge/resources/repository"
+        schema_path: "schemas"
+        hierarchy_path: "hierarchy/hierarchy.yaml"
+      properties:
+        base_dir: "pyconverge/resources"
+        hierarchy_path: "hierarchy.yaml"
+        host_glob: "targets/hosts/**/*.yaml"
+        mapping_glob: "targets/mapping/**/*.yaml"
+        dependency_glob: "data/**/dependencies.properties"
+        properties_glob: "data/**/*.properties"
+        output_dir: "output"
+    instructions:
+      - validate:
+        - "pyconverge.plugins.yaml.Hierarchy.Validator"
+        - "pyconverge.plugins.yaml.Targets.Validator"
+      - read_hierarchy:
+        - "pyconverge.plugins.yaml.Hierarchy.Hierarchy"
+      - read_data:
+        - "pyconverge.plugins.properties.PropertiesFinder.PropertiesFinder":
+          filter:
+            - "pyconverge.plugins.properties.PropertiesFilters.ReadFilter"
+      - resolve:
+        - "pyconverge.plugins.properties.PropertiesResolver.PropertiesResolver"
+      - write:
+        - "pyconverge.plugins.properties.PropertiesWriter.PropertiesWriter":
+          filter:
+            - "pyconverge.plugins.placeholder.PlaceholderFilters.PlaceholderFilter"
+                """
+                
+                import yaml
+                settings = yaml.load(settings_yaml)
+                class_loader = BaseClassLoader(settings=settings)
+                # print(settings)
+                class_loader.run_instruction_set(program="properties")
+                # class_loader.run_plugins(**configuration.paths)
                 statistics['opt_run'] = time.time() - statistics['opt_run']
 
         # statistics calculations

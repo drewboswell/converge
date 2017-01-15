@@ -4,7 +4,9 @@ programs:
   properties:
     conf:
       yaml:
+        base_dir: "repository"
         schema_path: "schemas"
+        hierarchy_path: "hierarchy.yaml"
       properties:
         base_dir: "repository"
         hierarchy_path: "hierarchy.yaml"
@@ -15,10 +17,10 @@ programs:
         output_dir: "output"
     instructions:
       - validate:
-        - "pyconverge.plugins.yaml.YAMLHierarchy.Validator"
-        - "pyconverge.plugins.yaml.YAMLTargets.Validator"
+        - "pyconverge.plugins.yaml.Hierarchy.Validator"
+        - "pyconverge.plugins.yaml.Targets.Validator"
       - read_hierarchy:
-        - "pyconverge.plugins.yaml.YAMLHierarchy.YAMLHierarchy"
+        - "pyconverge.plugins.yaml.Hierarchy.Hierarchy"
       - read_data:
         - "pyconverge.plugins.properties.PropertiesFinder.PropertiesFinder":
           filter:
