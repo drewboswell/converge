@@ -25,11 +25,7 @@ mapping:
               - type: map
                 matching-rule: any
                 mapping:
-                  regex;(^(validate|read_hierarchy|resolve)$):
-                    type: seq
-                    sequence:
-                      - type: str
-                  regex;(^(read_data|write)$):
+                  regex;(^(read_data|write|validate|read_hierarchy|resolve)$):
                     type: seq
                     matching: any
                     sequence:
