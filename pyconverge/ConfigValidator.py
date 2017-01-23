@@ -92,25 +92,23 @@ class ConfigValidator:
         if path_exists:
             print("Checking configuration at location: '%s'" % config_path)
             converge_schema_path = os.path.join(self.paths["bin_dir"], "schemas", "converge_schema.yaml")
-            print(self.validate_yaml_schema(target_path=os.path.dirname(config_path), schema_path=converge_schema_path))
-            if result:
+            if self.validate_yaml_schema(target_path=os.path.dirname(config_path), schema_path=converge_schema_path):
                 with open(config_path, 'r') as stream:
                     try:
-                        result = yaml.load(stream)
+                        configuration = yaml.load(stream)
+                        result = True
                     except yaml.YAMLError as exc:
                         print(exc)
-
-            # if result:
-            #     print("\t## Configuration to be used:\n")
-            #     print("\tRepository Path: '%s'" % self.paths['repository'])
-            #     print("\tHierarchy Path: '%s'" % self.paths['hierarchy'])
-            #     print("\tBase Data Path: '%s'" % self.paths['data'])
-            #     print("\tOutput Path: '%s'" % self.paths['output'])
-            #     print("\tTarget Path: '%s'" % self.paths['target'])
-            #     print("\tApplication Path: '%s'" % self.paths['application'])
-            #     print("\tHost Path: '%s'" % self.paths['host'])
-            #     print("\tLogging Level: '%s'" % self.logging_level)
-            #     print("")
+            if result:
+                print("\t## Configuration to be used:\n")
+                print("\tLogging Level: '%s'" % configuration['default']['logging_level'])
+                print("\tAvailable programs: %s" % ", ".join(configuration['programs'].keys()))
+                for prog in configuration['programs']:
+                    print("\n\t# \"%s\" Program Comfiguration:" % prog)
+                    for conf, subconfs in configuration['programs'][prog]['conf'].items():
+                        for name, sub in subconfs.items():
+                            print("\t%s : %s : %s" % (conf, name, sub))
+                print("")
         else:
             print("File %s does not exist" % config_path)
 
@@ -209,11 +207,9 @@ class ConfigValidator:
 
     def validate_yaml_schema(self, target_path, schema_path):
         result = True
-        print(target_path, schema_path)
         self.logging.info("SCANNING: %s/**.yaml" % target_path)
         for filename_path in glob.iglob(os.path.join(target_path, "*.yaml")):
             self.logging.debug("Validating: %s" % filename_path)
-            print("Validating: %s" % filename_path)
             c = Core(source_file=filename_path, schema_files=[schema_path])
             try:
                 c.validate(raise_exception=True)
