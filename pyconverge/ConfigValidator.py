@@ -20,6 +20,7 @@ class ConfigValidator:
         self.plugins = str()
         self.logging_level = str()
         self.reader = None
+        self.configuration = dict()
 
         # Figure out where we're installed and set defaults
         self.paths['bin_dir'] = os.path.dirname(os.path.abspath(__file__))
@@ -95,17 +96,17 @@ class ConfigValidator:
             if self.validate_yaml_schema(target_path=os.path.dirname(config_path), schema_path=converge_schema_path):
                 with open(config_path, 'r') as stream:
                     try:
-                        configuration = yaml.load(stream)
+                        self.configuration = yaml.load(stream)
                         result = True
                     except yaml.YAMLError as exc:
                         print(exc)
             if result:
                 print("\t## Configuration to be used:\n")
-                print("\tLogging Level: '%s'" % configuration['default']['logging_level'])
-                print("\tAvailable programs: %s" % ", ".join(configuration['programs'].keys()))
-                for prog in configuration['programs']:
+                print("\tLogging Level: '%s'" % self.configuration['default']['logging_level'])
+                print("\tAvailable programs: %s" % ", ".join(self.configuration['programs'].keys()))
+                for prog in self.configuration['programs']:
                     print("\n\t# \"%s\" Program Comfiguration:" % prog)
-                    for conf, subconfs in configuration['programs'][prog]['conf'].items():
+                    for conf, subconfs in self.configuration['programs'][prog]['conf'].items():
                         for name, sub in subconfs.items():
                             print("\t%s : %s : %s" % (conf, name, sub))
                 print("")
