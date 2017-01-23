@@ -5,7 +5,7 @@ from pyconverge.ConfigValidator import ConfigValidator
 from .BaseClassLoader import BaseClassLoader
 import time
 import logging
-logging.getLogger("pykwalify.core").setLevel(logging.INFO)
+logging.getLogger("pykwalify.core").setLevel(logging.WARN)
 
 
 # add main entry point
