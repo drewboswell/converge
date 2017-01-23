@@ -1,0 +1,45 @@
+# Package yaml schema for validation
+type: map
+mapping:
+  default:
+    type: map
+    mapping:
+      logging_level:
+        type: str
+        enum: ['INFO', 'DEBUG', 'WARN', 'ERROR', 'CRITICAL','FATAL']
+  programs:
+    type: map
+    mapping:
+      regex;(^.*$):
+        type: map
+        mapping:
+          conf:
+            type: map
+            mapping:
+              regex;(^.*$):
+                type: any
+          instructions:
+            type: seq
+            matching: "any"
+            sequence:
+              - type: map
+                matching-rule: any
+                mapping:
+                  regex;(^(validate|read_hierarchy|resolve)$):
+                    type: seq
+                    sequence:
+                      - type: str
+                  regex;(^(read_data|write)$):
+                    type: seq
+                    matching: any
+                    sequence:
+                      - type: str
+                      - type: map
+                        mapping:
+                          regex;(^.*$):
+                            type: map
+                            mapping:
+                              filter:
+                                type: seq
+                                sequence:
+                                  - type: str

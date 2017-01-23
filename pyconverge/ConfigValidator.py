@@ -9,6 +9,8 @@ import logging
 from pykwalify.core import Core
 import pykwalify
 import glob
+import yaml
+import sys
 
 
 class ConfigValidator:
@@ -18,6 +20,10 @@ class ConfigValidator:
         self.plugins = str()
         self.logging_level = str()
         self.reader = None
+
+        # Figure out where we're installed and set defaults
+        self.paths['bin_dir'] = os.path.dirname(os.path.abspath(__file__))
+        self.paths['root_dir'] = os.path.dirname(self.paths['bin_dir'])
 
     @staticmethod
     def get_version_information():
@@ -85,18 +91,26 @@ class ConfigValidator:
         path_exists = os.path.isfile(config_path)
         if path_exists:
             print("Checking configuration at location: '%s'" % config_path)
-            result = self.load_configuration(config_path=config_path)
+            converge_schema_path = os.path.join(self.paths["bin_dir"], "schemas", "converge_schema.yaml")
+            print(self.validate_yaml_schema(target_path=os.path.dirname(config_path), schema_path=converge_schema_path))
             if result:
-                print("\t## Configuration to be used:\n")
-                print("\tRepository Path: '%s'" % self.paths['repository'])
-                print("\tHierarchy Path: '%s'" % self.paths['hierarchy'])
-                print("\tBase Data Path: '%s'" % self.paths['data'])
-                print("\tOutput Path: '%s'" % self.paths['output'])
-                print("\tTarget Path: '%s'" % self.paths['target'])
-                print("\tApplication Path: '%s'" % self.paths['application'])
-                print("\tHost Path: '%s'" % self.paths['host'])
-                print("\tLogging Level: '%s'" % self.logging_level)
-                print("")
+                with open(config_path, 'r') as stream:
+                    try:
+                        result = yaml.load(stream)
+                    except yaml.YAMLError as exc:
+                        print(exc)
+
+            # if result:
+            #     print("\t## Configuration to be used:\n")
+            #     print("\tRepository Path: '%s'" % self.paths['repository'])
+            #     print("\tHierarchy Path: '%s'" % self.paths['hierarchy'])
+            #     print("\tBase Data Path: '%s'" % self.paths['data'])
+            #     print("\tOutput Path: '%s'" % self.paths['output'])
+            #     print("\tTarget Path: '%s'" % self.paths['target'])
+            #     print("\tApplication Path: '%s'" % self.paths['application'])
+            #     print("\tHost Path: '%s'" % self.paths['host'])
+            #     print("\tLogging Level: '%s'" % self.logging_level)
+            #     print("")
         else:
             print("File %s does not exist" % config_path)
 
@@ -195,9 +209,11 @@ class ConfigValidator:
 
     def validate_yaml_schema(self, target_path, schema_path):
         result = True
+        print(target_path, schema_path)
         self.logging.info("SCANNING: %s/**.yaml" % target_path)
         for filename_path in glob.iglob(os.path.join(target_path, "*.yaml")):
             self.logging.debug("Validating: %s" % filename_path)
+            print("Validating: %s" % filename_path)
             c = Core(source_file=filename_path, schema_files=[schema_path])
             try:
                 c.validate(raise_exception=True)

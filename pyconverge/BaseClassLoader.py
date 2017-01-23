@@ -26,17 +26,6 @@ class BaseClassLoader:
         self.settings = dict()
         self.instructions = list()
 
-    def run_plugins(self, **kwargs):
-        loaded_data = dict()
-        for plugin in self.dynamic_classes["plugins"]:
-            log.info("Plugin Class %s initializing" % plugin)
-            plugin_impl = plugin(**kwargs)
-            plugin_impl.read_hierarchy()
-            plugin_impl.read_targets()
-            resolved_data = plugin_impl.resolve_all_data(periodic_write=False)
-            plugin_impl.write_data(resolved_data=resolved_data)
-        return loaded_data
-
     def run_instruction_set(self, **kwargs):
         result = False
         data = ConvergeData()
@@ -71,18 +60,18 @@ class BaseClassLoader:
         read_data = reader_instance.read_data()
         return read_data
 
-    def run_resolver(self, unresolved_data):
-        resolved_data = dict()
-        for resolver in self.dynamic_classes["resolvers"]:
-            log.info("Resolver Class %s initializing" % resolver)
-            resolved_data[resolver] = resolver.resolve_data(unresolved_data=unresolved_data)
-        return resolved_data
-
-    def run_writer(self, resolved_data):
-        written_data = dict()
-        for writer in self.dynamic_classes["readers"]:
-            for write_filter in self.dynamic_classes["write_filters"]:
-                log.info("Pre Write Filter Class %s initializing" % write_filter)
-                resolved_data = write_filter.filter_data(resolved_data=resolved_data)
-            log.info("Writer Class %s initializing" % writer)
-            written_data[writer] = writer.write_data(resolved_data=resolved_data)
+    # def run_resolver(self, unresolved_data):
+    #     resolved_data = dict()
+    #     for resolver in self.dynamic_classes["resolvers"]:
+    #         log.info("Resolver Class %s initializing" % resolver)
+    #         resolved_data[resolver] = resolver.resolve_data(unresolved_data=unresolved_data)
+    #     return resolved_data
+    #
+    # def run_writer(self, resolved_data):
+    #     written_data = dict()
+    #     for writer in self.dynamic_classes["readers"]:
+    #         for write_filter in self.dynamic_classes["write_filters"]:
+    #             log.info("Pre Write Filter Class %s initializing" % write_filter)
+    #             resolved_data = write_filter.filter_data(resolved_data=resolved_data)
+    #         log.info("Writer Class %s initializing" % writer)
+    #         written_data[writer] = writer.write_data(resolved_data=resolved_data)

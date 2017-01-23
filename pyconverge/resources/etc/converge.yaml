@@ -23,11 +23,11 @@ programs:
         - "pyconverge.plugins.yaml.Hierarchy.Hierarchy"
       - read_data:
         - "pyconverge.plugins.properties.PropertiesFinder.PropertiesFinder":
-          filter:
-            - "pyconverge.plugins.properties.PropertiesFilters.ReadFilter"
+            filter:
+              - "pyconverge.plugins.properties.PropertiesFilters.ReadFilter"
       - resolve:
         - "pyconverge.plugins.properties.PropertiesResolver.PropertiesResolver"
       - write:
         - "pyconverge.plugins.properties.PropertiesWriter.PropertiesWriter":
-          filter:
-            - "pyconverge.plugins.placeholder.PlaceholderFilters.PlaceholderFilter"
+            filter:
+              - "pyconverge.plugins.placeholder.PlaceholderFilters.PlaceholderFilter"
