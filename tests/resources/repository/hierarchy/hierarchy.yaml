@@ -1,35 +1,19 @@
 # last hit wins
-# ops and default (read default as: dev modifyable values)
-- default/default
-- ops/default
+# shared configurations
+- default/shared
+- default/shared/os/${os}
+- default/shared/environment/${environment}
+- default/shared/pool/${pool}
+- default/shared/cluster/${cluster}
+- default/shared/switch/${switch}
+- default/shared/rack/${rack}
+- default/shared/host/${host}
+# application centric overrides
 - default/app/${app}
-- ops/app/${app}
-- default/environment/${environment}
-- ops/environment/${environment}
-- default/environment/${environment}/${app}
-- ops/environment/${environment}/${app}
-- default/pool/${pool}
-- ops/pool/${pool}
-- default/pool/${pool}/${app}
-- ops/pool/${pool}/${app}
-- default/pool_environment/${pool}/${environment}
-- ops/pool_environment/${pool}/${environment}
-- default/pool_environment/${pool}/${environment}/${app}
-- ops/pool_environment/${pool}/${environment}/${app}
-- default/host/${host}
-- ops/host/${host}
-- default/host/${host}/${app}
-- ops/host/${host}/${app}
-# secure full override (default will override anything from other above directories)
-- sec/default
-- sec/app/${app}
-- sec/network/${network}
-- sec/datacenter/${datacenter}
-- sec/environment/${environment}
-- sec/environment/${environment}/${app}
-- sec/pool/${pool}
-- sec/pool/${pool}/${app}
-- sec/pool_environment/${pool}/${environment}
-- sec/pool_environment/${pool}/${environment}/${app}
-- sec/host/${host}
-- sec/host/${host}/${app}
+- default/app/${app}/os/${os}
+- default/app/${app}/environment/${environment}
+- default/app/${app}/pool/${pool}
+- default/app/${app}/cluster/${cluster}
+- default/app/${app}/switch/${switch}
+- default/app/${app}/rack/${rack}
+- default/app/${app}/host/${host}
