@@ -1,6 +1,0 @@
-pool:
-  - "hostgroup3"
-  - "hostgroup4"
-
-properties:
- - "propfile1"
