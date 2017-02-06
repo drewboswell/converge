@@ -1,0 +1,33 @@
+default:
+  logging_level: "DEBUG"
+programs:
+  properties:
+    conf:
+      yaml:
+        base_dir: "tests/resources/repository"
+        schema_path: "pyconverge/schemas"
+        hierarchy_path: "hierarchy.yaml"
+      properties:
+        base_dir: "tests/resources/repository"
+        hierarchy_path: "hierarchy.yaml"
+        host_glob: "targets/hosts/**/*.yaml"
+        mapping_glob: "targets/mapping/**/*.yaml"
+        dependency_glob: "data/*/app/*/mapping/dependencies.properties"
+        properties_glob: "data/**/*.properties"
+        output_dir: "tests/tmp/output"
+    instructions:
+      - validate:
+        - "pyconverge.plugins.yaml.Hierarchy.Validator"
+        - "pyconverge.plugins.yaml.Targets.Validator"
+      - read_hierarchy:
+        - "pyconverge.plugins.yaml.Hierarchy.Hierarchy"
+      - read_data:
+        - "pyconverge.plugins.properties.PropertiesFinder.PropertiesFinder":
+            filter:
+              - "pyconverge.plugins.properties.PropertiesFilters.ReadFilter"
+      - resolve:
+        - "pyconverge.plugins.properties.PropertiesResolver.PropertiesResolver"
+      - write:
+        - "pyconverge.plugins.properties.PropertiesWriter.PropertiesWriter":
+            filter:
+              - "pyconverge.plugins.placeholder.PlaceholderFilters.PlaceholderFilter"
