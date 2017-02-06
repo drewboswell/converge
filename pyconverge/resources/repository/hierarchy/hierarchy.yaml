@@ -1,9 +1,17 @@
 # last hit wins
-- default/default
+# shared configurations
+- default/shared
+- default/shared/environment/${environment}
+- default/shared/environment/${environment}/${app}
+- default/shared/pool/${pool}
+- default/shared/pool/${pool}/${app}
+- default/shared/host/${host}
+- default/shared/host/${host}/${app}
+# application centric overrides
 - default/app/${app}
-- default/environment/${environment}
-- default/environment/${environment}/${app}
-- default/pool/${pool}
-- default/pool/${pool}/${app}
-- default/host/${host}
-- default/host/${host}/${app}
+- default/app/${app}/environment/${environment}
+- default/app/${app}/environment/${environment}/${app}
+- default/app/${app}/pool/${pool}
+- default/app/${app}/pool/${pool}/${app}
+- default/app/${app}/host/${host}
+- default/app/${app}/host/${host}/${app}
