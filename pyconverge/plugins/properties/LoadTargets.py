@@ -44,7 +44,7 @@ class LoadHosts(LoadDataFromDisk):
         return data
 
 
-class FilterHosts:
+class FilterHostsByHost:
     @staticmethod
     def run(data, conf, **kwargs):
         host_filter = kwargs.get("host_name")
@@ -55,12 +55,35 @@ class FilterHosts:
         return data
 
 
-class HostTags:
+class FilterHostsByTag:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        tag_name = kwargs.get("tag_name")
+        tag_value = kwargs.get("tag_value")
+        filtered_targets = dict()
+        for host_name, host_tags in data.targets.items():
+            if tag_name in host_tags and host_tags[tag_name] == tag_value:
+                filtered_targets[host_name] = host_tags
+        data.targets = filtered_targets
+        return data
+
+
+class PrintTagsForHost:
     @staticmethod
     def run(data, conf, **kwargs):
         for host_name, host_tags in data.targets.items():
             message = "HOST TAG LOOKUP \n %s tags:\n\t%s"
             logging.info(message % (host_name, str(host_tags)))
+        return data
+
+
+class PrintHostsForTag:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        message = "TAG TO HOST LOOKUP \n TAG: %s=%s has hosts:\n\t%s"
+        tag_name = kwargs.get("tag_name")
+        tag_value = kwargs.get("tag_value")
+        logging.info(message % (tag_name, tag_value, list(data.targets.keys())))
         return data
 
 

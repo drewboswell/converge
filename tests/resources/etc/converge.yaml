@@ -15,5 +15,22 @@ programs:
     modes:
       tags:
         - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
-        - "pyconverge.plugins.properties.LoadTargets.FilterHosts"
-        - "pyconverge.plugins.properties.LoadTargets.HostTags"
+        - "pyconverge.plugins.properties.LoadTargets.FilterHostsByHost"
+        - "pyconverge.plugins.properties.LoadTargets.PrintTagsForHost"
+  tag:
+    conf:
+      yaml:
+        base_dir: "tests/resources/repository"
+        schema_path: "pyconverge/schemas"
+      properties:
+        base_dir: "tests/resources/repository"
+        host_glob: "targets/hosts/*.yaml"
+      default:
+        args:
+          - "tag_name"
+          - "tag_value"
+    modes:
+      hosts:
+        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
+        - "pyconverge.plugins.properties.LoadTargets.FilterHostsByTag"
+        - "pyconverge.plugins.properties.LoadTargets.PrintHostsForTag"
