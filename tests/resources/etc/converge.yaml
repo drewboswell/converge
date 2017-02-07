@@ -12,10 +12,8 @@ programs:
       default:
         args:
           - "host_name"
-    instructions:
+    modes:
       tags:
         - "pyconverge.plugins.yaml.Targets.Validator"
         - "pyconverge.plugins.yaml.Targets.ReadTargets"
-        - "pyconverge.plugins.yaml.Targets.FilterTargets":
-            args:
-              - "host_name"
+        - "pyconverge.plugins.yaml.Targets.FilterTargets"

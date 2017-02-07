@@ -14,7 +14,7 @@ class ArgumentParser:
         parser_group = argparse.ArgumentParser(add_help=False)
         for option in config["conf"]["default"]["args"]:
             parser_group.add_argument(option, action="store", type=str, default=None)
-        options = config["instructions"].keys()
+        options = config["modes"].keys()
         parser_group.add_argument("mode", action="store", choices=options)
         sp_new = sp.add_parser(option_name, parents=[parser_group])
         sp_new.set_defaults(which=option_name)

@@ -51,11 +51,10 @@ def main():
                 statistics['opt_check'] = time.time() - statistics['opt_check']
             elif args.which and hasattr(args, "config"):
                 statistics[args.which] = time.time()
-                config_ok = configuration.check_config(config_path=args.config)
-                if config_ok:
-                    settings = configuration.configuration
-                    class_loader = BaseClassLoader(settings=settings)
-                    class_loader.run_instruction_set(program=args.which)
+                settings = configuration.configuration
+                mode = args.mode
+                class_loader = BaseClassLoader(settings=settings)
+                class_loader.run_instruction_set(program=args.which, mode=mode, settings=settings, arguments=args)
                 statistics[args.which] = time.time() - statistics[args.which]
             else:
                 print("Application exited prematurely, options passed without error but nothing happened!")

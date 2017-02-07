@@ -30,21 +30,17 @@ class BaseClassLoader:
         result = False
         data = ConvergeData()
         program_name = kwargs.get("program")
-        self.instructions = self.programs[program_name]["instructions"]
+        mode = kwargs.get("mode")
+        arguments = kwargs.get("arguments")
+
+        self.instructions = self.programs[program_name]["modes"][mode]
         self.settings = self.programs[program_name]["conf"]
 
-        for instruction_block in self.instructions:
-            for instruction_type, instructions in instruction_block.items():
-                for instruction in instructions:
-                    # if instruction_type == "validate":
-                    #     data.validation[instruction] = self.run_validator(dynamic_class=instruction)
-                    # elif instruction_type == "read_data":
-                    #     data.data[instruction] = self.run_reader(dynamic_class=instruction)
-                    if instruction_type == "read_hierarchy":
-                        print(instruction)
-                        data.hierarchy[instruction] = self.run_reader(dynamic_class=instruction)
-
-        print(data.hierarchy)
+        for instruction in self.instructions:
+            dynamic_class_path = instruction
+            runner_class = get_dynamic_class(finder_path=dynamic_class_path)
+            runner = runner_class()
+            data = runner.run(data=data, **arguments)
         return result
 
     def run_validator(self, dynamic_class):
