@@ -15,8 +15,8 @@ programs:
         - "pyconverge.plugins.yaml.Targets.Validator"
         - "pyconverge.plugins.yaml.Targets.ReadTargets"
         - "pyconverge.plugins.yaml.Targets.FilterTargets":
-          args:
-            - "host_name"
+            args:
+              - "host_name"
 
 #  properties:
 #    conf:
