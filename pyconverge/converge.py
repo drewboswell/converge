@@ -14,13 +14,14 @@ def main():
     statistics = dict()
     statistics['start_time'] = time.time()
 
+    configuration = ConfigValidator()
+
     try:
-        parser = ArgumentParser().create_parser()
+        parser = ArgumentParser(config_validator=configuration).create_parser()
         args = parser.parse_args()
     except Exception as e:
         raise
 
-    configuration = ConfigValidator()
     try:
         # version option
         if hasattr(args, "which"):

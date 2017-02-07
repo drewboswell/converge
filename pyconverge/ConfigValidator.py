@@ -87,7 +87,7 @@ class ConfigValidator:
             print("Folder already exists: %s" % target_directory)
         return result
 
-    def check_config(self, config_path):
+    def load_config(self,config_path):
         result = False
         path_exists = os.path.isfile(config_path)
         if path_exists:
@@ -100,18 +100,23 @@ class ConfigValidator:
                         result = True
                     except yaml.YAMLError as exc:
                         print(exc)
-            if result:
-                print("\t## Configuration to be used:\n")
-                print("\tLogging Level: '%s'" % self.configuration['default']['logging_level'])
-                print("\tAvailable programs: %s" % ", ".join(self.configuration['programs'].keys()))
-                for prog in self.configuration['programs']:
-                    print("\n\t# \"%s\" Program Comfiguration:" % prog)
-                    for conf, subconfs in self.configuration['programs'][prog]['conf'].items():
-                        for name, sub in subconfs.items():
-                            print("\t%s : %s : %s" % (conf, name, sub))
-                print("")
         else:
             print("File %s does not exist" % config_path)
+        return result
+
+    def check_config(self, config_path):
+        result = self.load_config(config_path=config_path)
+
+        if result:
+            print("\t## Configuration to be used:\n")
+            print("\tLogging Level: '%s'" % self.configuration['default']['logging_level'])
+            print("\tAvailable programs: %s" % ", ".join(self.configuration['programs'].keys()))
+            for prog in self.configuration['programs']:
+                print("\n\t# \"%s\" Program Comfiguration:" % prog)
+                for conf, subconfs in self.configuration['programs'][prog]['conf'].items():
+                    for name, sub in subconfs.items():
+                        print("\t%s : %s : %s" % (conf, name, sub))
+            print("")
 
         return result
 
