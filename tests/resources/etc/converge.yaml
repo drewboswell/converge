@@ -42,6 +42,10 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
         - "pyconverge.plugins.properties.LoadTargets.FilterHostsByTag"
         - "pyconverge.plugins.properties.LoadTargets.PrintHostsForTag"
+      applications:
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationInfraMapping"
+        - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByTag"
+        - "pyconverge.plugins.properties.LoadTargets.PrintApplicationsForTag"
   application:
     conf:
       yaml:
