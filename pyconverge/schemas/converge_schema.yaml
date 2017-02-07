@@ -35,27 +35,3 @@ mapping:
                             type: seq
                             sequence:
                               - type: str
-
-
-
-
-#            type: seq
-#            matching: "any"
-#            sequence:
-#              - type: map
-#                matching-rule: any
-#                mapping:
-#                  regex;(^(read_data|write|validate|read_hierarchy|resolve)$):
-#                    type: seq
-#                    matching: any
-#                    sequence:
-#                      - type: str
-#                      - type: map
-#                        mapping:
-#                          regex;(^.*$):
-#                            type: map
-#                            mapping:
-#                              filter:
-#                                type: seq
-#                                sequence:
-#                                  - type: str
