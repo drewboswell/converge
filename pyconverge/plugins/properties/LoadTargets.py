@@ -135,7 +135,10 @@ class FilterHostsByTag:
         tag_value = kwargs.get("tag_value")
         filtered_targets = dict()
         for host_name, host_tags in data.targets.items():
-            if tag_name in host_tags and host_tags[tag_name] == tag_value:
+            print(isinstance(host_tags[tag_name], str))
+            if tag_name in host_tags and (
+              (isinstance(host_tags[tag_name], str) and host_tags[tag_name] == tag_value) or
+              (isinstance(host_tags[tag_name], list) and any(host_value == tag_value for host_value in host_tags[tag_name]))):
                 filtered_targets[host_name] = host_tags
         data.targets = filtered_targets
         return data
