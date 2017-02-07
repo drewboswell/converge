@@ -3,6 +3,7 @@
 from .LoadDataFromDisk import LoadDataFromDisk
 import yaml
 import os
+import logging
 
 
 class LoadHierarchy(LoadDataFromDisk):
@@ -36,8 +37,31 @@ class LoadHosts(LoadDataFromDisk):
         return content
 
     def run(self, data, conf, **kwargs):
-        glob_pattern = os.path.join(conf["properties"]["base_dir"], conf["properties"]["host_glob"]
-        print(self.load_contents_of_files(glob_pattern=glob_pattern))
+        base_dir = conf["programs"]["host"]["conf"]["properties"]["base_dir"]
+        host_glob = conf["programs"]["host"]["conf"]["properties"]["host_glob"]
+        glob_pattern = os.path.join(base_dir, host_glob)
+        data.targets = self.load_contents_of_files(glob_pattern=glob_pattern)
+        return data
+
+
+class FilterHosts:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        host_filter = kwargs.get("host_name")
+        filtered_targets = dict()
+        if host_filter in data.targets:
+            filtered_targets[host_filter] = data.targets[host_filter]
+        data.targets = filtered_targets
+        return data
+
+
+class HostTags:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        for host_name, host_tags in data.targets.items():
+            message = "HOST TAG LOOKUP \n %s tags:\n\t%s"
+            logging.info(message % (host_name, str(host_tags)))
+        return data
 
 
 class LoadApplications(LoadDataFromDisk):

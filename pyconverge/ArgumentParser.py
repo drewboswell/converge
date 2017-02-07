@@ -7,7 +7,7 @@ import logging
 
 class ArgumentParser:
     def __init__(self, **kwargs):
-        self.configuration = kwargs.get("config_validator")
+        self.configuration = kwargs.get("configuration")
 
     @staticmethod
     def add_sub_parser_group(sp, option_name, config):

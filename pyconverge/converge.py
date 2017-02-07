@@ -7,7 +7,7 @@ import time
 import logging
 import sys
 logging.getLogger("pykwalify.core").setLevel(logging.WARN)
-
+logging.basicConfig(level="WARN")
 
 # add main entry point
 def main():
@@ -17,10 +17,16 @@ def main():
     configuration = ConfigValidator()
 
     try:
-        parser = ArgumentParser(config_validator=configuration).create_parser()
+        parser = ArgumentParser(configuration=configuration).create_parser()
         args = parser.parse_args()
     except Exception as e:
         raise
+
+    # initialize logging level
+    try:
+        logging.getLogger().setLevel(configuration.configuration["default"]["logging_level"])
+    except:
+        pass
 
     try:
         # version option
@@ -54,7 +60,7 @@ def main():
                 settings = configuration.configuration
                 mode = args.mode
                 class_loader = BaseClassLoader(settings=settings)
-                class_loader.run_instruction_set(program=args.which, mode=mode, settings=settings, arguments=args)
+                class_loader.run_instruction_set(program=args.which, mode=mode, settings=settings, arguments=vars(args))
                 statistics[args.which] = time.time() - statistics[args.which]
             else:
                 print("Application exited prematurely, options passed without error but nothing happened!")
@@ -62,13 +68,13 @@ def main():
         # statistics calculations
         statistics["end_time"] = time.time()
         statistics["total_time"] = statistics["end_time"] - statistics['start_time']
-        logging.info(statistics)
-        logging.info("Time elapsed: %f" % statistics["total_time"])
+        logging.debug(statistics)
+        logging.debug("Time elapsed: %f" % statistics["total_time"])
         return True
     except:
         # statistics calculations
         statistics["end_time"] = time.time()
         statistics["total_time"] = statistics["end_time"] - statistics['start_time']
 
-        logging.info("Time elapsed: %f" % statistics["total_time"])
+        logging.debug("Time elapsed: %f" % statistics["total_time"])
         raise

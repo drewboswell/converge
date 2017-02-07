@@ -1,5 +1,5 @@
 default:
-  logging_level: "DEBUG"
+  logging_level: "INFO"
 programs:
   host:
     conf:
@@ -8,12 +8,12 @@ programs:
         schema_path: "pyconverge/schemas"
       properties:
         base_dir: "tests/resources/repository"
-        host_glob: "targets/hosts/**/*.yaml"
+        host_glob: "targets/hosts/*.yaml"
       default:
         args:
           - "host_name"
     modes:
       tags:
-        - "pyconverge.plugins.yaml.properties.LoadTargets.LoadHosts"
-#        - "pyconverge.plugins.yaml.Targets.ReadTargets"
-#        - "pyconverge.plugins.yaml.Targets.FilterTargets"
+        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
+        - "pyconverge.plugins.properties.LoadTargets.FilterHosts"
+        - "pyconverge.plugins.properties.LoadTargets.HostTags"
