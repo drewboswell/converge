@@ -13,6 +13,7 @@ programs:
       default:
         args:
           - "host_name"
+        description: "Get Host mapping information"
     modes:
       tags:
         - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
@@ -35,6 +36,7 @@ programs:
         args:
           - "tag_name"
           - "tag_value"
+        description: "Get tag mapping information"
     modes:
       hosts:
         - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
@@ -51,6 +53,7 @@ programs:
       default:
         args:
           - "application_name"
+        description: "Get application mapping information"
     modes:
       hosts:
         - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
