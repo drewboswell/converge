@@ -115,78 +115,78 @@ class ConfigValidator:
 
         return result
 
-    def load_configuration(self, config_path):
-        result = True
-
-        # Figure out where we're installed and set defaults
-        self.paths['bin_dir'] = os.path.dirname(os.path.abspath(__file__))
-        self.paths['root_dir'] = os.path.dirname(self.paths['bin_dir'])
-
-        config = configparser.ConfigParser()
-        config.read(config_path)
-
-        # set path for nodes
-        if "logging_level" in config['DEFAULT']:
-            self.logging_level = config["DEFAULT"]["logging_level"]
-        else:
-            self.logging_level = "INFO"
-
-        self.logging.basicConfig(level=self.logging_level)
-
-        # set path for repository
-        if "repository_path" in config['DEFAULT']:
-            self.paths['repository'] = config["DEFAULT"]["repository_path"]
-        else:
-            self.paths['repository'] = os.path.join(self.paths['root_dir'], "repository")
-
-        # set path for hierarchy
-        if "hierarchy_path" in config['DEFAULT']:
-            self.paths['hierarchy'] = config["DEFAULT"]["hierarchy_path"]
-        else:
-            self.paths['hierarchy'] = os.path.join(self.paths['repository'], "hierarchy")
-
-        # set path for base data (non-resolved)
-        if "data_path" in config['DEFAULT']:
-            self.paths['data'] = config["DEFAULT"]["data_path"]
-        else:
-            self.paths['data'] = os.path.join(self.paths['repository'], "data")
-
-        # set path for output path (where files are generated)
-        if "output_path" in config['DEFAULT']:
-            self.paths['output'] = config["DEFAULT"]["output_path"]
-        else:
-            self.paths['output'] = os.path.join(self.paths['repository'], "output")
-
-        # set path for targets (hosts/applications)
-        if "target_path" in config['DEFAULT']:
-            self.paths['target'] = config["DEFAULT"]["target_path"]
-        else:
-            self.paths['target'] = os.path.join(self.paths['repository'], "targets")
-
-        # set path for application targets
-        if "application_path" in config['DEFAULT']:
-            self.paths['application'] = config["DEFAULT"]["application_path"]
-        else:
-            self.paths['application'] = os.path.join(self.paths['target'], "applications")
-
-        # set path for host targets
-        if "host_path" in config['DEFAULT']:
-            self.paths['host'] = config["DEFAULT"]["host_path"]
-        else:
-            self.paths['host'] = os.path.join(self.paths['target'], "hosts")
-
-        for config_name, config_path in self.paths.items():
-            if not os.path.exists(config_path):
-                print("ERROR Path: '%s' Does not exist for %s" % (config_path, config_name))
-                result = False
-
-        # set plugins list
-        if "plugins" in config['CLASSES']:
-            self.paths['plugins'] = config["CLASSES"]["plugins"]
-        else:
-            self.paths['plugins'] = "pyconverge.plugins.properties.PropertiesPlugin.PropertiesPlugin"
-
-        return result
+    # def load_configuration(self, config_path):
+    #     result = True
+    #
+    #     # Figure out where we're installed and set defaults
+    #     self.paths['bin_dir'] = os.path.dirname(os.path.abspath(__file__))
+    #     self.paths['root_dir'] = os.path.dirname(self.paths['bin_dir'])
+    #
+    #     config = configparser.ConfigParser()
+    #     config.read(config_path)
+    #
+    #     # set path for nodes
+    #     if "logging_level" in config['DEFAULT']:
+    #         self.logging_level = config["DEFAULT"]["logging_level"]
+    #     else:
+    #         self.logging_level = "INFO"
+    #
+    #     self.logging.basicConfig(level=self.logging_level)
+    #
+    #     # set path for repository
+    #     if "repository_path" in config['DEFAULT']:
+    #         self.paths['repository'] = config["DEFAULT"]["repository_path"]
+    #     else:
+    #         self.paths['repository'] = os.path.join(self.paths['root_dir'], "repository")
+    #
+    #     # set path for hierarchy
+    #     if "hierarchy_path" in config['DEFAULT']:
+    #         self.paths['hierarchy'] = config["DEFAULT"]["hierarchy_path"]
+    #     else:
+    #         self.paths['hierarchy'] = os.path.join(self.paths['repository'], "hierarchy")
+    #
+    #     # set path for base data (non-resolved)
+    #     if "data_path" in config['DEFAULT']:
+    #         self.paths['data'] = config["DEFAULT"]["data_path"]
+    #     else:
+    #         self.paths['data'] = os.path.join(self.paths['repository'], "data")
+    #
+    #     # set path for output path (where files are generated)
+    #     if "output_path" in config['DEFAULT']:
+    #         self.paths['output'] = config["DEFAULT"]["output_path"]
+    #     else:
+    #         self.paths['output'] = os.path.join(self.paths['repository'], "output")
+    #
+    #     # set path for targets (hosts/applications)
+    #     if "target_path" in config['DEFAULT']:
+    #         self.paths['target'] = config["DEFAULT"]["target_path"]
+    #     else:
+    #         self.paths['target'] = os.path.join(self.paths['repository'], "targets")
+    #
+    #     # set path for application targets
+    #     if "application_path" in config['DEFAULT']:
+    #         self.paths['application'] = config["DEFAULT"]["application_path"]
+    #     else:
+    #         self.paths['application'] = os.path.join(self.paths['target'], "applications")
+    #
+    #     # set path for host targets
+    #     if "host_path" in config['DEFAULT']:
+    #         self.paths['host'] = config["DEFAULT"]["host_path"]
+    #     else:
+    #         self.paths['host'] = os.path.join(self.paths['target'], "hosts")
+    #
+    #     for config_name, config_path in self.paths.items():
+    #         if not os.path.exists(config_path):
+    #             print("ERROR Path: '%s' Does not exist for %s" % (config_path, config_name))
+    #             result = False
+    #
+    #     # set plugins list
+    #     if "plugins" in config['CLASSES']:
+    #         self.paths['plugins'] = config["CLASSES"]["plugins"]
+    #     else:
+    #         self.paths['plugins'] = "pyconverge.plugins.properties.PropertiesPlugin.PropertiesPlugin"
+    #
+    #     return result
 
     def validate_hierarchy_yaml(self):
         target_path = self.paths['hierarchy']
