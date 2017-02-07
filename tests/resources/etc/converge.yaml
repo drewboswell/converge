@@ -14,6 +14,6 @@ programs:
           - "host_name"
     modes:
       tags:
-        - "pyconverge.plugins.yaml.Targets.Validator"
-        - "pyconverge.plugins.yaml.Targets.ReadTargets"
-        - "pyconverge.plugins.yaml.Targets.FilterTargets"
+        - "pyconverge.plugins.yaml.properties.LoadTargets.LoadHosts"
+#        - "pyconverge.plugins.yaml.Targets.ReadTargets"
+#        - "pyconverge.plugins.yaml.Targets.FilterTargets"

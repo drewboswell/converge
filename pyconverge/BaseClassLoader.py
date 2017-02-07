@@ -32,6 +32,7 @@ class BaseClassLoader:
         program_name = kwargs.get("program")
         mode = kwargs.get("mode")
         arguments = kwargs.get("arguments")
+        settings = kwargs.get("settings")
 
         self.instructions = self.programs[program_name]["modes"][mode]
         self.settings = self.programs[program_name]["conf"]
@@ -40,7 +41,7 @@ class BaseClassLoader:
             dynamic_class_path = instruction
             runner_class = get_dynamic_class(finder_path=dynamic_class_path)
             runner = runner_class()
-            data = runner.run(data=data, **arguments)
+            data = runner.run(data=data, conf=settings, **arguments)
         return result
 
     def run_validator(self, dynamic_class):

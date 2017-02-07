@@ -30,11 +30,14 @@ class LoadHosts(LoadDataFromDisk):
                 contents = {**contents, **config}
         return contents
 
-    def load_contents_of_files(self, base_directory="."):
-        glob_pattern = os.path.join(base_directory, "hosts", "*.yaml")
+    def load_contents_of_files(self, glob_pattern=None):
         file_list = self.get_list_of_files(glob_pattern=glob_pattern, recursive=False)
         content = self.merge_contents_of_files(file_list=file_list)
         return content
+
+    def run(self, data, conf, **kwargs):
+        glob_pattern = os.path.join(conf["properties"]["base_dir"], conf["properties"]["host_glob"]
+        print(self.load_contents_of_files(glob_pattern=glob_pattern))
 
 
 class LoadApplications(LoadDataFromDisk):
