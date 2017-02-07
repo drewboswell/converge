@@ -88,7 +88,6 @@ class LoadApplicationPropertiesMapping(LoadDataFromDisk):
         return data
 
 
-
 class FilterHostsByHost:
     @staticmethod
     def run(data, conf, **kwargs):
@@ -125,6 +124,20 @@ class FilterApplicationsByTag:
                          and any(app_value == tag_value for app_value in application_tags[tag_name]))):
                 filtered_targets[application_name] = application_tags
         data.data_target_map = filtered_targets
+        return data
+
+
+class FilterApplicationsByProperty:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        property_name = kwargs.get("property_name")
+        filtered_targets = dict()
+        for application_name, application_props in data.data_group_data_map.items():
+            if "properties" in application_props and \
+                    isinstance(application_props["properties"], list) and \
+                            property_name in application_props["properties"]:
+                filtered_targets[application_name] = application_props
+        data.data_group_data_map = filtered_targets
         return data
 
 
@@ -239,12 +252,22 @@ class PrintApplicationsForTag:
         logging.info(message % (tag_name, tag_value, list(data.data_target_map.keys())))
         return data
 
+
 class PrintPropertiesForApplication:
     @staticmethod
     def run(data, conf, **kwargs):
         message = "APPLICATION TO PROPERTIES LOOKUP \n APPLICATION: %s has properties:\n\t%s"
         appliation_name = kwargs.get("application_name")
         logging.info(message % (appliation_name, list(data.data_group_data_map[appliation_name]["properties"])))
+        return data
+
+
+class PrintApplicationsForProperty:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        message = "PROPERTIES TO APPLICATION LOOKUP \n PROPERTIES: %s has applications:\n\t%s"
+        property_name = kwargs.get("property_name")
+        logging.info(message % (property_name, list(data.data_group_data_map.keys())))
         return data
 
 

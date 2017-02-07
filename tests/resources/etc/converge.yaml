@@ -76,3 +76,20 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
         - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByApplication"
         - "pyconverge.plugins.properties.LoadTargets.PrintPropertiesForApplication"
+  property:
+    conf:
+      yaml:
+        base_dir: "tests/resources/repository"
+        schema_path: "pyconverge/schemas"
+      properties:
+        base_dir: "tests/resources/repository"
+        property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
+      default:
+        args:
+          - "property_name"
+        description: "Get property mapping information"
+    modes:
+      applications:
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
+        - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByProperty"
+        - "pyconverge.plugins.properties.LoadTargets.PrintApplicationsForProperty"
