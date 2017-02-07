@@ -96,10 +96,10 @@ class FilterApplicationsByTag:
         filtered_targets = dict()
         for application_name, application_tags in data.data_target_map.items():
             if tag_name in application_tags and (
-                (isinstance(application_tags[tag_name], str)
-                 and application_tags[tag_name] == tag_value) or
-                (isinstance(application_tags[tag_name], list)
-                 and any(app_value == tag_value for app_value in application_tags[tag_name]))):
+                        (isinstance(application_tags[tag_name], str)
+                         and application_tags[tag_name] == tag_value) or
+                        (isinstance(application_tags[tag_name], list)
+                         and any(app_value == tag_value for app_value in application_tags[tag_name]))):
                 filtered_targets[application_name] = application_tags
         data.data_target_map = filtered_targets
         return data
@@ -153,8 +153,9 @@ class FilterHostsByTag:
         filtered_targets = dict()
         for host_name, host_tags in data.targets.items():
             if tag_name in host_tags and (
-              (isinstance(host_tags[tag_name], str) and host_tags[tag_name] == tag_value) or
-              (isinstance(host_tags[tag_name], list) and any(host_value == tag_value for host_value in host_tags[tag_name]))):
+                        (isinstance(host_tags[tag_name], str) and host_tags[tag_name] == tag_value) or
+                        (isinstance(host_tags[tag_name], list) and any(
+                                host_value == tag_value for host_value in host_tags[tag_name]))):
                 filtered_targets[host_name] = host_tags
         data.targets = filtered_targets
         return data

@@ -60,8 +60,7 @@ class LoadProperties(LoadDataFromDisk):
                             if application_name != tag:
                                 result = False
                                 break
-                        elif hiera['tags'][i] in self.host_tags \
-                                and hiera['tags'][i] in self.host_tags:
+                        elif hiera['tags'][i] in self.host_tags:
                             break
                         else:
                             result = False
