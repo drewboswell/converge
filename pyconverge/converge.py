@@ -47,7 +47,6 @@ def main():
                 if result:
                     # todo: add validator parsing from yaml file loaded above (dynamic checks)
                     logging.info("OK: Configuration file %s" % args.config)
-                    #configuration.check_repository()
                 statistics['opt_check'] = time.time() - statistics['opt_check']
             elif args.which and hasattr(args, "config"):
                 statistics[args.which] = time.time()
