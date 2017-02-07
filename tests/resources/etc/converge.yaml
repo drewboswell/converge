@@ -1,6 +1,7 @@
 default:
   logging_level: "INFO"
 programs:
+  # HOST COMMAND
   host:
     conf:
       yaml:
@@ -24,6 +25,7 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationInfraMapping"
         - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByHost"
         - "pyconverge.plugins.properties.LoadTargets.PrintApplicationsForHost"
+  # TAG COMMAND
   tag:
     conf:
       yaml:
@@ -46,6 +48,7 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationInfraMapping"
         - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByTag"
         - "pyconverge.plugins.properties.LoadTargets.PrintApplicationsForTag"
+  # APPLICATION COMMAND
   application:
     conf:
       yaml:
@@ -54,6 +57,7 @@ programs:
       properties:
         base_dir: "tests/resources/repository"
         host_glob: "targets/hosts/*.yaml"
+        property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
       default:
         args:
           - "application_name"
@@ -68,3 +72,7 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationInfraMapping"
         - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByApplication"
         - "pyconverge.plugins.properties.LoadTargets.PrintTagsForApplication"
+      properties:
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
+        - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByApplication"
+        - "pyconverge.plugins.properties.LoadTargets.PrintPropertiesForApplication"

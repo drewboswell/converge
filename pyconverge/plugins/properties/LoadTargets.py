@@ -66,6 +66,29 @@ class LoadApplicationInfraMapping(LoadDataFromDisk):
         return data
 
 
+class LoadApplicationPropertiesMapping(LoadDataFromDisk):
+    def merge_contents_of_files(self, file_list):
+        contents = dict()
+        for file_path in file_list:
+            app_name = file_path.rsplit("/", 3)[1]
+            for config in yaml.load_all(open(file_path)):
+                contents[app_name] = config
+        return contents
+
+    def load_contents_of_files(self, glob_pattern=None):
+        file_list = self.get_list_of_files(glob_pattern=glob_pattern, recursive=False)
+        content = self.merge_contents_of_files(file_list=file_list)
+        return content
+
+    def run(self, data, conf, **kwargs):
+        base_dir = conf["programs"]["application"]["conf"]["properties"]["base_dir"]
+        property_mapping_glob = conf["programs"]["application"]["conf"]["properties"]["property_mapping_glob"]
+        glob_pattern = os.path.join(base_dir, property_mapping_glob)
+        data.data_group_data_map = self.load_contents_of_files(glob_pattern=glob_pattern)
+        return data
+
+
+
 class FilterHostsByHost:
     @staticmethod
     def run(data, conf, **kwargs):
@@ -214,6 +237,14 @@ class PrintApplicationsForTag:
         tag_name = kwargs.get("tag_name")
         tag_value = kwargs.get("tag_value")
         logging.info(message % (tag_name, tag_value, list(data.data_target_map.keys())))
+        return data
+
+class PrintPropertiesForApplication:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        message = "APPLICATION TO PROPERTIES LOOKUP \n APPLICATION: %s has properties:\n\t%s"
+        appliation_name = kwargs.get("application_name")
+        logging.info(message % (appliation_name, list(data.data_group_data_map[appliation_name]["properties"])))
         return data
 
 

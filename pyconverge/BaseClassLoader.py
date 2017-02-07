@@ -20,6 +20,7 @@ class ConvergeData(object):
     data = dict()
     targets = dict()
     data_target_map = dict()
+    data_group_data_map = dict()
 
 
 class BaseClassLoader:
