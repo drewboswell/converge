@@ -69,11 +69,22 @@ class LoadApplicationInfraMapping(LoadDataFromDisk):
 class FilterHostsByHost:
     @staticmethod
     def run(data, conf, **kwargs):
-        host_filter = kwargs.get("host_name")
+        data_filter = kwargs.get("host_name")
         filtered_targets = dict()
-        if host_filter in data.targets:
-            filtered_targets[host_filter] = data.targets[host_filter]
+        if data_filter in data.targets:
+            filtered_targets[data_filter] = data.targets[data_filter]
         data.targets = filtered_targets
+        return data
+
+
+class FilterApplicationsByApplication:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        data_filter = kwargs.get("application_name")
+        filtered_targets = dict()
+        if data_filter in data.data_target_map:
+            filtered_targets[data_filter] = data.data_target_map[data_filter]
+        data.data_target_map = filtered_targets
         return data
 
 
@@ -87,9 +98,11 @@ class FilterApplicationsByHost:
             for application_name, application_tags in data.data_target_map.items():
                 for application_tag_name, application_tag_values in application_tags.items():
                     for host_tag_name, host_tag_values in host_tags.items():
-                        if type(host_tag_name) == type(application_tag_name) and type(host_tag_values) == type(application_tag_values):
+                        if type(host_tag_name) == type(application_tag_name) and type(host_tag_values) == type(
+                                application_tag_values):
                             if (isinstance(host_tag_values, str) and host_tag_values == application_tag_values or \
-                                    (isinstance(host_tag_values, list) and set(host_tag_values).intersection(application_tag_values))):
+                                        (isinstance(host_tag_values, list) and set(host_tag_values).intersection(
+                                            application_tag_values))):
                                 filtered_data[application_name] = data.data_target_map[application_name]
         data.data_target_map = filtered_data
         return data
@@ -105,9 +118,11 @@ class FilterHostsByApplication:
             for host_name, host_tags in data.targets.items():
                 for host_tag_name, host_tag_values in host_tags.items():
                     for application_tag_name, application_tag_values in application_tags.items():
-                        if type(host_tag_name) == type(application_tag_name) and type(host_tag_values) == type(application_tag_values):
+                        if type(host_tag_name) == type(application_tag_name) and type(host_tag_values) == type(
+                                application_tag_values):
                             if (isinstance(host_tag_values, str) and host_tag_values == application_tag_values or \
-                                    (isinstance(host_tag_values, list) and set(host_tag_values).intersection(application_tag_values))):
+                                        (isinstance(host_tag_values, list) and set(host_tag_values).intersection(
+                                            application_tag_values))):
                                 filtered_data[host_name] = data.targets[host_name]
         data.targets = filtered_data
         return data
@@ -160,6 +175,15 @@ class PrintHostsForTag:
         tag_name = kwargs.get("tag_name")
         tag_value = kwargs.get("tag_value")
         logging.info(message % (tag_name, tag_value, list(data.targets.keys())))
+        return data
+
+
+class PrintTagsForApplication:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        message = "APPLICATION TO TAG LOOKUP \n APPLICATION: %s has tags:\n\t%s"
+        application_name = kwargs.get("application_name")
+        logging.info(message % (application_name, data.data_target_map[application_name]))
         return data
 
 

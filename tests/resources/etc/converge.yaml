@@ -60,3 +60,7 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationInfraMapping"
         - "pyconverge.plugins.properties.LoadTargets.FilterHostsByApplication"
         - "pyconverge.plugins.properties.LoadTargets.PrintHostsForApplication"
+      tags:
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationInfraMapping"
+        - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByApplication"
+        - "pyconverge.plugins.properties.LoadTargets.PrintTagsForApplication"
