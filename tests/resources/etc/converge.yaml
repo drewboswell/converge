@@ -76,6 +76,7 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
         - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByApplication"
         - "pyconverge.plugins.properties.LoadTargets.PrintPropertiesForApplication"
+  # PROPERTY COMMAND
   property:
     conf:
       yaml:
@@ -84,6 +85,7 @@ programs:
       properties:
         base_dir: "tests/resources/repository"
         property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
+        properties_glob: "data/**/*.properties"
       default:
         args:
           - "property_name"
