@@ -9,6 +9,7 @@ programs:
       properties:
         base_dir: "tests/resources/repository"
         host_glob: "targets/hosts/*.yaml"
+        host_mapping_glob: "targets/mapping/*.yaml"
       default:
         args:
           - "host_name"
@@ -17,6 +18,11 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
         - "pyconverge.plugins.properties.LoadTargets.FilterHostsByHost"
         - "pyconverge.plugins.properties.LoadTargets.PrintTagsForHost"
+      applications:
+        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationInfraMapping"
+        - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByHost"
+        - "pyconverge.plugins.properties.LoadTargets.PrintApplicationsForHost"
   tag:
     conf:
       yaml:

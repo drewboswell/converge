@@ -19,6 +19,7 @@ class ConvergeData(object):
     hierarchy = dict()
     data = dict()
     targets = dict()
+    data_target_map = dict()
 
 
 class BaseClassLoader:
