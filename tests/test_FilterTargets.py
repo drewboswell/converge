@@ -153,6 +153,40 @@ class TestFilterTargets(unittest.TestCase):
             result = True
         self.assertTrue(result)
 
+    def test_FilterHostsByApplication_exists(self):
+        result = False
+        conf = dict
+        application_name = "application1"
+        expected = ['pre-host1', 'pre-host2', 'staging-host1', 'staging-host2', 'prod-host1', 'prod-host2']
+        args = {"data": self.data,
+                "conf": conf,
+                "application_name": application_name}
+        instance = FilterTargets.FilterHostsByApplication()
+        returns = instance.run(**args)
+        print(returns.targets["hosts"])
+        if isinstance(returns, object) \
+                and isinstance(returns.targets["hosts"], list) \
+                and len(returns.targets["hosts"]) > 0 \
+                and set(returns.targets["hosts"]) == set(expected):
+            result = True
+        self.assertTrue(result)
+
+    def test_FilterHostsByApplication_not_exists(self):
+        result = False
+        conf = dict
+        application_name = "application12"
+        args = {"data": self.data,
+                "conf": conf,
+                "application_name": application_name}
+        instance = FilterTargets.FilterHostsByApplication()
+        returns = instance.run(**args)
+        print(returns.targets["hosts"])
+        if isinstance(returns, object) \
+                and isinstance(returns.targets["hosts"], list) \
+                and len(returns.targets["hosts"]) == 0:
+            result = True
+        self.assertTrue(result)
+
     def test_FilterApplicationsByTag_exists(self):
         result = False
         conf = dict
