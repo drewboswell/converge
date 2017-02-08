@@ -98,3 +98,14 @@ class FilterApplicationsByHost:
                     filtered_data.append(application_name)
         data.targets["applications"] = filtered_data
         return data
+
+
+class FilterApplicationsByApplication:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        data_filter = kwargs.get("application_name")
+        filtered_targets = list()
+        if data_filter in data.targets["applications"]:
+            filtered_targets.append(data_filter)
+        data.targets["applications"] = filtered_targets
+        return data

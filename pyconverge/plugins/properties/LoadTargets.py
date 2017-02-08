@@ -74,17 +74,6 @@ class LoadApplicationPropertiesMapping(LoadDataFromDisk):
         return data
 
 
-class FilterApplicationsByApplication:
-    @staticmethod
-    def run(data, conf, **kwargs):
-        data_filter = kwargs.get("application_name")
-        filtered_targets = dict()
-        if data_filter in data.data_target_map:
-            filtered_targets[data_filter] = data.data_target_map[data_filter]
-        data.data_target_map = filtered_targets
-        return data
-
-
 class FilterApplicationsByProperty:
     @staticmethod
     def run(data, conf, **kwargs):
@@ -105,18 +94,6 @@ class PrintTagsForHost:
         for host_name, host_tags in data.targets.items():
             message = "HOST TAG LOOKUP \n %s tags:\n\t%s"
             logging.info(message % (host_name, str(host_tags)))
-        return data
-
-
-
-
-
-class PrintTagsForApplication:
-    @staticmethod
-    def run(data, conf, **kwargs):
-        message = "APPLICATION TO TAG LOOKUP \n APPLICATION: %s has tags:\n\t%s"
-        application_name = kwargs.get("application_name")
-        logging.info(message % (application_name, data.data_target_map[application_name]))
         return data
 
 

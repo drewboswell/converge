@@ -188,3 +188,34 @@ class TestFilterTargets(unittest.TestCase):
                 and len(returns.targets["applications"]) == 0:
             result = True
         self.assertTrue(result)
+
+    def test_FilterApplicationsByApplication_exists(self):
+        result = False
+        conf = dict
+        application_name = "application1"
+        args = {"data": self.data,
+                "conf": conf,
+                "application_name": application_name}
+        instance = FilterTargets.FilterApplicationsByApplication()
+        returns = instance.run(**args)
+        if isinstance(returns, object) \
+                and isinstance(returns.targets["applications"], list) \
+                and len(returns.targets["applications"]) == 1 \
+                and returns.targets["applications"][0] == application_name:
+            result = True
+        self.assertTrue(result)
+
+    def test_FilterApplicationsByApplication_not_exists(self):
+        result = False
+        conf = dict
+        application_name = "application12"
+        args = {"data": self.data,
+                "conf": conf,
+                "application_name": application_name}
+        instance = FilterTargets.FilterApplicationsByApplication()
+        returns = instance.run(**args)
+        if isinstance(returns, object) \
+                and isinstance(returns.targets["applications"], list) \
+                and len(returns.targets["applications"]) == 0:
+            result = True
+        self.assertTrue(result)

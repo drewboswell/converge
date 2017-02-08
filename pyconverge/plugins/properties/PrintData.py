@@ -50,3 +50,12 @@ class PrintApplicationHosts:
         application_name = kwargs.get("application_name")
         logging.info(message % (application_name, data.targets["hosts"]))
         return data
+
+
+class PrintApplicationTags:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        message = "APPLICATION TO TAG LOOKUP \n APPLICATION: %s has tags:\n\t%s"
+        application_name = kwargs.get("application_name")
+        logging.info(message % (application_name, data.data_target_map["application_hosts"][application_name]))
+        return data

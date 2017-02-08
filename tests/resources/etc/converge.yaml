@@ -68,10 +68,10 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
         - "pyconverge.plugins.properties.FilterTargets.FilterHostsByApplication"
         - "pyconverge.plugins.properties.PrintData.PrintApplicationHosts"
-#      tags:
-#        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationInfraMapping"
-#        - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByApplication"
-#        - "pyconverge.plugins.properties.LoadTargets.PrintTagsForApplication"
+      tags:
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
+        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
+        - "pyconverge.plugins.properties.PrintData.PrintApplicationTags"
 #      properties:
 #        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
 #        - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByApplication"
