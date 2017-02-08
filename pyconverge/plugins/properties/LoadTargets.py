@@ -47,8 +47,8 @@ class LoadApplicationHostMapping(LoadDataFromDisk):
         base_dir = conf["programs"]["host"]["conf"]["properties"]["base_dir"]
         host_mapping_glob = conf["programs"]["host"]["conf"]["properties"]["host_mapping_glob"]
         glob_pattern = os.path.join(base_dir, host_mapping_glob)
-        data.data_target_map["application_hosts"] = self.load_contents_of_files(glob_pattern=glob_pattern)
-        data.targets["applications"] = set(data.data_target_map["application_hosts"].keys())
+        data.data["application_hosts"] = self.load_contents_of_files(glob_pattern=glob_pattern)
+        data.targets["applications"] = set(data.data["application_hosts"].keys())
         return data
 
 

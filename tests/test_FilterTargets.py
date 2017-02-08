@@ -53,17 +53,15 @@ class TestFilterTargets(unittest.TestCase):
                 'application2': {'properties': ['propfile1']},
                 'application3': {'properties': ['propfile1', 'propfile2', 'propfile3', 'propfile4']},
                 'application1': {'properties': ['propfile1', 'propfile2']}
-            }
+            },
+            "application_hosts": {'application1': {'pool': ['hostgroup1', 'hostgroup2']},
+                                  'application3': {'pool': ['hostgroup3', 'hostgroup2']},
+                                  'application2': {'pool': ['hostgroup3', 'hostgroup4']}}
         }
 
         self.data.targets = {
             "hosts": ["pre-host1", "pre-host2", "staging-host1", "staging-host2", "prod-host1", "prod-host2"],
             "applications": ["application1", "application2", "application3"]
-        }
-        self.data.data_target_map = {
-            "application_hosts": {'application1': {'pool': ['hostgroup1', 'hostgroup2']},
-                                  'application3': {'pool': ['hostgroup3', 'hostgroup2']},
-                                  'application2': {'pool': ['hostgroup3', 'hostgroup4']}}
         }
 
     def test_FilterHostByHost_exists(self):

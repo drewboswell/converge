@@ -17,7 +17,6 @@ def get_dynamic_class(finder_path):
 class ConvergeData(object):
     data = dict()
     targets = dict()
-    data_target_map = dict()
 
 
 class BaseClassLoader:

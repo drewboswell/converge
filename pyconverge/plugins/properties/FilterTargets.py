@@ -34,7 +34,7 @@ class FilterHostsByHost:
 
 class FilterHostsByTag:
     @staticmethod
-    def run(data, conf, **kwargs):
+    def run(data, **kwargs):
         tag_name = kwargs.get("tag_name")
         tag_value = kwargs.get("tag_value")
         filtered_targets = list()
@@ -51,11 +51,11 @@ class FilterHostsByTag:
 
 class FilterHostsByApplication:
     @staticmethod
-    def run(data, conf, **kwargs):
+    def run(data, **kwargs):
         application_name = kwargs.get("application_name")
         filtered_data = list()
         if application_name in data.targets["applications"]:
-            application_tags = data.data_target_map["application_hosts"][application_name]
+            application_tags = data.data["application_hosts"][application_name]
             for host_name in data.targets["hosts"]:
                 host_tags = data.data["hosts"][host_name]
                 host_app_tag_match = find_dict_diff(host_tags, application_tags)
@@ -67,12 +67,12 @@ class FilterHostsByApplication:
 
 class FilterApplicationsByTag:
     @staticmethod
-    def run(data, conf, **kwargs):
+    def run(data, **kwargs):
         tag_name = kwargs.get("tag_name")
         tag_value = kwargs.get("tag_value")
         filtered_targets = list()
         for application_name in data.targets["applications"]:
-            application_tags = data.data_target_map["application_hosts"][application_name]
+            application_tags = data.data["application_hosts"][application_name]
             if tag_name in application_tags and (
                         (isinstance(application_tags[tag_name], str)
                          and application_tags[tag_name] == tag_value) or
@@ -85,13 +85,13 @@ class FilterApplicationsByTag:
 
 class FilterApplicationsByHost:
     @staticmethod
-    def run(data, conf, **kwargs):
+    def run(data, **kwargs):
         host_name = kwargs.get("host_name")
         filtered_data = list()
         if host_name in data.data["hosts"]:
             host_tags = data.data["hosts"][host_name]
             for application_name in data.targets["applications"]:
-                application_tags = data.data_target_map["application_hosts"][application_name]
+                application_tags = data.data["application_hosts"][application_name]
                 app_host_tag_match = find_dict_diff(application_tags, host_tags)
                 if app_host_tag_match:
                     filtered_data.append(application_name)
@@ -101,7 +101,7 @@ class FilterApplicationsByHost:
 
 class FilterApplicationsByApplication:
     @staticmethod
-    def run(data, conf, **kwargs):
+    def run(data, **kwargs):
         data_filter = kwargs.get("application_name")
         filtered_targets = list()
         if data_filter in data.targets["applications"]:
@@ -112,7 +112,7 @@ class FilterApplicationsByApplication:
 
 class FilterApplicationsByProperty:
     @staticmethod
-    def run(data, conf, **kwargs):
+    def run(data, **kwargs):
         property_name = kwargs.get("property_name")
         filtered_targets = list()
         for application_name in data.targets["applications"]:
