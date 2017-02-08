@@ -13,3 +13,11 @@ class PrintHostTags:
                 logging.info(message % (host_name, str(host_tags)))
         return data
 
+
+class PrintHostApplications:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        message = "HOST TO APPLICATION LOOKUP \n HOST: %s has applications:\n\t%s"
+        host_name = kwargs.get("host_name")
+        logging.info(message % (host_name, data.targets["applications"]))
+        return data

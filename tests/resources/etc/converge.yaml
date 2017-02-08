@@ -20,11 +20,11 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
         - "pyconverge.plugins.properties.FilterTargets.FilterHostsByHost"
         - "pyconverge.plugins.properties.PrintData.PrintHostTags"
-#      applications:
-#        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
-#        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationInfraMapping"
-#        - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByHost"
-#        - "pyconverge.plugins.properties.LoadTargets.PrintApplicationsForHost"
+      applications:
+        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
+        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByHost"
+        - "pyconverge.plugins.properties.PrintData.PrintHostApplications"
 #  # TAG COMMAND
 #  tag:
 #    conf:
