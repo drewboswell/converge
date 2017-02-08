@@ -99,41 +99,12 @@ class FilterApplicationsByProperty:
         return data
 
 
-class FilterHostsByApplication:
-    @staticmethod
-    def run(data, conf, **kwargs):
-        application_filter = kwargs.get("application_name")
-        filtered_data = dict()
-        if application_filter in data.data_target_map:
-            application_tags = data.data_target_map[application_filter]
-            for host_name, host_tags in data.targets.items():
-                for host_tag_name, host_tag_values in host_tags.items():
-                    for application_tag_name, application_tag_values in application_tags.items():
-                        if type(host_tag_name) == type(application_tag_name) and type(host_tag_values) == type(
-                                application_tag_values):
-                            if (isinstance(host_tag_values, str) and host_tag_values == application_tag_values or \
-                                        (isinstance(host_tag_values, list) and set(host_tag_values).intersection(
-                                            application_tag_values))):
-                                filtered_data[host_name] = data.targets[host_name]
-        data.targets = filtered_data
-        return data
-
-
 class PrintTagsForHost:
     @staticmethod
     def run(data, conf, **kwargs):
         for host_name, host_tags in data.targets.items():
             message = "HOST TAG LOOKUP \n %s tags:\n\t%s"
             logging.info(message % (host_name, str(host_tags)))
-        return data
-
-
-class PrintHostsForApplication:
-    @staticmethod
-    def run(data, conf, **kwargs):
-        message = "APPLICATION TO HOST LOOKUP \n APPLICATION: %s has hosts:\n\t%s"
-        application_name = kwargs.get("application_name")
-        logging.info(message % (application_name, list(data.targets.keys())))
         return data
 
 
@@ -147,9 +118,6 @@ class PrintTagsForApplication:
         application_name = kwargs.get("application_name")
         logging.info(message % (application_name, data.data_target_map[application_name]))
         return data
-
-
-
 
 
 class PrintPropertiesForApplication:

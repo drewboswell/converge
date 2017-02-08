@@ -48,26 +48,26 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
         - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByTag"
         - "pyconverge.plugins.properties.PrintData.PrintTagApplications"
-#  # APPLICATION COMMAND
-#  application:
-#    conf:
-#      yaml:
-#        base_dir: "tests/resources/repository"
-#        schema_path: "pyconverge/schemas"
-#      properties:
-#        base_dir: "tests/resources/repository"
-#        host_glob: "targets/hosts/*.yaml"
-#        property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
-#      default:
-#        args:
-#          - "application_name"
-#        description: "Get application mapping information"
-#    modes:
-#      hosts:
-#        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
-#        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationInfraMapping"
-#        - "pyconverge.plugins.properties.LoadTargets.FilterHostsByApplication"
-#        - "pyconverge.plugins.properties.LoadTargets.PrintHostsForApplication"
+  # APPLICATION COMMAND
+  application:
+    conf:
+      yaml:
+        base_dir: "tests/resources/repository"
+        schema_path: "pyconverge/schemas"
+      properties:
+        base_dir: "tests/resources/repository"
+        host_glob: "targets/hosts/*.yaml"
+        property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
+      default:
+        args:
+          - "application_name"
+        description: "Get application mapping information"
+    modes:
+      hosts:
+        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
+        - "pyconverge.plugins.properties.FilterTargets.FilterHostsByApplication"
+        - "pyconverge.plugins.properties.PrintData.PrintApplicationHosts"
 #      tags:
 #        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationInfraMapping"
 #        - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByApplication"
