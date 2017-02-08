@@ -6,18 +6,17 @@ def find_dict_diff(d1, d2, path=""):
     for k in d1.keys():
         if k not in d2:
             continue
-        else:
-            if type(d1[k]) is dict:
-                if path == "":
-                    path = k
-                else:
-                    path = path + "->" + k
-                result = find_dict_diff(d1[k], d2[k], path)
+        elif isinstance(d1[k], dict):
+            if path == "":
+                path = k
             else:
-                if d1[k] == d2[k]:
-                    return True
-                elif isinstance(d1[k], list) and isinstance(d2[k], list):
-                    return len(set(d1[k]).intersection(set(d2[k]))) > 0
+                path = path + "->" + k
+            result = find_dict_diff(d1[k], d2[k], path)
+        elif d1[k] == d2[k] or \
+                (isinstance(d1[k], list)
+                 and isinstance(d2[k], list)
+                 and len(set(d1[k]).intersection(set(d2[k]))) > 0):
+            return True
     return result
 
 

@@ -64,6 +64,38 @@ class TestFilterTargets(unittest.TestCase):
             "applications": ["application1", "application2", "application3"]
         }
 
+    def test_find_dict_diff_with_two_dicts_list_values(self):
+        dict1 = {"application_hosts": {'application1': {'pool': ['hostgroup1', 'hostgroup2']},
+                                       'application3': {'pool': ['hostgroup3', 'hostgroup2']},
+                                       'application2': {'pool': ['hostgroup3', 'hostgroup4']}}}
+        dict2 = {"application_hosts": {'application2': {'pool': ['hostgroup3', 'hostgroup2']}}}
+        returns = FilterTargets.find_dict_diff(d1=dict1, d2=dict2)
+        self.assertTrue(returns)
+
+    def test_find_dict_diff_with_two_dicts_list_values_no_match(self):
+        dict1 = {"application_hosts": {'application1': {'pool': ['hostgroup1', 'hostgroup2']},
+                                       'application3': {'pool': ['hostgroup3', 'hostgroup2']},
+                                       'application2': {'pool': ['hostgroup3', 'hostgroup4']}}}
+        dict2 = {"application_hosts": {'application2': {'pool': ['hostgroup5', 'hostgroup2']}}}
+        returns = FilterTargets.find_dict_diff(d1=dict1, d2=dict2)
+        self.assertFalse(returns)
+
+    def test_find_dict_diff_with_two_dicts_string_values(self):
+        dict1 = {"application_hosts": {'application1': {'pool': "test"},
+                                       'application3': {'pool': ['hostgroup3', 'hostgroup2']},
+                                       'application2': {'pool': "test"}}}
+        dict2 = {"application_hosts": {'application1': {'pool': "test"}}}
+        returns = FilterTargets.find_dict_diff(d1=dict1, d2=dict2)
+        self.assertTrue(returns)
+
+    def test_find_dict_diff_with_two_dicts_string_values_no_match(self):
+        dict1 = {"application_hosts": {'application1': {'pool': "test"},
+                                       'application3': {'pool': ['hostgroup3', 'hostgroup2']},
+                                       'application2': {'pool': "test"}}}
+        dict2 = {"application_hosts": {'application1': {'pool': "tester"}}}
+        returns = FilterTargets.find_dict_diff(d1=dict1, d2=dict2)
+        self.assertFalse(returns)
+
     def test_FilterHostByHost_exists(self):
         result = False
         conf = dict
