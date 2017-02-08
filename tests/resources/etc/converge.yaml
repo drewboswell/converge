@@ -72,10 +72,10 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
         - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
         - "pyconverge.plugins.properties.PrintData.PrintApplicationTags"
-#      properties:
-#        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
-#        - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByApplication"
-#        - "pyconverge.plugins.properties.LoadTargets.PrintPropertiesForApplication"
+      properties:
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
+        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
+        - "pyconverge.plugins.properties.PrintData.PrintApplicationProperties"
 #  # PROPERTY COMMAND
 #  property:
 #    conf:

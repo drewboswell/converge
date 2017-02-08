@@ -59,3 +59,12 @@ class PrintApplicationTags:
         application_name = kwargs.get("application_name")
         logging.info(message % (application_name, data.data_target_map["application_hosts"][application_name]))
         return data
+
+
+class PrintApplicationProperties:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        message = "APPLICATION TO PROPERTIES LOOKUP \n APPLICATION: %s has properties:\n\t%s"
+        appliation_name = kwargs.get("application_name")
+        logging.info(message % (appliation_name, list(data.data["application_properties"][appliation_name]["properties"])))
+        return data

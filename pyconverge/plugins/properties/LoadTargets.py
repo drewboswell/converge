@@ -70,7 +70,8 @@ class LoadApplicationPropertiesMapping(LoadDataFromDisk):
         base_dir = conf["programs"]["application"]["conf"]["properties"]["base_dir"]
         property_mapping_glob = conf["programs"]["application"]["conf"]["properties"]["property_mapping_glob"]
         glob_pattern = os.path.join(base_dir, property_mapping_glob)
-        data.data_group_data_map = self.load_contents_of_files(glob_pattern=glob_pattern)
+        data.data["application_properties"] = self.load_contents_of_files(glob_pattern=glob_pattern)
+        data.targets["applications"] = set(data.data["application_properties"].keys())
         return data
 
 
@@ -94,15 +95,6 @@ class PrintTagsForHost:
         for host_name, host_tags in data.targets.items():
             message = "HOST TAG LOOKUP \n %s tags:\n\t%s"
             logging.info(message % (host_name, str(host_tags)))
-        return data
-
-
-class PrintPropertiesForApplication:
-    @staticmethod
-    def run(data, conf, **kwargs):
-        message = "APPLICATION TO PROPERTIES LOOKUP \n APPLICATION: %s has properties:\n\t%s"
-        appliation_name = kwargs.get("application_name")
-        logging.info(message % (appliation_name, list(data.data_group_data_map[appliation_name]["properties"])))
         return data
 
 
