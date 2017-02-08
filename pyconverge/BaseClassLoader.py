@@ -10,17 +10,14 @@ log = logging.getLogger(__name__)
 def get_dynamic_class(finder_path):
     module_name, class_name = finder_path.rsplit('.', 1)
     module = import_module(module_name)
-    log.debug("Imported Modeule %s, Class %s" % (module_name, class_name))
+    log.debug("Imported Module %s, Class %s" % (module_name, class_name))
     return getattr(module, class_name)
 
 
 class ConvergeData(object):
-    validation = dict()
-    hierarchy = dict()
     data = dict()
     targets = dict()
     data_target_map = dict()
-    data_group_data_map = dict()
 
 
 class BaseClassLoader:

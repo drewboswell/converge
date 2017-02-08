@@ -6,22 +6,6 @@ import os
 import logging
 
 
-class LoadHierarchy(LoadDataFromDisk):
-    def merge_contents_of_files(self, file_list):
-        contents = list()
-        all_yaml_individual = map(lambda x: yaml.load_all(open(x)), file_list)
-        for configs in all_yaml_individual:
-            for config in configs:
-                contents.extend(config)
-        return contents
-
-    def load_contents_of_files(self, base_directory="."):
-        glob_pattern = os.path.join(base_directory, "hierarchy.yaml")
-        file_list = self.get_list_of_files(glob_pattern=glob_pattern, recursive=False)
-        content = self.merge_contents_of_files(file_list=file_list)
-        return content
-
-
 class LoadHosts(LoadDataFromDisk):
     def merge_contents_of_files(self, file_list):
         contents = dict()
@@ -40,7 +24,8 @@ class LoadHosts(LoadDataFromDisk):
         base_dir = conf["programs"]["host"]["conf"]["properties"]["base_dir"]
         host_glob = conf["programs"]["host"]["conf"]["properties"]["host_glob"]
         glob_pattern = os.path.join(base_dir, host_glob)
-        data.targets = self.load_contents_of_files(glob_pattern=glob_pattern)
+        data.data["hosts"] = self.load_contents_of_files(glob_pattern=glob_pattern)
+        data.targets["hosts"] = list(data.data["hosts"].keys())
         return data
 
 
@@ -85,17 +70,6 @@ class LoadApplicationPropertiesMapping(LoadDataFromDisk):
         property_mapping_glob = conf["programs"]["application"]["conf"]["properties"]["property_mapping_glob"]
         glob_pattern = os.path.join(base_dir, property_mapping_glob)
         data.data_group_data_map = self.load_contents_of_files(glob_pattern=glob_pattern)
-        return data
-
-
-class FilterHostsByHost:
-    @staticmethod
-    def run(data, conf, **kwargs):
-        data_filter = kwargs.get("host_name")
-        filtered_targets = dict()
-        if data_filter in data.targets:
-            filtered_targets[data_filter] = data.targets[data_filter]
-        data.targets = filtered_targets
         return data
 
 
