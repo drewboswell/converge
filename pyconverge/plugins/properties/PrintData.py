@@ -31,3 +31,13 @@ class PrintTagHosts:
         tag_value = kwargs.get("tag_value")
         logging.info(message % (tag_name, tag_value, list(data.targets["hosts"])))
         return data
+
+
+class PrintTagApplications:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        message = "TAG TO APPLICATION LOOKUP \n TAG: %s=%s has applications:\n\t%s"
+        tag_name = kwargs.get("tag_name")
+        tag_value = kwargs.get("tag_value")
+        logging.info(message % (tag_name, tag_value, data.targets["applications"]))
+        return data

@@ -49,6 +49,24 @@ class FilterHostsByTag:
         return data
 
 
+class FilterApplicationsByTag:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        tag_name = kwargs.get("tag_name")
+        tag_value = kwargs.get("tag_value")
+        filtered_targets = list()
+        for application_name in data.targets["applications"]:
+            application_tags = data.data_target_map["application_hosts"][application_name]
+            if tag_name in application_tags and (
+                        (isinstance(application_tags[tag_name], str)
+                         and application_tags[tag_name] == tag_value) or
+                        (isinstance(application_tags[tag_name], list)
+                         and any(app_value == tag_value for app_value in application_tags[tag_name]))):
+                filtered_targets.append(application_name)
+        data.targets["applications"] = filtered_targets
+        return data
+
+
 class FilterApplicationsByHost:
 
     @staticmethod

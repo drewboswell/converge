@@ -44,10 +44,10 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
         - "pyconverge.plugins.properties.FilterTargets.FilterHostsByTag"
         - "pyconverge.plugins.properties.PrintData.PrintTagHosts"
-#      applications:
-#        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationInfraMapping"
-#        - "pyconverge.plugins.properties.LoadTargets.FilterApplicationsByTag"
-#        - "pyconverge.plugins.properties.LoadTargets.PrintApplicationsForTag"
+      applications:
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
+        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByTag"
+        - "pyconverge.plugins.properties.PrintData.PrintTagApplications"
 #  # APPLICATION COMMAND
 #  application:
 #    conf:

@@ -85,23 +85,6 @@ class FilterApplicationsByApplication:
         return data
 
 
-class FilterApplicationsByTag:
-    @staticmethod
-    def run(data, conf, **kwargs):
-        tag_name = kwargs.get("tag_name")
-        tag_value = kwargs.get("tag_value")
-        filtered_targets = dict()
-        for application_name, application_tags in data.data_target_map.items():
-            if tag_name in application_tags and (
-                        (isinstance(application_tags[tag_name], str)
-                         and application_tags[tag_name] == tag_value) or
-                        (isinstance(application_tags[tag_name], list)
-                         and any(app_value == tag_value for app_value in application_tags[tag_name]))):
-                filtered_targets[application_name] = application_tags
-        data.data_target_map = filtered_targets
-        return data
-
-
 class FilterApplicationsByProperty:
     @staticmethod
     def run(data, conf, **kwargs):
@@ -166,14 +149,7 @@ class PrintTagsForApplication:
         return data
 
 
-class PrintApplicationsForTag:
-    @staticmethod
-    def run(data, conf, **kwargs):
-        message = "TAG TO APPLICATION LOOKUP \n TAG: %s=%s has applications:\n\t%s"
-        tag_name = kwargs.get("tag_name")
-        tag_value = kwargs.get("tag_value")
-        logging.info(message % (tag_name, tag_value, list(data.data_target_map.keys())))
-        return data
+
 
 
 class PrintPropertiesForApplication:

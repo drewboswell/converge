@@ -129,7 +129,6 @@ class TestFilterTargets(unittest.TestCase):
                 "tag_value": tag_value}
         instance = FilterTargets.FilterHostsByTag()
         returns = instance.run(**args)
-        print(set(returns.targets["hosts"]), set(expected))
         if isinstance(returns, object) \
                 and isinstance(returns.targets["hosts"], list) \
                 and len(returns.targets["hosts"]) > 0 \
@@ -142,7 +141,6 @@ class TestFilterTargets(unittest.TestCase):
         conf = dict
         tag_name = "pool"
         tag_value = "hostgroup15"
-        expected = ['staging-host1', 'prod-host1', 'prod-host2', 'pre-host1']
         args = {"data": self.data,
                 "conf": conf,
                 "tag_name": tag_name,
@@ -152,5 +150,41 @@ class TestFilterTargets(unittest.TestCase):
         if isinstance(returns, object) \
                 and isinstance(returns.targets["hosts"], list) \
                 and len(returns.targets["hosts"]) == 0:
+            result = True
+        self.assertTrue(result)
+
+    def test_FilterApplicationsByTag_exists(self):
+        result = False
+        conf = dict
+        tag_name = "pool"
+        tag_value = "hostgroup2"
+        expected = ['application1', 'application3']
+        args = {"data": self.data,
+                "conf": conf,
+                "tag_name": tag_name,
+                "tag_value": tag_value}
+        instance = FilterTargets.FilterApplicationsByTag()
+        returns = instance.run(**args)
+        if isinstance(returns, object) \
+                and isinstance(returns.targets["applications"], list) \
+                and len(returns.targets["applications"]) > 0 \
+                and set(returns.targets["applications"]) == set(expected):
+            result = True
+        self.assertTrue(result)
+
+    def test_FilterApplicationsByTag_not_exists(self):
+        result = False
+        conf = dict
+        tag_name = "pool"
+        tag_value = "hostgroup24"
+        args = {"data": self.data,
+                "conf": conf,
+                "tag_name": tag_name,
+                "tag_value": tag_value}
+        instance = FilterTargets.FilterApplicationsByTag()
+        returns = instance.run(**args)
+        if isinstance(returns, object) \
+                and isinstance(returns.targets["applications"], list) \
+                and len(returns.targets["applications"]) == 0:
             result = True
         self.assertTrue(result)
