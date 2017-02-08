@@ -1,0 +1,97 @@
+default:
+  logging_level: "INFO"
+programs:
+  # HOST COMMAND
+  host:
+    conf:
+      yaml:
+        base_dir: "repository"
+        schema_path: "pyconverge/schemas"
+      properties:
+        base_dir: "repository"
+        host_glob: "targets/hosts/*.yaml"
+        host_mapping_glob: "targets/mapping/*.yaml"
+      default:
+        args:
+          - "host_name"
+        description: "Get Host mapping information"
+    modes:
+      tags:
+        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
+        - "pyconverge.plugins.properties.FilterTargets.FilterHostsByHost"
+        - "pyconverge.plugins.properties.PrintData.PrintHostTags"
+      applications:
+        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
+        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByHost"
+        - "pyconverge.plugins.properties.PrintData.PrintHostApplications"
+  # TAG COMMAND
+  tag:
+    conf:
+      yaml:
+        base_dir: "repository"
+        schema_path: "pyconverge/schemas"
+      properties:
+        base_dir: "repository"
+        host_glob: "targets/hosts/*.yaml"
+      default:
+        args:
+          - "tag_name"
+          - "tag_value"
+        description: "Get tag mapping information"
+    modes:
+      hosts:
+        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
+        - "pyconverge.plugins.properties.FilterTargets.FilterHostsByTag"
+        - "pyconverge.plugins.properties.PrintData.PrintTagHosts"
+      applications:
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
+        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByTag"
+        - "pyconverge.plugins.properties.PrintData.PrintTagApplications"
+  # APPLICATION COMMAND
+  application:
+    conf:
+      yaml:
+        base_dir: "repository"
+        schema_path: "pyconverge/schemas"
+      properties:
+        base_dir: "repository"
+        host_glob: "targets/hosts/*.yaml"
+        property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
+      default:
+        args:
+          - "application_name"
+        description: "Get application mapping information"
+    modes:
+      hosts:
+        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
+        - "pyconverge.plugins.properties.FilterTargets.FilterHostsByApplication"
+        - "pyconverge.plugins.properties.PrintData.PrintApplicationHosts"
+      tags:
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
+        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
+        - "pyconverge.plugins.properties.PrintData.PrintApplicationTags"
+      properties:
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
+        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
+        - "pyconverge.plugins.properties.PrintData.PrintApplicationProperties"
+  # PROPERTY COMMAND
+  property:
+    conf:
+      yaml:
+        base_dir: "repository"
+        schema_path: "pyconverge/schemas"
+      properties:
+        base_dir: "repository"
+        property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
+        properties_glob: "data/**/*.properties"
+      default:
+        args:
+          - "property_name"
+        description: "Get property mapping information"
+    modes:
+      applications:
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
+        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByProperty"
+        - "pyconverge.plugins.properties.PrintData.PrintPropertyApplications"
