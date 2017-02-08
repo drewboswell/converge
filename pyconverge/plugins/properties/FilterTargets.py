@@ -12,7 +12,7 @@ def find_dict_diff(d1, d2, path=""):
                     path = k
                 else:
                     path = path + "->" + k
-                result = self.find_dict_diff(d1[k], d2[k], path)
+                result = find_dict_diff(d1[k], d2[k], path)
             else:
                 if d1[k] == d2[k]:
                     return True
