@@ -54,14 +54,13 @@ class LoadProperties(LoadDataFromDisk):
                 if regex:
                     result = True
                     for i, tag in enumerate(regex):
-                        if not hiera['tags'] and tag.rsplit("/", 1)[1] == "default":
+                        if (not hiera['tags'] and tag.rsplit("/", 1)[1] == "default") \
+                                or hiera['tags'][i] in self.host_tags:
                             break
                         elif hiera['tags'][i] == "app":
                             if application_name != tag:
                                 result = False
                                 break
-                        elif hiera['tags'][i] in self.host_tags:
-                            break
                         else:
                             result = False
                             break
