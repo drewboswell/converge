@@ -95,9 +95,8 @@ class TestFilterTargets(unittest.TestCase):
                 "host_name": host_name}
         instance = FilterTargets.FilterApplicationsByHost()
         returns = instance.run(**args)
-        print(returns.targets)
         if isinstance(returns, object) \
-                and isinstance(returns.targets["hosts"], list) \
+                and isinstance(returns.targets["applications"], list) \
                 and len(returns.targets["applications"]) == 1 \
                 and returns.targets["applications"][0] == "application1":
             result = True
@@ -112,9 +111,46 @@ class TestFilterTargets(unittest.TestCase):
                 "host_name": host_name}
         instance = FilterTargets.FilterApplicationsByHost()
         returns = instance.run(**args)
-        print(returns.targets)
+        if isinstance(returns, object) \
+                and isinstance(returns.targets["applications"], list) \
+                and len(returns.targets["applications"]) == 0:
+            result = True
+        self.assertTrue(result)
+
+    def test_FilterHostsByTag_exists(self):
+        result = False
+        conf = dict
+        tag_name = "pool"
+        tag_value = "hostgroup1"
+        expected = ['staging-host1', 'prod-host1', 'prod-host2', 'pre-host1']
+        args = {"data": self.data,
+                "conf": conf,
+                "tag_name": tag_name,
+                "tag_value": tag_value}
+        instance = FilterTargets.FilterHostsByTag()
+        returns = instance.run(**args)
+        print(set(returns.targets["hosts"]), set(expected))
         if isinstance(returns, object) \
                 and isinstance(returns.targets["hosts"], list) \
-                and len(returns.targets["applications"]) == 0 :
+                and len(returns.targets["hosts"]) > 0 \
+                and set(returns.targets["hosts"]) == set(expected):
+            result = True
+        self.assertTrue(result)
+
+    def test_FilterHostsByTag_not_exists(self):
+        result = False
+        conf = dict
+        tag_name = "pool"
+        tag_value = "hostgroup15"
+        expected = ['staging-host1', 'prod-host1', 'prod-host2', 'pre-host1']
+        args = {"data": self.data,
+                "conf": conf,
+                "tag_name": tag_name,
+                "tag_value": tag_value}
+        instance = FilterTargets.FilterHostsByTag()
+        returns = instance.run(**args)
+        if isinstance(returns, object) \
+                and isinstance(returns.targets["hosts"], list) \
+                and len(returns.targets["hosts"]) == 0:
             result = True
         self.assertTrue(result)

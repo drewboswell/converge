@@ -136,22 +136,6 @@ class FilterHostsByApplication:
         return data
 
 
-class FilterHostsByTag:
-    @staticmethod
-    def run(data, conf, **kwargs):
-        tag_name = kwargs.get("tag_name")
-        tag_value = kwargs.get("tag_value")
-        filtered_targets = dict()
-        for host_name, host_tags in data.targets.items():
-            if tag_name in host_tags and (
-                        (isinstance(host_tags[tag_name], str) and host_tags[tag_name] == tag_value) or
-                        (isinstance(host_tags[tag_name], list) and any(
-                                host_value == tag_value for host_value in host_tags[tag_name]))):
-                filtered_targets[host_name] = host_tags
-        data.targets = filtered_targets
-        return data
-
-
 class PrintTagsForHost:
     @staticmethod
     def run(data, conf, **kwargs):
@@ -159,9 +143,6 @@ class PrintTagsForHost:
             message = "HOST TAG LOOKUP \n %s tags:\n\t%s"
             logging.info(message % (host_name, str(host_tags)))
         return data
-
-
-
 
 
 class PrintHostsForApplication:
@@ -173,14 +154,7 @@ class PrintHostsForApplication:
         return data
 
 
-class PrintHostsForTag:
-    @staticmethod
-    def run(data, conf, **kwargs):
-        message = "TAG TO HOST LOOKUP \n TAG: %s=%s has hosts:\n\t%s"
-        tag_name = kwargs.get("tag_name")
-        tag_value = kwargs.get("tag_value")
-        logging.info(message % (tag_name, tag_value, list(data.targets.keys())))
-        return data
+
 
 
 class PrintTagsForApplication:
