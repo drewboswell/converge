@@ -84,7 +84,6 @@ class FilterApplicationsByTag:
 
 
 class FilterApplicationsByHost:
-
     @staticmethod
     def run(data, conf, **kwargs):
         host_name = kwargs.get("host_name")
@@ -107,5 +106,20 @@ class FilterApplicationsByApplication:
         filtered_targets = list()
         if data_filter in data.targets["applications"]:
             filtered_targets.append(data_filter)
+        data.targets["applications"] = filtered_targets
+        return data
+
+
+class FilterApplicationsByProperty:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        property_name = kwargs.get("property_name")
+        filtered_targets = list()
+        for application_name in data.targets["applications"]:
+            application_props = data.data["application_properties"][application_name]
+            if "properties" in application_props and \
+                    isinstance(application_props["properties"], list) and \
+                            property_name in application_props["properties"]:
+                filtered_targets.append(application_name)
         data.targets["applications"] = filtered_targets
         return data

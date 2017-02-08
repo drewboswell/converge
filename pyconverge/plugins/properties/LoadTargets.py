@@ -75,38 +75,6 @@ class LoadApplicationPropertiesMapping(LoadDataFromDisk):
         return data
 
 
-class FilterApplicationsByProperty:
-    @staticmethod
-    def run(data, conf, **kwargs):
-        property_name = kwargs.get("property_name")
-        filtered_targets = dict()
-        for application_name, application_props in data.data_group_data_map.items():
-            if "properties" in application_props and \
-                    isinstance(application_props["properties"], list) and \
-                            property_name in application_props["properties"]:
-                filtered_targets[application_name] = application_props
-        data.data_group_data_map = filtered_targets
-        return data
-
-
-class PrintTagsForHost:
-    @staticmethod
-    def run(data, conf, **kwargs):
-        for host_name, host_tags in data.targets.items():
-            message = "HOST TAG LOOKUP \n %s tags:\n\t%s"
-            logging.info(message % (host_name, str(host_tags)))
-        return data
-
-
-class PrintApplicationsForProperty:
-    @staticmethod
-    def run(data, conf, **kwargs):
-        message = "PROPERTIES TO APPLICATION LOOKUP \n PROPERTIES: %s has applications:\n\t%s"
-        property_name = kwargs.get("property_name")
-        logging.info(message % (property_name, list(data.data_group_data_map.keys())))
-        return data
-
-
 class LoadApplications(LoadDataFromDisk):
     def merge_contents_of_files(self, file_list):
         contents = dict()

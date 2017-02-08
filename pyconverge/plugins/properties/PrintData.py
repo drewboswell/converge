@@ -68,3 +68,12 @@ class PrintApplicationProperties:
         appliation_name = kwargs.get("application_name")
         logging.info(message % (appliation_name, list(data.data["application_properties"][appliation_name]["properties"])))
         return data
+
+
+class PrintPropertyApplications:
+    @staticmethod
+    def run(data, conf, **kwargs):
+        message = "PROPERTIES TO APPLICATION LOOKUP \n PROPERTIES: %s has applications:\n\t%s"
+        property_name = kwargs.get("property_name")
+        logging.info(message % (property_name, data.targets["applications"]))
+        return data
