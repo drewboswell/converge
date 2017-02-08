@@ -16,7 +16,7 @@ def find_dict_diff(d1, d2, path=""):
             else:
                 if d1[k] == d2[k]:
                     return True
-                elif type(d1[k]) == type(d2[k]) and isinstance(d1[k], list):
+                elif isinstance(d1[k], list) and isinstance(d2[k], list):
                     return len(set(d1[k]).intersection(set(d2[k]))) > 0
     return result
 
