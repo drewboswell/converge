@@ -9,6 +9,7 @@ import sys
 logging.getLogger("pykwalify.core").setLevel(logging.WARN)
 logging.basicConfig(level="WARN")
 
+
 # add main entry point
 def main():
     statistics = dict()
@@ -16,11 +17,8 @@ def main():
 
     configuration = ConfigValidator()
 
-    try:
-        parser = ArgumentParser(configuration=configuration).create_parser()
-        args = parser.parse_args()
-    except Exception as e:
-        raise
+    parser = ArgumentParser(configuration=configuration).create_parser()
+    args = parser.parse_args()
 
     # initialize logging level
     try:
