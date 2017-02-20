@@ -42,7 +42,7 @@ class ArgumentParser:
                             help="change stdout logging level (logs INFO to file already)")
 
         parser.add_argument("--config", action="store",
-                            type=str, default=None,
+                            type=str, default="converge.yaml",
                             help="path to the configuration file")
 
         group_init = argparse.ArgumentParser(add_help=False)
@@ -54,14 +54,8 @@ class ArgumentParser:
                                 help="this path will be the initialization root")
 
         group_checkconfig = argparse.ArgumentParser(add_help=False)
-        group_checkconfig.add_argument("--config", action="store",
-                                       type=str, default=None,
-                                       help="path to the configuration file")
 
         group_run = argparse.ArgumentParser(add_help=False)
-        group_run.add_argument("--config", action="store", required=True,
-                               type=str, default=None,
-                               help="path to the configuration file")
 
         group_version = argparse.ArgumentParser(add_help=False)
         group_version.add_argument("--version", action="store_true", default=True, required=False)
@@ -81,18 +75,17 @@ class ArgumentParser:
         sp_version.set_defaults(which="version")
 
         """ AUTOMATIC OPTION LOADING """
-        config_path = None
+        config_path = "converge.yaml"
         for i, arg in enumerate(sys.argv):
             if arg == "--config" and len(sys.argv) > i + 1:
                 config_path = sys.argv[i + 1]
                 break
 
-        if config_path:
-            result = self.configuration.load_config(config_path=config_path)
-            if result:
-                logging.info("OK: Configuration file %s" % config_path)
-                programs = self.configuration.configuration["programs"]
-                for program_name, program_config in programs.items():
-                    sp = self.add_sub_parser_group(sp=sp, option_name=program_name, config=program_config)
+        result = self.configuration.load_config(config_path=config_path)
+        if result:
+            logging.info("OK: Configuration file %s" % config_path)
+            programs = self.configuration.configuration["programs"]
+            for program_name, program_config in programs.items():
+                sp = self.add_sub_parser_group(sp=sp, option_name=program_name, config=program_config)
 
         return parser
