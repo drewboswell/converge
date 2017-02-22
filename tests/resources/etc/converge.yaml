@@ -11,6 +11,9 @@ programs:
         base_dir: "tests/resources/repository"
         host_glob: "targets/hosts/*.yaml"
         host_mapping_glob: "targets/mapping/*.yaml"
+      hierarchy:
+        base_dir: "tests/resources/repository"
+        hierarchy_glob: "hierarchy/*.yaml"
       default:
         args:
           - "host_name"
@@ -25,6 +28,14 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
         - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByHost"
         - "pyconverge.plugins.properties.PrintData.PrintHostApplications"
+      hierarchy:
+        - "pyconverge.plugins.properties.LoadHierarchy.LoadHierarchy"
+        - "pyconverge.plugins.properties.PrintData.PrintHierarchy"
+        # load hierarchy
+        # load hosts
+        # filter hosts by host
+        # filter hierarchy by host tags (remove any that don't match)
+        # print hierarchy based on host tags
   # TAG COMMAND
   tag:
     conf:
@@ -76,6 +87,12 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
         - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
         - "pyconverge.plugins.properties.PrintData.PrintApplicationProperties"
+      hierarchy:
+        - "pyconverge.plugins.properties.LoadHierarchy.LoadApplicationPropertiesMapping"
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
+        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
+        # filter hierarchy by application-host mapping (by key only and not values)
+        # print hierarchy that matches application
   # PROPERTY COMMAND
   property:
     conf:
@@ -95,3 +112,33 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
         - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByProperty"
         - "pyconverge.plugins.properties.PrintData.PrintPropertyApplications"
+  # RESOLVE COMMAND
+  resolve:
+    conf:
+      yaml:
+        base_dir: "tests/resources/repository"
+        schema_path: "pyconverge/schemas"
+      properties:
+        base_dir: "tests/resources/repository"
+        property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
+        properties_glob: "data/**/*.properties"
+      default:
+        args:
+          - "application_name"
+          - "host_name"
+        description: "Resolve Application's configurations from hierarchy for a host"
+    modes:
+      properties:
+        # Load applications
+        # check if application exists
+        # load hosts
+        # check if host exists
+        # Load host to application mapping
+        # check if host is linked to application
+        # Load application property mapping (for that application)
+        # load hierarchy
+        # filter hierarchy by host-application tags
+        # load all properties file names in filtered hierarchy paths
+        # filter properties file names with host-application tags
+        # load properties using configparser resolution in hierarchy order
+        # print output of properties for the host-application

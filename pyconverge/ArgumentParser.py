@@ -55,8 +55,6 @@ class ArgumentParser:
 
         group_checkconfig = argparse.ArgumentParser(add_help=False)
 
-        group_run = argparse.ArgumentParser(add_help=False)
-
         group_version = argparse.ArgumentParser(add_help=False)
         group_version.add_argument("--version", action="store_true", default=True, required=False)
 

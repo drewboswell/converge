@@ -77,3 +77,12 @@ class PrintPropertyApplications:
         property_name = kwargs.get("property_name")
         logging.info(message % (property_name, data.targets["applications"]))
         return data
+
+
+class PrintHierarchy:
+    @staticmethod
+    def run(data, **kwargs):
+        message = "HOST HIERARCHY LOOKUP \n HOST: %s has hierarchies:\n\t%s"
+        host_name = kwargs.get("host_name")
+        logging.info(message % (host_name, data.data["hierarchy"]))
+        return data
