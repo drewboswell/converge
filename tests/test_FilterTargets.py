@@ -56,7 +56,37 @@ class TestFilterTargets(unittest.TestCase):
             },
             "application_hosts": {'application1': {'pool': ['hostgroup1', 'hostgroup2']},
                                   'application3': {'pool': ['hostgroup3', 'hostgroup2']},
-                                  'application2': {'pool': ['hostgroup3', 'hostgroup4']}}
+                                  'application2': {'pool': ['hostgroup3', 'hostgroup4']}},
+            "hierarchy": [{'regex': 'default/shared', 'hiera': 'default/shared', 'tags': []},
+                          {'regex': 'default/shared/os/([^/]+)', 'hiera': 'default/shared/os/${os}', 'tags': ['os']},
+                          {'regex': 'default/shared/environment/([^/]+)',
+                           'hiera': 'default/shared/environment/${environment}', 'tags': ['environment']},
+                          {'regex': 'default/shared/pool/([^/]+)', 'hiera': 'default/shared/pool/${pool}',
+                           'tags': ['pool']},
+                          {'regex': 'default/shared/cluster/([^/]+)', 'hiera': 'default/shared/cluster/${cluster}',
+                           'tags': ['cluster']},
+                          {'regex': 'default/shared/switch/([^/]+)', 'hiera': 'default/shared/switch/${switch}',
+                           'tags': ['switch']},
+                          {'regex': 'default/shared/rack/([^/]+)', 'hiera': 'default/shared/rack/${rack}',
+                           'tags': ['rack']},
+                          {'regex': 'default/shared/host/([^/]+)', 'hiera': 'default/shared/host/${host}',
+                           'tags': ['host']},
+                          {'regex': 'default/app/([^/]+)', 'hiera': 'default/app/${app}', 'tags': ['app']},
+                          {'regex': 'default/app/([^/]+)/os/([^/]+)', 'hiera': 'default/app/${app}/os/${os}',
+                           'tags': ['app', 'os']}, {'regex': 'default/app/([^/]+)/environment/([^/]+)',
+                                                    'hiera': 'default/app/${app}/environment/${environment}',
+                                                    'tags': ['app', 'environment']},
+                          {'regex': 'default/app/([^/]+)/pool/([^/]+)', 'hiera': 'default/app/${app}/pool/${pool}',
+                           'tags': ['app', 'pool']}, {'regex': 'default/app/([^/]+)/cluster/([^/]+)',
+                                                      'hiera': 'default/app/${app}/cluster/${cluster}',
+                                                      'tags': ['app', 'cluster']},
+                          {'regex': 'default/app/([^/]+)/switch/([^/]+)',
+                           'hiera': 'default/app/${app}/switch/${switch}', 'tags': ['app', 'switch']},
+                          {'regex': 'default/app/([^/]+)/rack/([^/]+)', 'hiera': 'default/app/${app}/rack/${rack}',
+                           'tags': ['app', 'rack']},
+                          {'regex': 'default/app/([^/]+)/host/([^/]+)', 'hiera': 'default/app/${app}/host/${host}',
+                           'tags': ['app', 'host']}]
+
         }
 
         self.data.targets = {
@@ -329,3 +359,35 @@ class TestFilterTargets(unittest.TestCase):
                 and len(returns.targets["applications"]) == 0:
             result = True
         self.assertTrue(result)
+
+    def test_FilterHierarchyByHost_exists(self):
+        result = False
+        conf = dict
+        host_name = "pre-host1"
+        expected = [{'hiera': 'default/shared', 'tags': [], 'regex': 'default/shared'},
+                    {'hiera': 'default/shared/environment/${environment}', 'tags': ['environment'],
+                     'regex': 'default/shared/environment/([^/]+)'},
+                    {'hiera': 'default/shared/pool/${pool}', 'tags': ['pool'], 'regex': 'default/shared/pool/([^/]+)'}]
+        args = {"data": self.data,
+                "conf": conf,
+                "host_name": host_name}
+        instance = FilterTargets.FilterHierarchyByHost()
+        returns = instance.run(**args)
+        if expected == returns.data["hierarchy"]:
+            result = True
+        self.assertTrue(result)
+
+    def test_FilterHierarchyByHost_not_exists(self):
+        result = False
+        conf = dict
+        host_name = "pre-host1231"
+        expected = []
+        args = {"data": self.data,
+                "conf": conf,
+                "host_name": host_name}
+        instance = FilterTargets.FilterHierarchyByHost()
+        returns = instance.run(**args)
+        if expected == returns.data["hierarchy"]:
+            result = True
+        self.assertTrue(result)
+
