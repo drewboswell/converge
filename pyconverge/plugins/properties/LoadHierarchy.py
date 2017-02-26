@@ -17,6 +17,7 @@ class LoadHierarchy(LoadDataFromDisk):
             regex_hiera['hiera'] = hiera
             regex_hiera['regex'] = os.path.join(re.sub("\${.+?}", "([^/]+)", hiera))
             regex_hiera['tags'] = re.findall("\$\{([^/]+)\}", hiera)
+            regex_hiera['glob'] = os.path.join(re.sub("\${.+?}", "*", hiera))
             regex_hierarchy.append(regex_hiera)
         return regex_hierarchy
 

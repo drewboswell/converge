@@ -3,6 +3,7 @@
 from .LoadDataFromDisk import LoadDataFromDisk
 import yaml
 import os
+import glob
 import logging
 
 
@@ -89,3 +90,19 @@ class LoadApplications(LoadDataFromDisk):
         file_list = self.get_list_of_files(glob_pattern=glob_pattern, recursive=False)
         content = self.merge_contents_of_files(file_list=file_list)
         return content
+
+
+class LoadPropertyFilePaths:
+
+    def run(self, data, conf, **kwargs):
+        base_dir = conf["programs"]["host"]["conf"]["properties"]["base_dir"]
+        hierarchy = data.data["hierarchy"]
+        file_list = dict()
+        for hiera in hierarchy:
+            file_list[hiera["hiera"]] = list()
+            hiera_path = hiera["glob"]
+            for file_name in glob.iglob(os.path.join(base_dir, "data", hiera_path, '*.properties'), recursive=False):
+                file_list[hiera["hiera"]].append(file_name)
+
+        data.data["hiera_files"] = file_list
+        return data

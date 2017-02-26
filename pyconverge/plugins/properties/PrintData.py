@@ -87,3 +87,18 @@ class PrintHierarchy:
         # print hierarchy a line per element
         logging.info(message % (host_name, "\n\t".join(str(hiera) for hiera in data.data["hierarchy"])))
         return data
+
+
+class PrintHierarchyPropertyFilePaths:
+    @staticmethod
+    def run(data, **kwargs):
+        logging.info("HIERARCHY FILES FOUND")
+        # print hierarchy a line per element
+        for hiera, files in data.data["hiera_files"].items():
+            message = "Hierarchy level %s found: %i" % (hiera, len(files))
+            if len(files):
+                message += "\tFiles: %s" % "\n\t".join(files)
+                logging.info(message)
+            else:
+                logging.debug(message)
+        return data

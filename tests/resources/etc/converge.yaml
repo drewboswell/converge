@@ -33,11 +33,6 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
         - "pyconverge.plugins.properties.FilterTargets.FilterHierarchyByHost"
         - "pyconverge.plugins.properties.PrintData.PrintHierarchy"
-        # load hierarchy
-        # load hosts
-        # filter hosts by host
-        # filter hierarchy by host tags (remove any that don't match)
-        # print hierarchy based on host tags
   # TAG COMMAND
   tag:
     conf:
@@ -90,11 +85,11 @@ programs:
         - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
         - "pyconverge.plugins.properties.PrintData.PrintApplicationProperties"
       hierarchy:
-        - "pyconverge.plugins.properties.LoadHierarchy.LoadApplicationPropertiesMapping"
+        - "pyconverge.plugins.properties.LoadHierarchy.LoadHierarchy"
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
         - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
-        # filter hierarchy by application-host mapping (by key only and not values)
-        # print hierarchy that matches application
+        - "pyconverge.plugins.properties.FilterTargets.FilterHierarchyByApplication"
+        - "pyconverge.plugins.properties.PrintData.PrintHierarchy"
   # PROPERTY COMMAND
   property:
     conf:
@@ -114,6 +109,24 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
         - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByProperty"
         - "pyconverge.plugins.properties.PrintData.PrintPropertyApplications"
+  hierarchy:
+    conf:
+      yaml:
+        base_dir: "tests/resources/repository"
+        schema_path: "pyconverge/schemas"
+      properties:
+        base_dir: "tests/resources/repository"
+        property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
+        properties_glob: "data/**/*.properties"
+      default:
+        args: []
+        description: "Get Hierarchy information"
+    modes:
+      files:
+        - "pyconverge.plugins.properties.LoadHierarchy.LoadHierarchy"
+        - "pyconverge.plugins.properties.LoadTargets.LoadPropertyFilePaths"
+        - "pyconverge.plugins.properties.PrintData.PrintHierarchyPropertyFilePaths"
+
   # RESOLVE COMMAND
   resolve:
     conf:
