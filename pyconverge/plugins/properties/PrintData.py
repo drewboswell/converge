@@ -84,5 +84,6 @@ class PrintHierarchy:
     def run(data, **kwargs):
         message = "HOST HIERARCHY LOOKUP \n HOST: %s has hierarchies:\n\t%s"
         host_name = kwargs.get("host_name")
-        logging.info(message % (host_name, data.data["hierarchy"]))
+        # print hierarchy a line per element
+        logging.info(message % (host_name, "\n\t".join(str(hiera) for hiera in data.data["hierarchy"])))
         return data

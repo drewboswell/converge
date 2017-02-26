@@ -30,6 +30,8 @@ programs:
         - "pyconverge.plugins.properties.PrintData.PrintHostApplications"
       hierarchy:
         - "pyconverge.plugins.properties.LoadHierarchy.LoadHierarchy"
+        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
+        - "pyconverge.plugins.properties.FilterTargets.FilterHierarchyByHost"
         - "pyconverge.plugins.properties.PrintData.PrintHierarchy"
         # load hierarchy
         # load hosts

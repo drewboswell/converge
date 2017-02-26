@@ -122,3 +122,18 @@ class FilterApplicationsByProperty:
                 filtered_targets.append(application_name)
         data.targets["applications"] = filtered_targets
         return data
+
+
+class FilterHierarchyByHost:
+    @staticmethod
+    def run(data, **kwargs):
+        host_name = kwargs.get("host_name")
+        filtered_data = list()
+        if host_name in data.data["hosts"]:
+            host_tags = data.data["hosts"][host_name].keys()
+            for hiera in data.data["hierarchy"]:
+                hiera_tags = hiera["tags"]
+                if all(hiera_tag in host_tags for hiera_tag in hiera_tags):
+                    filtered_data.append(hiera)
+        data.data["hierarchy"] = filtered_data
+        return data
