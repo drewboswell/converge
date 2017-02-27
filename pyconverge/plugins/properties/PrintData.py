@@ -94,10 +94,10 @@ class PrintHierarchyPropertyFilePaths:
     def run(data, **kwargs):
         logging.info("HIERARCHY FILES FOUND")
         # print hierarchy a line per element
-        for hiera, files in data.data["hiera_files"].items():
-            message = "Hierarchy level %s found: %i" % (hiera, len(files))
-            if len(files):
-                message += "\tFiles: %s" % "\n\t".join(files)
+        for file_name, file_data in data.data["file_hiera"].items():
+            message = "Property File %s found: %i references" % (file_name, len(file_data))
+            if len(file_data):
+                message += "\tMatches: \n\t%s" % ("\n\t".join(str(file_str) for file_str in file_data))
                 logging.info(message)
             else:
                 logging.debug(message)

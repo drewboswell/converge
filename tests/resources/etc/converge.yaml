@@ -144,16 +144,23 @@ programs:
         description: "Resolve Application's configurations from hierarchy for a host"
     modes:
       properties:
-        # Load applications
+        # Load host to application mapping, and filter only application_name
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
+        # Load Application properties mappings
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
         # check if application exists
+        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
         # load hosts
-        # check if host exists
-        # Load host to application mapping
-        # check if host is linked to application
-        # Load application property mapping (for that application)
+        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
         # load hierarchy
+        - "pyconverge.plugins.properties.LoadHierarchy.LoadHierarchy"
         # filter hierarchy by host-application tags
+        - "pyconverge.plugins.properties.FilterTargets.FilterHierarchyByHost"
         # load all properties file names in filtered hierarchy paths
+        - "pyconverge.plugins.properties.LoadTargets.LoadPropertyFilePaths"
+        # filter properties file names with application mapping
+        - "pyconverge.plugins.properties.FilterTargets.FilterPropertyFilesByApplication"
         # filter properties file names with host-application tags
+        - "pyconverge.plugins.properties.FilterTargets.FilterPropertyFilesByHostApplicationTags"
         # load properties using configparser resolution in hierarchy order
         # print output of properties for the host-application

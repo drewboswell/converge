@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import re
 
 def find_dict_diff(d1, d2, path=""):
     result = False
@@ -133,7 +133,45 @@ class FilterHierarchyByHost:
             host_tags = data.data["hosts"][host_name].keys()
             for hiera in data.data["hierarchy"]:
                 hiera_tags = hiera["tags"]
-                if all(hiera_tag in host_tags for hiera_tag in hiera_tags):
+                if all(hiera_tag in host_tags or hiera_tag == "app" for hiera_tag in hiera_tags):
                     filtered_data.append(hiera)
         data.data["hierarchy"] = filtered_data
+        return data
+
+
+class FilterPropertyFilesByApplication:
+    @staticmethod
+    def run(data, **kwargs):
+        application_name = kwargs.get("application_name")
+        filtered_data = data.data["file_hiera"].copy()
+        if application_name in data.data["application_properties"]:
+            property_files = data.data["application_properties"][application_name]
+            for hiera_file in data.data["file_hiera"].keys():
+                if hiera_file not in property_files["properties"]:
+                    del filtered_data[hiera_file]
+        data.data["file_hiera"] = filtered_data
+        return data
+
+
+class FilterPropertyFilesByHostApplicationTags:
+    @staticmethod
+    def run(data, **kwargs):
+        host_name = kwargs.get("host_name")
+        application_name = kwargs.get("application_name")
+        filtered_data = data.data["file_hiera"].copy()
+        if host_name in data.data["hosts"]:
+            host_tags = data.data["hosts"][host_name]
+            # for each file in list of properties
+            # check that path matches
+            for file_name, file_datas in data.data["file_hiera"].items():
+                for file_data in file_datas:
+                    for hiera in data.data["hierarchy"]:
+                        if file_data["hiera"] == hiera["hiera"] and len(hiera["tags"]) == len(file_data["tags"]):
+                            for i, tag in enumerate(hiera["tags"]):
+                                if (tag == "app" and file_data["tags"][i] != application_name) \
+                                        or (tag in hiera["tags"] and file_data["tags"][i] in host_tags[tag]):
+                                    filtered_data[file_name].remove(file_data)
+        print(data.data["file_hiera"])
+        data.data["file_hiera"] = filtered_data
+        print(filtered_data)
         return data

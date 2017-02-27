@@ -364,15 +364,22 @@ class TestFilterTargets(unittest.TestCase):
         result = False
         conf = dict
         host_name = "pre-host1"
-        expected = [{'hiera': 'default/shared', 'tags': [], 'regex': 'default/shared'},
-                    {'hiera': 'default/shared/environment/${environment}', 'tags': ['environment'],
-                     'regex': 'default/shared/environment/([^/]+)'},
-                    {'hiera': 'default/shared/pool/${pool}', 'tags': ['pool'], 'regex': 'default/shared/pool/([^/]+)'}]
+        expected = [{'regex': 'default/shared', 'hiera': 'default/shared', 'tags': []},
+                    {'regex': 'default/shared/environment/([^/]+)',
+                     'hiera': 'default/shared/environment/${environment}', 'tags': ['environment']},
+                    {'regex': 'default/shared/pool/([^/]+)', 'hiera': 'default/shared/pool/${pool}', 'tags': ['pool']},
+                    {'regex': 'default/app/([^/]+)', 'hiera': 'default/app/${app}', 'tags': ['app']},
+                    {'regex': 'default/app/([^/]+)/environment/([^/]+)',
+                     'hiera': 'default/app/${app}/environment/${environment}', 'tags': ['app', 'environment']},
+                    {'regex': 'default/app/([^/]+)/pool/([^/]+)', 'hiera': 'default/app/${app}/pool/${pool}',
+                     'tags': ['app', 'pool']}]
+
         args = {"data": self.data,
                 "conf": conf,
                 "host_name": host_name}
         instance = FilterTargets.FilterHierarchyByHost()
         returns = instance.run(**args)
+        print(returns.data["hierarchy"])
         if expected == returns.data["hierarchy"]:
             result = True
         self.assertTrue(result)
@@ -390,4 +397,3 @@ class TestFilterTargets(unittest.TestCase):
         if expected == returns.data["hierarchy"]:
             result = True
         self.assertTrue(result)
-

@@ -4,6 +4,7 @@ from .LoadDataFromDisk import LoadDataFromDisk
 import yaml
 import os
 import glob
+import re
 import logging
 
 
@@ -99,10 +100,18 @@ class LoadPropertyFilePaths:
         hierarchy = data.data["hierarchy"]
         file_list = dict()
         for hiera in hierarchy:
-            file_list[hiera["hiera"]] = list()
             hiera_path = hiera["glob"]
-            for file_name in glob.iglob(os.path.join(base_dir, "data", hiera_path, '*.properties'), recursive=False):
-                file_list[hiera["hiera"]].append(file_name)
+            for file_path in glob.iglob(os.path.join(base_dir, "data", hiera_path, '*.properties'), recursive=False):
+                file_name = file_path.rsplit("/", 1)[1][:-11]
+                if file_name not in file_list:
+                    file_list[file_name] = list()
+                if "${" in hiera["hiera"]:
+                    tags = re.findall(hiera["regex"], file_path)
+                else:
+                    tags = []
+                file_list[file_name].append({"hiera": hiera["hiera"],
+                                             "path": file_path,
+                                             "tags": tags})
 
-        data.data["hiera_files"] = file_list
+        data.data["file_hiera"] = file_list
         return data
