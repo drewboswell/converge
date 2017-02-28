@@ -171,7 +171,5 @@ class FilterPropertyFilesByHostApplicationTags:
                                 if (tag == "app" and file_data["tags"][i] != application_name) \
                                         or (tag in hiera["tags"] and file_data["tags"][i] in host_tags[tag]):
                                     filtered_data[file_name].remove(file_data)
-        print(data.data["file_hiera"])
         data.data["file_hiera"] = filtered_data
-        print(filtered_data)
         return data

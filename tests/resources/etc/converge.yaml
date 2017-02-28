@@ -137,13 +137,14 @@ programs:
         base_dir: "tests/resources/repository"
         property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
         properties_glob: "data/**/*.properties"
+        output_dir: "tests/resources/repository/output"
       default:
         args:
           - "application_name"
           - "host_name"
         description: "Resolve Application's configurations from hierarchy for a host"
     modes:
-      properties:
+      print:
         # Load host to application mapping, and filter only application_name
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
         # Load Application properties mappings
@@ -163,4 +164,30 @@ programs:
         # filter properties file names with host-application tags
         - "pyconverge.plugins.properties.FilterTargets.FilterPropertyFilesByHostApplicationTags"
         # load properties using configparser resolution in hierarchy order
+        - "pyconverge.plugins.properties.LoadTargets.LoadPropertyFileContents"
         # print output of properties for the host-application
+        - "pyconverge.plugins.properties.PrintData.PrintPropertyFileContents"
+        # write data to file for application/host
+      write:
+        # Load host to application mapping, and filter only application_name
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationHostMapping"
+        # Load Application properties mappings
+        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
+        # check if application exists
+        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
+        # load hosts
+        - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
+        # load hierarchy
+        - "pyconverge.plugins.properties.LoadHierarchy.LoadHierarchy"
+        # filter hierarchy by host-application tags
+        - "pyconverge.plugins.properties.FilterTargets.FilterHierarchyByHost"
+        # load all properties file names in filtered hierarchy paths
+        - "pyconverge.plugins.properties.LoadTargets.LoadPropertyFilePaths"
+        # filter properties file names with application mapping
+        - "pyconverge.plugins.properties.FilterTargets.FilterPropertyFilesByApplication"
+        # filter properties file names with host-application tags
+        - "pyconverge.plugins.properties.FilterTargets.FilterPropertyFilesByHostApplicationTags"
+        # load properties using configparser resolution in hierarchy order
+        - "pyconverge.plugins.properties.LoadTargets.LoadPropertyFileContents"
+        # write data to file for application/host
+        - "pyconverge.plugins.properties.WriteTargets.WriteHostApplicationPropertiesToFiles"

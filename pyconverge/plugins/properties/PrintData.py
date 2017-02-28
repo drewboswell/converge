@@ -102,3 +102,17 @@ class PrintHierarchyPropertyFilePaths:
             else:
                 logging.debug(message)
         return data
+
+
+class PrintPropertyFileContents:
+    @staticmethod
+    def run(data, **kwargs):
+        application_name = kwargs.get("application_name")
+        host_name = kwargs.get("host_name")
+        print("Resolved property files: for %s on host: %s" % (application_name, host_name))
+
+        for file_name, properties in data.data["file_data"].items():
+            print("FILE: %s.properties" % file_name)
+            for property in properties:
+                print("\t", property[0], "=", property[1])
+        return data

@@ -5,6 +5,8 @@ import yaml
 import os
 import glob
 import re
+import configparser
+from itertools import chain
 import logging
 
 
@@ -114,4 +116,22 @@ class LoadPropertyFilePaths:
                                              "tags": tags})
 
         data.data["file_hiera"] = file_list
+        return data
+
+
+class LoadPropertyFileContents:
+
+    def run(self, data, conf, **kwargs):
+        file_list = data.data["file_hiera"]
+        resolved_data = dict()
+        for file_name, file_path_list in file_list.items():
+            parser = configparser.ConfigParser(allow_no_value=True)
+            for file_path in file_path_list:
+                with open(file_path["path"]) as lines:
+                    lines = chain(("[default]",), lines)  # This line does the trick...
+                    parser.read_file(lines)
+
+            contents = parser.items("default")
+            resolved_data[file_name] = contents
+        data.data["file_data"] = resolved_data
         return data
