@@ -3,6 +3,7 @@
 import argparse
 import sys
 import logging
+import os
 
 
 class ArgumentParser:
@@ -50,7 +51,8 @@ class ArgumentParser:
                                 choices=["repository", "conf"],
                                 help="choose to initialize repository or conf")
         group_init.add_argument("path", action="store",
-                                type=str, default=None,
+                                type=str, default=os.getcwd(),
+                                nargs="?",
                                 help="this path will be the initialization root")
 
         group_checkconfig = argparse.ArgumentParser(add_help=False)

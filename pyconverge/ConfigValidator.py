@@ -44,17 +44,17 @@ class ConfigValidator:
     @staticmethod
     def init_conf(target_directory):
         result = False
-        init_path = os.path.isdir(os.path.join(target_directory, "converge.ini.template"))
-        if not init_path:
-            print("will create configuration file in %s/converge.ini.template" % target_directory)
+        init_path = os.path.join(target_directory, "converge.yaml.template")
+        if not os.path.isfile(init_path):
+            print("\nwill create configuration file in %s/converge.yaml.template" % target_directory)
             resource_package = __name__
-            resource_path = os.path.join('resources', 'etc')
+            resource_path = os.path.join('resources', 'etc', 'converge.yaml.template')
             template = pkg_resources.resource_filename(resource_package, resource_path)
             print("Copying template from %s to %s" % (template, target_directory))
-            copytree(template, target_directory)
+            copyfile(template, os.path.join(target_directory, "converge.yaml.template"))
             print("New configuration can be found in: %s" % target_directory)
-            print("Make you modifications and rename it to converge.ini")
-            result = os.path.isfile(os.path.join(target_directory, "converge.ini.template"))
+            print("Make you modifications and rename it to converge.yaml\n")
+            result = os.path.isfile(os.path.join(target_directory, "converge.yaml.template"))
         else:
             print("File already exists: %s/converge.ini.template" % target_directory)
         return result
@@ -87,7 +87,7 @@ class ConfigValidator:
             print("Folder already exists: %s" % target_directory)
         return result
 
-    def load_config(self,config_path):
+    def load_config(self, config_path):
         result = False
         path_exists = os.path.isfile(config_path)
         if path_exists:
@@ -100,8 +100,7 @@ class ConfigValidator:
                         result = True
                     except yaml.YAMLError as exc:
                         print(exc)
-        else:
-            print("File %s does not exist" % config_path)
+
         return result
 
     def check_config(self, config_path):
