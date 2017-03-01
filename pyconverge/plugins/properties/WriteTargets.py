@@ -10,7 +10,7 @@ class WriteHostApplicationPropertiesToFiles:
     def run(data, conf, **kwargs):
         host_name = kwargs.get("host_name")
         application_name = kwargs.get("application_name")
-        output_dir = conf["programs"]["resolve"]["conf"]["properties"]["output_dir"]
+        output_dir = conf["conf"]["properties"]["output_dir"]
         logging.info("Generating files for application %s on host %s" % (application_name, host_name))
         output_folder = os.path.join(output_dir, host_name, application_name)
         if not os.path.isdir(output_folder):
