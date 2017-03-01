@@ -34,7 +34,10 @@ class BaseClassLoader:
         settings = kwargs.get("settings")
 
         self.instructions = self.programs[program_name]["modes"][mode]
-        self.settings = self.programs[program_name]["conf"]
+        if "conf" in self.programs[program_name]:
+            self.settings = self.programs[program_name]["conf"]
+        else:
+            self.settings = dict()
 
         for instruction in self.instructions:
             dynamic_class_path = instruction

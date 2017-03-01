@@ -20,6 +20,12 @@ mapping:
             mapping:
               regex;(^.*$):
                 type: any
+          description:
+            type: str
+          args:
+            type: seq
+            sequence:
+              - type: str
           modes:
             type: map
             mapping:

@@ -13,11 +13,9 @@ conf:
 programs:
   # HOST COMMAND
   host:
-    conf:
-      default:
-        args:
-          - "host_name"
-        description: "Get Host mapping information"
+    args:
+      - "host_name"
+    description: "Get Host mapping information"
     modes:
       tags:
         - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
@@ -35,12 +33,10 @@ programs:
         - "pyconverge.plugins.properties.PrintData.PrintHierarchy"
   # TAG COMMAND
   tag:
-    conf:
-      default:
-        args:
-          - "tag_name"
-          - "tag_value"
-        description: "Get tag mapping information"
+    args:
+      - "tag_name"
+      - "tag_value"
+    description: "Get tag mapping information"
     modes:
       hosts:
         - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
@@ -52,11 +48,9 @@ programs:
         - "pyconverge.plugins.properties.PrintData.PrintTagApplications"
   # APPLICATION COMMAND
   application:
-    conf:
-      default:
-        args:
-          - "application_name"
-        description: "Get application mapping information"
+    args:
+      - "application_name"
+    description: "Get application mapping information"
     modes:
       hosts:
         - "pyconverge.plugins.properties.LoadTargets.LoadHosts"
@@ -73,21 +67,17 @@ programs:
         - "pyconverge.plugins.properties.PrintData.PrintApplicationProperties"
   # PROPERTY COMMAND
   property:
-    conf:
-      default:
-        args:
-          - "property_name"
-        description: "Get property mapping information"
+    args:
+      - "property_name"
+    description: "Get property mapping information"
     modes:
       applications:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
         - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByProperty"
         - "pyconverge.plugins.properties.PrintData.PrintPropertyApplications"
   hierarchy:
-    conf:
-      default:
-        args: []
-        description: "Get Hierarchy information"
+    args: []
+    description: "Get Hierarchy information"
     modes:
       files:
         - "pyconverge.plugins.properties.LoadHierarchy.LoadHierarchy"
@@ -96,12 +86,10 @@ programs:
 
   # RESOLVE COMMAND
   resolve:
-    conf:
-      default:
-        args:
-          - "application_name"
-          - "host_name"
-        description: "Resolve Application's configurations from hierarchy for a host"
+    args:
+      - "application_name"
+      - "host_name"
+    description: "Resolve Application's configurations from hierarchy for a host"
     modes:
       print:
         # Load host to application mapping, and filter only application_name
