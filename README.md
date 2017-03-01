@@ -144,7 +144,7 @@ Those classpaths you listed under the modes, will be executed expecting a method
 def run(self, data, conf, **kwargs):
     """
     Args:
-        data (dict): The data object that is passes and returned from all class runs
+        data (object): The data object that is passes and returned from all class runs
         conf (dict): Dictionary of all configurations found in converge.yaml (directories, logging etc)
         kwargs (object): magical python variable variable variables.
 
