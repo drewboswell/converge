@@ -28,34 +28,37 @@ Abstract hierarchies of data chewed up and spit out to your liking.
 
 # Getting started
 install pyconverge, this will add the `converge` command to your classpath using setup.py/PyPi
-```shell
-# pip install pyconverge
-# converge version
-# converge --help
+```bash
+pip install pyconverge
+converge version
+converge --help
 ```
 
 Create a converge.yaml.template file in your project working directory, modify and move it to converge.yaml 
-```shell
+```bash
+# create the converge.yaml.template file
 converge init conf
+# modify your converge parameters and then activate it
 vim converge.yaml.template
 mv converge.yaml.template converge.yaml
+# verify the integrity of your configuration file
 converge check
 ```
 
 Try it out! You chould have a bunch more options!
-```shell
+```bash
 converge --help
 ```
 
 # Example: Simple testing
 create a converge.yaml as described above
-```shell
+```bash
 converge init conf
 mv converge.yaml.template converge.yaml
 converge check
 ```
 Create a sample repository structure
-```shell
+```bash
 converge init repository target_directory
 
 # you should now have the following structure
