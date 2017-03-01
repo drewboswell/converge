@@ -1,0 +1,19 @@
+conf:
+    default:
+        logging_level: "INFO"
+programs:
+    # user command
+    amazingcommand:
+        # arguments expected by the command
+        args:
+            - "argument_one"
+            - "argument_two"
+        # description for the python help
+        description: "application description"
+        modes:
+            amazing_mode_one:
+                - "com.insane.class.path.Class1"
+                - "com.insane.class.path.Class2"
+            amazing_mode_two:
+                - "com.insane.class.path.Class1"
+                - "com.insane.class.path.Class3"

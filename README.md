@@ -77,6 +77,66 @@ find target_directory/ -type d
 ./targets/mapping
 ```
 
+# Configuration: converge.yaml
+This file is a bit peculiar, it allows you to add programs, options, configurations on the fly. Let's try it out
+before adding the converge.yaml:
+```bash
+converge --help
+# positional arguments:
+#  {init,check,version}
+#    init                initialize configuration or repository
+#    check               run sanity check on configuration
+#    version             get converge version and build information
+```
+
+put the following in a converge.yaml:
+```yaml
+conf:
+    default:
+        logging_level: "INFO"
+programs:
+    # user command
+    amazingcommand:
+        # arguments expected by the command
+        args:
+            - "argument_one"
+            - "argument_two"
+        # description for the python help
+        description: "application description"
+        modes:
+            amazing_mode_one:
+                - "com.insane.class.path.Class1"
+                - "com.insane.class.path.Class2"
+            amazing_mode_two:
+                - "com.insane.class.path.Class1"
+                - "com.insane.class.path.Class3"
+```
+
+Now you should see a new option:
+```bash
+converge --help
+# positional arguments:
+#  {init,check,version,amazingcommand}
+#    init                initialize configuration or repository
+#    check               run sanity check on configuration
+#    version             get converge version and build information
+#    amazingcommand      application description <-- MAGIC STUFF with description!!
+```
+
+And even more so there are sub-options available too:
+```bash
+converge amazingcommand --help
+# usage: converge-runner.py amazingcommand [-h]
+#                                         argument_one argument_two
+#                                         {amazing_mode_two,amazing_mode_one}
+#
+# positional arguments:
+#  argument_one
+#  argument_two
+#  {amazing_mode_two,amazing_mode_one}
+
+```
+
 # Example: Configuration for Java property files
 
 # A rough overview
