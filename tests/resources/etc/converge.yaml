@@ -1,19 +1,22 @@
-default:
-  logging_level: "INFO"
+conf:
+  default:
+    logging_level: "INFO"
+#  yaml:
+#    base_dir: "tests/resources/repository"
+#    schema_path: "pyconverge/schemas"
+  properties:
+    base_dir: "tests/resources/repository"
+    host_glob: "targets/hosts/*.yaml"
+    host_mapping_glob: "targets/mapping/*.yaml"
+    property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
+    properties_glob: "data/**/*.properties"
+  hierarchy:
+    base_dir: "tests/resources/repository"
+    hierarchy_glob: "hierarchy/*.yaml"
 programs:
   # HOST COMMAND
   host:
     conf:
-      yaml:
-        base_dir: "tests/resources/repository"
-        schema_path: "pyconverge/schemas"
-      properties:
-        base_dir: "tests/resources/repository"
-        host_glob: "targets/hosts/*.yaml"
-        host_mapping_glob: "targets/mapping/*.yaml"
-      hierarchy:
-        base_dir: "tests/resources/repository"
-        hierarchy_glob: "hierarchy/*.yaml"
       default:
         args:
           - "host_name"
@@ -36,12 +39,6 @@ programs:
   # TAG COMMAND
   tag:
     conf:
-      yaml:
-        base_dir: "tests/resources/repository"
-        schema_path: "pyconverge/schemas"
-      properties:
-        base_dir: "tests/resources/repository"
-        host_glob: "targets/hosts/*.yaml"
       default:
         args:
           - "tag_name"
@@ -59,13 +56,6 @@ programs:
   # APPLICATION COMMAND
   application:
     conf:
-      yaml:
-        base_dir: "tests/resources/repository"
-        schema_path: "pyconverge/schemas"
-      properties:
-        base_dir: "tests/resources/repository"
-        host_glob: "targets/hosts/*.yaml"
-        property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
       default:
         args:
           - "application_name"
@@ -93,13 +83,6 @@ programs:
   # PROPERTY COMMAND
   property:
     conf:
-      yaml:
-        base_dir: "tests/resources/repository"
-        schema_path: "pyconverge/schemas"
-      properties:
-        base_dir: "tests/resources/repository"
-        property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
-        properties_glob: "data/**/*.properties"
       default:
         args:
           - "property_name"

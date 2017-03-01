@@ -109,7 +109,7 @@ class ConfigValidator:
 
         if result:
             print("\t## Configuration to be used:\n")
-            print("\tLogging Level: '%s'" % self.configuration['default']['logging_level'])
+            print("\tLogging Level: '%s'" % self.configuration['conf']['default']['logging_level'])
             print("\tAvailable programs: %s" % ", ".join(self.configuration['programs'].keys()))
             for prog in self.configuration['programs']:
                 print("\n\t# \"%s\" Program Comfiguration:" % prog)
@@ -118,24 +118,6 @@ class ConfigValidator:
                         print("\t%s : %s : %s" % (conf, name, sub))
             print("")
 
-        return result
-
-    def validate_hierarchy_yaml(self):
-        target_path = self.paths['hierarchy']
-        schema_path = os.path.join(self.paths['bin_dir'], "schemas", "hierarchy_schema.yaml")
-        result = self.validate_yaml_schema(target_path=target_path, schema_path=schema_path)
-        return result
-
-    def validate_host_yaml(self):
-        target_path = self.paths['host']
-        schema_path = os.path.join(self.paths['bin_dir'], "schemas", "host_schema.yaml")
-        result = self.validate_yaml_schema(target_path=target_path, schema_path=schema_path)
-        return result
-
-    def validate_application_yaml(self):
-        target_path = self.paths['application']
-        schema_path = os.path.join(self.paths['bin_dir'], "schemas", "application_schema.yaml")
-        result = self.validate_yaml_schema(target_path=target_path, schema_path=schema_path)
         return result
 
     def validate_yaml_schema(self, target_path, schema_path):
@@ -152,23 +134,6 @@ class ConfigValidator:
             self.logging.info("VALIDATED: %s/**.yaml" % target_path)
         else:
             self.logging.error("Corrupt files!")
-        return result
-
-    def check_repository(self):
-        result = True
-
-        returns = self.validate_hierarchy_yaml()
-        if returns is not True:
-            result = False
-
-        returns = self.validate_host_yaml()
-        if returns is not True:
-            result = False
-
-        returns = self.validate_application_yaml()
-        if returns is not True:
-            result = False
-
         return result
 
     def get_configuration_paths(self):

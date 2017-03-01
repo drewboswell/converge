@@ -1,12 +1,14 @@
 # Package yaml schema for validation
 type: map
 mapping:
-  default:
+  conf:
     type: map
     mapping:
       logging_level:
         type: str
         enum: ['INFO', 'DEBUG', 'WARN', 'ERROR', 'CRITICAL','FATAL']
+      regex;(^.*$):
+        type: any
   programs:
     type: map
     mapping:
