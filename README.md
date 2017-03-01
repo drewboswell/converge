@@ -77,7 +77,8 @@ find target_directory/ -type d
 ./targets/mapping
 ```
 
-# Configuration: converge.yaml
+# Configuration
+## converge.yaml
 This file is a bit peculiar, it allows you to add programs, options, configurations on the fly. Let's try it out
 before adding the converge.yaml:
 ```bash
@@ -89,7 +90,7 @@ converge --help
 #    version             get converge version and build information
 ```
 
-put the following in a converge.yaml:
+Put the following in a converge.yaml:
 ```yaml
 conf:
     default:
@@ -135,6 +136,22 @@ converge amazingcommand --help
 #  argument_two
 #  {amazing_mode_two,amazing_mode_one}
 
+```
+## Classpath Execution Explained
+
+Those classpaths you listed under the modes, will be executed expecting a method matching the following:
+```python
+def run(self, data, conf, **kwargs):
+    """
+    Args:
+        data (dict): The data object that is passes and returned from all class runs
+        conf (dict): Dictionary of all configurations found in converge.yaml (directories, logging etc)
+        kwargs (object): magical python variable variable variables.
+
+    Returns:
+        dict: the data object that will be passed to all following class-runs.
+    """
+    return data
 ```
 
 # Example: Configuration for Java property files
