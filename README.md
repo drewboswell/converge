@@ -38,8 +38,9 @@ Create a converge.yaml.template file in your project working directory, modify a
 ```bash
 # create the converge.yaml.template file
 converge init conf
-# modify your converge parameters and then activate it
+# modify your converge parameters
 vim converge.yaml.template
+# activate converge
 mv converge.yaml.template converge.yaml
 # verify the integrity of your configuration file
 converge check
