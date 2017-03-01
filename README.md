@@ -87,7 +87,7 @@ A general example in diagram form:
 # A Brief History of Pain
 You may have hit some (or all) of these stages in the pursuit of configurability:
 
-*In short: from the file, to the GUI, back to the file you idiot.*
+*In short: from the file, to the GUI, back to the file you idiot.* #wevecomefullcircle
 * Externalize configuration from your applications, to avoid re-releases due to simple conf tuning
 * Realizing that you're now managing a million de-centralized files with no similar structure
 * Create or use a centralized, GUI/DB based configuration management system (woohoo! configuration liberation!)
@@ -98,4 +98,4 @@ The better model is to accept any data format, process it and output it as you w
 Files are better because:
 * you can use time tested versioning systems like git or mercurial to branch, release, rollback, check history
 * you can automate the modification of files with any tool you want
-* doing migrations on DB values/REST endpoints sucks (unnecessarily complex)
+* doing migrations/deployment/modifications on DB values/REST endpoints sucks (unnecessarily complex)
