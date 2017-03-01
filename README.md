@@ -13,28 +13,73 @@
 [![Lines of code](https://sonarqube.com/api/badges/measure?key=drewboswell_converge&metric=ncloc)](https://sonarqube.com/dashboard/index/drewboswell_converge)
 
 
-
 # converge
 *Resolve Data from Abstract Hierarchies and Templates*
 
-Managing configuration is hard. Sometimes you need simplicity, like a few key-value properties. Sometimes you realize that a lot of your data is similar and you wish you could apply abstraction to share and reuse them. 
+Managing configuration is hard. More often than not you have high key/values duplication and storage. [DRY](https://en.wikipedia.org/wiki/Don't_repeat_yourself) your tears, it's time for some hierarchical magic, so you can get back to the important stuff.
 
-This is where **converge** comes in. Choose your logic engines: 
+This is where **converge** comes in. There are a few basic concepts when using or extend converge: 
 * Readers: get data from your backends
-* Pre-Filters: filter data before resolution
+* Filters: filter data before or after resolution (*example: search & replace values, inject data post resolution*)
 * Resolvers: convert abstract data to resolved data
-* Post-Filters: filter resolved data (*example: search & replace values, inject data post resolution*)
-* Writers: output your data to the format and backend of your choice
+* Writers: output your data to the format and backend you need
 
 Abstract hierarchies of data chewed up and spit out to your liking.
 
-# How it works
+# Getting started
+install pyconverge, this will add the `converge` command to your classpath using setup.py/PyPi
+```shell
+# pip install pyconverge
+# converge version
+# converge --help
+```
+
+Create a converge.yaml.template file in your project working directory, modify and move it to converge.yaml 
+```shell
+converge init conf
+vim converge.yaml.template
+mv converge.yaml.template converge.yaml
+converge check
+```
+
+Try it out! You chould have a bunch more options!
+```shell
+converge --help
+```
+
+# Example: Simple testing
+create a converge.yaml as described above
+```shell
+converge init conf
+mv converge.yaml.template converge.yaml
+converge check
+```
+Create a sample repository structure
+```shell
+converge init repository target_directory
+
+# you should now have the following structure
+find target_directory/ -type d
+# this is where the application centric data goes
+./data
+./data/default
+./data/default/shared
+./data/default/app
+# the hierarchy file is situated here
+./hierarchy
+# target (or host for most) centric data resides here
+./targets
+./targets/hosts
+./targets/mapping
+```
+
+# Example: Configuration for Java property files
+
+# A rough overview
+
+A general example in diagram form:
 
 ![Alt text](docs/converge-diagram.png "Converge Overview")
-
-# Getting started
-
-# Examples
 
 # A Brief History of Pain
 You may have hit some (or all) of these stages in the pursuit of configurability:

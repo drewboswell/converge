@@ -97,7 +97,8 @@ class LoadApplications(LoadDataFromDisk):
 
 class LoadPropertyFilePaths:
 
-    def run(self, data, conf, **kwargs):
+    @staticmethod
+    def run(data, conf, **kwargs):
         base_dir = conf["conf"]["properties"]["base_dir"]
         hierarchy = data.data["hierarchy"]
         file_list = dict()
@@ -121,7 +122,8 @@ class LoadPropertyFilePaths:
 
 class LoadPropertyFileContents:
 
-    def run(self, data, conf, **kwargs):
+    @staticmethod
+    def run(data, conf, **kwargs):
         file_list = data.data["file_hiera"]
         resolved_data = dict()
         for file_name, file_path_list in file_list.items():

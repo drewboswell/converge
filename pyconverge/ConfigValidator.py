@@ -109,13 +109,7 @@ class ConfigValidator:
         if result:
             print("\t## Configuration to be used:\n")
             print("\tLogging Level: '%s'" % self.configuration['conf']['default']['logging_level'])
-            print("\tAvailable programs: %s" % ", ".join(self.configuration['programs'].keys()))
-            for prog in self.configuration['programs']:
-                print("\n\t# \"%s\" Program Comfiguration:" % prog)
-                for conf, subconfs in self.configuration['programs'][prog]['conf'].items():
-                    for name, sub in subconfs.items():
-                        print("\t%s : %s : %s" % (conf, name, sub))
-            print("")
+            print("\tAvailable programs: %s\n" % ", ".join(self.configuration['programs'].keys()))
 
         return result
 
