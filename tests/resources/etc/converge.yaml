@@ -9,7 +9,7 @@ conf:
     host_glob: "targets/hosts/*.yaml"
     host_mapping_glob: "targets/mapping/*.yaml"
     property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
-    properties_glob: "data/**/*.properties"
+#    properties_glob: "data/**/*.properties"
   hierarchy:
     base_dir: "tests/resources/repository"
     hierarchy_glob: "hierarchy/*.yaml"
@@ -74,12 +74,12 @@ programs:
         - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
         - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
         - "pyconverge.plugins.properties.PrintData.PrintApplicationProperties"
-      hierarchy:
-        - "pyconverge.plugins.properties.LoadHierarchy.LoadHierarchy"
-        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
-        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
-        - "pyconverge.plugins.properties.FilterTargets.FilterHierarchyByApplication"
-        - "pyconverge.plugins.properties.PrintData.PrintHierarchy"
+#      hierarchy:
+#        - "pyconverge.plugins.properties.LoadHierarchy.LoadHierarchy"
+#        - "pyconverge.plugins.properties.LoadTargets.LoadApplicationPropertiesMapping"
+#        - "pyconverge.plugins.properties.FilterTargets.FilterApplicationsByApplication"
+#        - "pyconverge.plugins.properties.FilterTargets.FilterHierarchyByApplication"
+#        - "pyconverge.plugins.properties.PrintData.PrintHierarchy"
   # PROPERTY COMMAND
   property:
     conf:

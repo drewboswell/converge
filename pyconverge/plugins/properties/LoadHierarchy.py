@@ -35,8 +35,8 @@ class LoadHierarchy(LoadDataFromDisk):
         return content
 
     def run(self, data, conf, **kwargs):
-        base_dir = conf["programs"]["host"]["conf"]["hierarchy"]["base_dir"]
-        property_mapping_glob = conf["programs"]["host"]["conf"]["hierarchy"]["hierarchy_glob"]
+        base_dir = conf["conf"]["hierarchy"]["base_dir"]
+        property_mapping_glob = conf["conf"]["hierarchy"]["hierarchy_glob"]
         glob_pattern = os.path.join(base_dir, property_mapping_glob)
         data.data["hierarchy"] = self.get_regex_hierarchy(self.load_contents_of_files(glob_pattern=glob_pattern))
         return data

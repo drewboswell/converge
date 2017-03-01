@@ -25,8 +25,8 @@ class LoadHosts(LoadDataFromDisk):
         return content
 
     def run(self, data, conf, **kwargs):
-        base_dir = conf["programs"]["host"]["conf"]["properties"]["base_dir"]
-        host_glob = conf["programs"]["host"]["conf"]["properties"]["host_glob"]
+        base_dir = conf["conf"]["properties"]["base_dir"]
+        host_glob = conf["conf"]["properties"]["host_glob"]
         glob_pattern = os.path.join(base_dir, host_glob)
         data.data["hosts"] = self.load_contents_of_files(glob_pattern=glob_pattern)
         data.targets["hosts"] = list(data.data["hosts"].keys())
@@ -48,8 +48,8 @@ class LoadApplicationHostMapping(LoadDataFromDisk):
         return content
 
     def run(self, data, conf, **kwargs):
-        base_dir = conf["programs"]["host"]["conf"]["properties"]["base_dir"]
-        host_mapping_glob = conf["programs"]["host"]["conf"]["properties"]["host_mapping_glob"]
+        base_dir = conf["conf"]["properties"]["base_dir"]
+        host_mapping_glob = conf["conf"]["properties"]["host_mapping_glob"]
         glob_pattern = os.path.join(base_dir, host_mapping_glob)
         data.data["application_hosts"] = self.load_contents_of_files(glob_pattern=glob_pattern)
         data.targets["applications"] = set(data.data["application_hosts"].keys())
@@ -71,8 +71,8 @@ class LoadApplicationPropertiesMapping(LoadDataFromDisk):
         return content
 
     def run(self, data, conf, **kwargs):
-        base_dir = conf["programs"]["application"]["conf"]["properties"]["base_dir"]
-        property_mapping_glob = conf["programs"]["application"]["conf"]["properties"]["property_mapping_glob"]
+        base_dir = conf["conf"]["properties"]["base_dir"]
+        property_mapping_glob = conf["conf"]["properties"]["property_mapping_glob"]
         glob_pattern = os.path.join(base_dir, property_mapping_glob)
         data.data["application_properties"] = self.load_contents_of_files(glob_pattern=glob_pattern)
         data.targets["applications"] = set(data.data["application_properties"].keys())
@@ -98,7 +98,7 @@ class LoadApplications(LoadDataFromDisk):
 class LoadPropertyFilePaths:
 
     def run(self, data, conf, **kwargs):
-        base_dir = conf["programs"]["host"]["conf"]["properties"]["base_dir"]
+        base_dir = conf["conf"]["properties"]["base_dir"]
         hierarchy = data.data["hierarchy"]
         file_list = dict()
         for hiera in hierarchy:

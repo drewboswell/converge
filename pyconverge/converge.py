@@ -22,7 +22,7 @@ def main():
 
     # initialize logging level
     try:
-        logging.getLogger().setLevel(configuration.configuration["default"]["logging_level"])
+        logging.getLogger().setLevel(configuration.configuration["conf"]["default"]["logging_level"])
     except:
         pass
 
