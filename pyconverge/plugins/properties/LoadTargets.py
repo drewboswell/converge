@@ -100,11 +100,12 @@ class LoadPropertyFilePaths:
     @staticmethod
     def run(data, conf, **kwargs):
         base_dir = conf["conf"]["properties"]["base_dir"]
+        properties_glob = conf["conf"]["properties"]["properties_glob"]
         hierarchy = data.data["hierarchy"]
         file_list = dict()
         for hiera in hierarchy:
             hiera_path = hiera["glob"]
-            for file_path in glob.iglob(os.path.join(base_dir, "data", hiera_path, '*.properties'), recursive=False):
+            for file_path in glob.iglob(os.path.join(base_dir, "data", hiera_path, properties_glob), recursive=False):
                 file_name = file_path.rsplit("/", 1)[1][:-11]
                 if file_name not in file_list:
                     file_list[file_name] = list()

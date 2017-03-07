@@ -6,6 +6,7 @@ conf:
     host_glob: "targets/hosts/*.yaml"
     host_mapping_glob: "targets/mapping/*.yaml"
     property_mapping_glob: "data/**/app/*/mapping/dependencies.yaml"
+    properties_glob: "*.properties"
     output_dir: "tests/resources/repository/output"
   hierarchy:
     base_dir: "tests/resources/repository"
